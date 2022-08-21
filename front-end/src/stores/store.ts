@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-import { loginqueries, signupqueries } from '../tools/queries'
+import { register,signin} from '@/tools/queries';
 import { provideApolloClient } from '@vue/apollo-composable';
 import apolloClient from './apolloclient'
 import  router  from '../router/index'
 provideApolloClient(apolloClient);
 export const useStore = defineStore("user", {
     state: () => ({
-        authuser: JSON.parse(window.localStorage.getItem('user')),
+        //authuser: JSON.parse(window.localStorage.getItem('user')),
         emailconfirm: false,
         isauthenticated: false,
         counter: 200,
@@ -17,7 +17,7 @@ export const useStore = defineStore("user", {
     actions: {
         async signup(name:string, username:string, email:string, password:string) {
             const response = await apolloClient.mutate({
-                mutation: signupqueries,
+                mutation: register,
                 variables: {
                     username: username,
                     email: email,
@@ -30,7 +30,7 @@ export const useStore = defineStore("user", {
         },
         async login(username:string, password:string) {
             const result = await apolloClient.mutate({
-                mutation: loginqueries,
+                mutation: signin,
                 variables: {
                     username: username,
                     password: password,

@@ -43,7 +43,7 @@
                                 </div>
                                 <div>
                                     <router-link to="/main/feeds">
-                                        <button 
+                                        <button @click="login"
                                             class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
                                         in</button>
                                     </router-link>
@@ -117,6 +117,40 @@
 //         }
 //     }
 // }
+
+import { useMutation } from '@vue/apollo-composable';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { signin } from '@/utils/queries'
+const router = useRouter();
+const valid = ref(false)
+const username = ref('')
+const password = ref('')
+const usernameRules = ([
+  (v: any) => !!v || 'Name is required',
+  (v: any) => v.length <= 10 || 'Name must be less than 10 characters',
+])
+//:rules="passwordRules"
+// const passwordRules = ([
+//   (v: any) => !!v || 'username is required',
+//   (v: any) => 'E-mail must be valid',
+// ])
+const clear= () => {
+  router.push({
+    name:'homedashboard',
+    params:{
+      id:'homedashboard'
+    }
+  })
+}
+const {mutate:login,onDone} = useMutation(
+  signin,()=>({
+    variables:{
+      username:username.value,
+      password:password.value
+    }
+  })
+)
 </script>
 <style scoped>
 .overlay {
