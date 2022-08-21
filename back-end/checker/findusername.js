@@ -8,7 +8,7 @@ const finduser = async (variables) => {
             method: 'POST',
             headers:{
                 'x-hasura-admin-secret': 'myadminsecretkey'
-              },
+            },
             body: JSON.stringify({
                 query: FIND_USER,
                 variables: variables
@@ -17,9 +17,7 @@ const finduser = async (variables) => {
     );
     console.log('here is well')
     const data = await fetchResponse.json();
-    console.log('DEBUG: ',data);
-    // const sth = HASURA_GRAPGHQL_ENDPOINT
-    // console.log(sth)
+    console.log('DEBUG:' ,data);
     return data;
 };
 module.exports = finduser;
