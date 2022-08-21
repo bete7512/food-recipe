@@ -28,7 +28,6 @@
                                             class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
                                     </div>
                                 </div>
-
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center">
                                         <input id="remember-me" name="remember-me" type="checkbox"
@@ -37,21 +36,13 @@
                                         <label for="remember-me" class="block ml-2 text-sm text-neutral-600"> Remember
                                             me </label>
                                     </div>
-
                                     <div class="text-sm">
                                         <a href="#" class="font-medium text-blue-600 hover:text-blue-500 px-2"> Forgot
                                             your password? </a>
                                     </div>
-                                    <!-- <div class="text-sm">
-                                        <router-link to="/adminlogin" class="font-medium text-blue-600 hover:text-blue-500 px-2">admin
-                                        </router-link>
-                                    </div> -->
                                 </div>
-
                                 <div>
-                                    <router-link :to="{name :'main'}">
-
-
+                                    <router-link to="/main/feeds">
                                         <button 
                                             class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
                                         in</button>
@@ -62,9 +53,7 @@
                                 <div class="absolute inset-0 flex items-center">
                                     <div class="w-full border-t border-gray-300"></div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>

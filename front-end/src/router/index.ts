@@ -5,6 +5,7 @@ import signup from '../components/unauthenticated/signup.vue'
 import feeds from '../components/authenticated/feeds.vue'
 import favorite from '../components/authenticated/favorite.vue'
 import main from '../components/authenticated/main.vue'
+import createrecipe from '../components/authenticated/create-recipe.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -26,13 +27,26 @@ const router = createRouter({
     {
       name: 'main',
       path: '/main',
-      component: main
+      component: main,
+      children:[
+        {
+          name:'addrecipe',
+          path:'addnewrecipe',
+          component:createrecipe
+        },
+        {
+          name:'favorite',
+          path:'savedrecipe',
+          component:favorite
+        },
+        {
+          name:'feeds',
+          path:'feeds',
+          component:feeds
+        }
+      ]
     },
-    {
-      name: 'favorite',
-      path: '/savedrecipe',
-      component: favorite
-    }
+
   ]
 })
 
