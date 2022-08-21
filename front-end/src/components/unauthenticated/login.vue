@@ -42,16 +42,20 @@
                                         <a href="#" class="font-medium text-blue-600 hover:text-blue-500 px-2"> Forgot
                                             your password? </a>
                                     </div>
-                                    <div class="text-sm">
+                                    <!-- <div class="text-sm">
                                         <router-link to="/adminlogin" class="font-medium text-blue-600 hover:text-blue-500 px-2">admin
                                         </router-link>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div>
-                                    <button type="submit"
-                                        class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
+                                    <router-link :to="{name :'main'}">
+
+
+                                        <button 
+                                            class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
                                         in</button>
+                                    </router-link>
                                 </div>
                             </form>
                             <div class="relative my-4">
