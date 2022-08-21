@@ -1,4 +1,5 @@
 const FIND_USER = require('../query/finduser')
+const fetch = require('node-fecth')
 require('dotenv').config()
 const finduser = async (variables) => {
     const fetchResponse = await fetch(

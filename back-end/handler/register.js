@@ -2,7 +2,7 @@ const bycript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const handler = async (req, res) => {
-  const { name, username, email, password } = req.body.input.objects;
+  const { name, username, email, password } = req.body.input.arg1;
   const finduser = require('../checker/findusername')
   const { data, error } = await finduser({ username })
   const user = data["user"][0]
@@ -13,10 +13,7 @@ const handler = async (req, res) => {
   }
   else 
   {
-    // if (password != confirmpassword){
-    //   return res.status(400).json({
-    //       message:"passwords arenot the same"
-    //   }) }
+
     const tokenContents = {
       name: name,
       username: username,

@@ -8,12 +8,12 @@
                     class="flex flex-col w-full shadow-2xl max-w-md p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-white rounded-lg md:mt-0">
                     <div class="mt-8">
                         <div class="mt-6">
-                            <form action="#" method="POST" class="space-y-6">
+                            <form action="#" class="space-y-6">
                                 <div>
                                     <label for="email"
                                         class="block text-sm font-medium text-neutral-600">username</label>
                                     <div class="mt-1">
-                                        <input id="email" name="email" type="email" autocomplete="email" 
+                                        <input id="email" v-model="username" name="email" type="email" autocomplete="email" 
                                             placeholder="username"
                                             class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
                                     </div>
@@ -23,7 +23,7 @@
                                     <label for="password" class="block text-sm font-medium text-neutral-600"> Password
                                     </label>
                                     <div class="mt-1">
-                                        <input id="password" name="password" type="password"
+                                        <input id="password" v-model="password" name="password" type="password"
                                             autocomplete="current-password"  placeholder="Your Password"
                                             class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
                                     </div>
@@ -42,11 +42,10 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <router-link to="/main/feeds">
-                                        <button @click="login"
+                                        <button :click="login"
                                             class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
                                         in</button>
-                                    </router-link>
+                                
                                 </div>
                             </form>
                             <div class="relative my-4">
@@ -62,66 +61,10 @@
    
 </template>
 <script setup lang="ts">
-
-
-// import { ref } from 'vue';
-// import { useRoute, useRouter } from 'vue-router';
-// const router = useRouter()
-// const route = useRoute()
-// const emit = defineEmits(['loginclose'])
-// const loginclose = (event) => {
-//     emit("loginclose")
-// }
-// const verify = ref(true)
-// const failure = ref(false)
-// const error = ref('')
-// const user = useStore()
-// const username = ref('')
-// const password = ref('')
-// // const { user: { username, password } } = storeToRefs(user)
-// const onsubmit = () => {
-//     console.log("something");
-//     // console.log(user.login(username.value,password.value))
-//     user.login(username.value, password.value)
-//     console.log("after login");
-// }
-// const token = window.localStorage.getItem("Apollotoken");
-// const validate = () => {
-//     if (!username.value || !password.value) {
-//         failure.value = true
-//         error.value = "username passwords shouldnot be empty"
-//     }
-//     else {
-//         // Login();
-//         if (!window.localStorage.getItem("Apollotoken")) {
-//             failure.value = true
-//             error.value = "server error"
-//         }
-//         else {
-//             // user.username = username.value
-//             // user.isauthenticated = true
-//             // user.token = window.localStorage.getItem("Apollotoken")
-//             router.push({
-//                 name: 'dashboard',
-//                 params: {
-//                     id: "dashboard",
-//                     name: username.value,
-//                     params: {
-//                         refetch: true
-//                     }
-//                 },
-//                 query: {
-//                     ...route.query
-//                 }
-//             })
-//         }
-//     }
-// }
-
 import { useMutation } from '@vue/apollo-composable';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue'
-import { signin } from '@/utils/queries'
+import { signin } from '@/tools/queries'
 const router = useRouter();
 const valid = ref(false)
 const username = ref('')
@@ -130,19 +73,7 @@ const usernameRules = ([
   (v: any) => !!v || 'Name is required',
   (v: any) => v.length <= 10 || 'Name must be less than 10 characters',
 ])
-//:rules="passwordRules"
-// const passwordRules = ([
-//   (v: any) => !!v || 'username is required',
-//   (v: any) => 'E-mail must be valid',
-// ])
-const clear= () => {
-  router.push({
-    name:'homedashboard',
-    params:{
-      id:'homedashboard'
-    }
-  })
-}
+
 const {mutate:login,onDone} = useMutation(
   signin,()=>({
     variables:{

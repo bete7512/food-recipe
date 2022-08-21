@@ -25,7 +25,6 @@ const execute = async (variables) => {
 };
 const passwordcheck = async (username) => {
     const { data } = await execute(username);
-
     console.log('for the purpose of it')
     console.log(data["user"][0]["password"])
     const old = data["user"][0]["password"]

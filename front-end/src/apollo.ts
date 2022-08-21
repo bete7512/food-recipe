@@ -8,11 +8,10 @@ const getHeaders = () => {
 };
 const httpLink = createHttpLink({
   uri: 'http://localhost:8080/v1/graphql',
-  headers:
-    {
-      Authorization: getHeaders() || ''
-    }
-    || ''
+  headers:''
+    // {
+    //   Authorization:''
+    // }
 })
 const apolloclient = new ApolloClient({
   link: httpLink,
