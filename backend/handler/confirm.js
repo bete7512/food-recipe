@@ -32,7 +32,6 @@ const handler = async (req, res) => {
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashed = bcrypt.hashSync(payload.password, salt);
-    // const hashed = await bycript.hash(payload.password, 10)
     const user = {
         name: payload.name,
         email: payload.email,
@@ -40,6 +39,18 @@ const handler = async (req, res) => {
         username: payload.username
     }
     const { data, errors } = await execute(user);
+    if(data){
+      console.log(data)
+      res.send({
+        message: "You are succefully registered"
+      })
+    }
+    else{
+      res.send({
+        message: "something went wrong please try again"
+      })
+    }
+
     
 };
 module.exports =  handler

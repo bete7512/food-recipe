@@ -6,6 +6,7 @@ import feeds from '../components/authenticated/feeds.vue'
 import favorite from '../components/authenticated/favorite.vue'
 import main from '../components/authenticated/main.vue'
 // import { useStore } from '../stores/store.js';
+import emailsentmodal from '../components/unauthenticated/emailsentmodal.vue'
 import { useStore } from '../stores/store.js'
 import createrecipe from '../components/authenticated/create-recipe.vue'
 const router = createRouter({
@@ -55,7 +56,7 @@ router.beforeEach(async (to) => {
   const publicPages = ['/', '/login', '/signup'];
   const authRequired = !publicPages.includes(to.path);
   const user = useStore();
-  if (authRequired && !user.isauthenticated) {
+  if (authRequired && !window.localStorage.getItem("Apollotoken")) {
     user.returnUrl = to.fullPath;
     return '/login';
   }

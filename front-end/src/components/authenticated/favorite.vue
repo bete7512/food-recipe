@@ -1,11 +1,11 @@
 <template>
  <div class="flex justify-center items-center mx-20 my-3 p-4  ">
         <div class="transition-all hover:scale-105 rounded  ">
-            <img src="https://img.freepik.com/free-vector/realistic-colorful-rainbow-concept_52683-35882.jpg?size=626&ext=jpg"
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBkS-lrfRxkdBHBCl2S3wDiDAYBYDQZrO9RvdYrNf7q8cnwoW_c8eLfRIUvipYXz5rFRI&usqp=CAU"
                 alt="" clas="rounded w-1/2 h-20"  >
             <div class="">
                 <div>
-                    <div>hello</div>
+                    <div>hello wow favorite</div>
                     <div class="flex space-x-3">
     
                         <button class="">
@@ -42,6 +42,5 @@
         </div>
     </div>
 </template>
-
 <script setup lang="ts">
 </script>

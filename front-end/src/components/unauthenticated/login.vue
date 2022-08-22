@@ -75,9 +75,6 @@ const login = () => {
     user.login(username.value, password.value)
     console.log("after login");
 }
-// const token = window.localStorage.getItem("Apollotoken");
-    // const { user: { username, password } } = storeToRefs(user)
-    // console.log(user.login(username.value,password.value))
 
 </script>
 <style scoped>

@@ -10,9 +10,9 @@ export const useStore = defineStore("user", {
         isauthenticated: false,
         counter: 200,
         returnUrl: null,
-        user: {}
+        // user: {},
+        emailmodal:false
     }),
-    
     actions: {
         async signup(name, username,email,password,) {
             const response = await apolloClient.mutate({
@@ -24,13 +24,14 @@ export const useStore = defineStore("user", {
                     password: password
                 }
             })
-            if (response.data.register.success){
+            if (response.data.register.Success){
+                router.push("/login")
             }
         },
         async login(username, password) {
             const result = await apolloClient.mutate({
                 mutation: signin,
-                variables: {
+                variables:{
                     username: username,
                     password: password,
                 }
