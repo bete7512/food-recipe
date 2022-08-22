@@ -34,13 +34,13 @@
                             </div>
                             <div class="">
                                 <div class="text-2xl font  border-b-gray-900">Ingridient</div>
-                                <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
-                                    v-model="ingridient[0]" size="50" placeholder="ingredient" :id="key">
+                                <!-- <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
+                                    v-model="ingridient[0]" size="50" placeholder="ingredient" :id="key"> -->
                                 <div class="space-x-2" v-for="key in ingredientcounter" :key="key">
                                     <input type="text"
                                         class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
-                                        v-model="ingridient['dynamic-field-' + key]" placeholder="Another Field"
-                                        :id="key">
+                                        v-model="ingridient[key]" placeholder="Another Field"
+                                        :key="key">
                                     <button @click="remove"
                                         class="w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">remove</button>
                                 </div>
@@ -53,7 +53,7 @@
                             <div class="text-2xl font  border-b-gray-900">Instructions</div>
                             <div class="flex space-x-2 items-start" v-for="key in instructioncounter" :key="key">
                                 <textarea class="border-2 p-3 bg-slate-300 border-black h-40 w-80 rounded"
-                                    v-model="instructions['dynamic-field-' + key]"></textarea>
+                                    v-model="instructions[key]"></textarea>
                                     <button @click="removenewinstructions"
                                         class="w-auto p-10 py-4 flex h-10 items-center text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">remove</button>
                             </div>
@@ -69,39 +69,43 @@
                                     class="flex items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
                                     images
                                 </button>
+                                <div v-for = "key in ingredientcounter">{{stringifiedingridient}}</div>
+                             
                             </div>
                         </div>
                     </div>
-                    <button
+                    <button @click=""
                         class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">submit</button>
                 <!-- </form> -->
             </div>
         </div>
     </div>
 </template>
-<script setup  >
+<script setup  lang="ts">
 import {addrecipe} from '../../tools/queries'
 import { ref } from 'vue'
 const title = ref('')
 const duration = ref('')
 const description = ref('')
 const instructions = ref([])
+const ingridient = ref([])
 const ingredientcounter = ref(1)
-const instructioncounter = ref(1)
-
-
-
-
-
-const fileUpload = (file) => {
+const instructioncounter = ref(0)
+for (let i = 0;i < ingredientcounter.value;i++){
+    // console.log()
+}
+let json = (ingridient.value)
+console.log(ingridient)
+const fileUpload = (file:File) => {
     const fileName = file.name;
     const fileType = file.type;
-    const variables = { name: fileName, type: fileType, base64str: base64Str };
+    // const variables = { name: fileName, type: fileType, base64str: base64Str };
     
   }
 
 const addnewimages = ()=>{
 
+    const images = ref([])
 }
 const removeaddedimages = ()=>{
 
@@ -115,13 +119,10 @@ const addnewinstructions = ()=>{
 const removenewinstructions = ()=>{
     instructioncounter.value--
 }
-const ingridient = ref([])
-const images = ref([])
-const submit = () => {
-    for (var key of Object.keys(ingridient.value)) {
-        console.log(key + " -> " + ingridient.value[key])
-    }
-}
+const stringifiedingtredient =()=>{
+    return JSON.stringify(ingridient.value.toString())
+} 
+
 const addNewIngredient = () => {
     ingredientcounter.value++
 }
