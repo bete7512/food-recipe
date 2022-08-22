@@ -3,13 +3,12 @@
         <div class="align-middle ">
             <div class="popup-content align-middle">
                 <h2 class="text-center text-lg font-bold pt-2">Add new recipe</h2>
-                <form @submit.prevent="">
+                <!-- <form @submit.prevent=""> -->
                     <div class="grid sm:grid-cols-1 lg:grid-cols-2 space-x-10">
-                        <div class="">
+                        <div class="mx-10">
                             <div class="">
                                 <div class="text-2xl font  border-b-gray-900 bg">Title</div>
-                                <input type="text" class="border-2 px-3 bg-slate-300 border-black h-10 w-80 rounded "
-                                    placeholder="recipe title" v-model="title" />
+                                <input type="text" class="border-2 px-3 bg-slate-300 border-black h-10 w-80 rounded " placeholder="recipe title" v-model="title" />
                             </div>
                             <div class="">
                                 <div class="text-2xl font  border-b-gray-900">Duration</div>
@@ -52,11 +51,11 @@
                         </div>
                         <div class="">
                             <div class="text-2xl font  border-b-gray-900">Instructions</div>
-                            <div class="flex space-x                                                                                                                                                     " v-for="key in instructioncounter" :key="key">
+                            <div class="flex space-x-2 items-start" v-for="key in instructioncounter" :key="key">
                                 <textarea class="border-2 p-3 bg-slate-300 border-black h-40 w-80 rounded"
                                     v-model="instructions['dynamic-field-' + key]"></textarea>
                                     <button @click="removenewinstructions"
-                                        class="w-auto p-10 py-4 my-3 h-16 items-center text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">remove</button>
+                                        class="w-auto p-10 py-4 flex h-10 items-center text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">remove</button>
                             </div>
                                 <button @click="addnewinstructions" class="flex items-center p-7 justify-center w-auto  py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
                                     instructions
@@ -75,13 +74,13 @@
                     </div>
                     <button
                         class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">submit</button>
-                </form>
+                <!-- </form> -->
             </div>
         </div>
     </div>
 </template>
-<script setup >
-
+<script setup  >
+import {addrecipe} from '../../tools/queries'
 import { ref } from 'vue'
 const title = ref('')
 const duration = ref('')
@@ -89,6 +88,9 @@ const description = ref('')
 const instructions = ref([])
 const ingredientcounter = ref(1)
 const instructioncounter = ref(1)
+
+
+
 
 
 const fileUpload = (file) => {

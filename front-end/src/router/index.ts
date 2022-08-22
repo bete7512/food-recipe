@@ -5,6 +5,8 @@ import signup from '../components/unauthenticated/signup.vue'
 import feeds from '../components/authenticated/feeds.vue'
 import favorite from '../components/authenticated/favorite.vue'
 import main from '../components/authenticated/main.vue'
+// import { useStore } from '../stores/store.js';
+import { useStore } from '../stores/store.js'
 import createrecipe from '../components/authenticated/create-recipe.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,26 +30,34 @@ const router = createRouter({
       name: 'main',
       path: '/main',
       component: main,
-      children:[
+      children: [
         {
-          name:'addrecipe',
-          path:'addnewrecipe',
-          component:createrecipe
+          name: 'addrecipe',
+          path: 'addnewrecipe',
+          component: createrecipe
         },
         {
-          name:'favorite',
-          path:'savedrecipe',
-          component:favorite
+          name: 'favorite',
+          path: 'savedrecipe',
+          component: favorite
         },
         {
-          name:'feeds',
-          path:'feeds',
-          component:feeds
+          name: 'feeds',
+          path: 'feeds',
+          component: feeds
         }
       ]
     },
 
   ]
 })
-
+router.beforeEach(async (to) => {
+  const publicPages = ['/', '/login', '/signup'];
+  const authRequired = !publicPages.includes(to.path);
+  const user = useStore();
+  if (authRequired && !user.isauthenticated) {
+    user.returnUrl = to.fullPath;
+    return '/login';
+  }
+});
 export default router

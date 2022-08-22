@@ -8,12 +8,12 @@
                     class="flex flex-col w-full shadow-2xl max-w-md p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-white rounded-lg md:mt-0">
                     <div class="mt-8">
                         <div class="mt-6">
-                            <form action="#" class="space-y-6">
+                            <div  class="space-y-6">
                                 <div>
                                     <label for="email"
                                         class="block text-sm font-medium text-neutral-600">username</label>
                                     <div class="mt-1">
-                                        <input id="email" v-model="username" name="email" type="email" autocomplete="email" 
+                                        <input id="email" v-model="username" name="email" type="text" autocomplete="email" 
                                             placeholder="username"
                                             class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
                                     </div>
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center">
-                                        <input id="remember-me" name="remember-me" type="checkbox"
+                                        <input  name="remember-me" type="checkbox"
                                             placeholder="Your password"
                                             class="w-4 h-4 text-blue-600 border-gray-200 rounded focus:ring-blue-500">
                                         <label for="remember-me" class="block ml-2 text-sm text-neutral-600"> Remember
@@ -42,12 +42,12 @@
                                     </div>
                                 </div>
                                 <div>
-                                        <button :click="login"
+                                        <button @click="login"
                                             class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
                                         in</button>
                                 
                                 </div>
-                            </form>
+                            </div>
                             <div class="relative my-4">
                                 <div class="absolute inset-0 flex items-center">
                                     <div class="w-full border-t border-gray-300"></div>
@@ -60,28 +60,25 @@
         </section>
    
 </template>
-<script setup lang="ts">
-import { useMutation } from '@vue/apollo-composable';
-import { useRouter } from 'vue-router';
-import { ref } from 'vue'
-import { signin } from '@/tools/queries'
-const router = useRouter();
-const valid = ref(false)
+<script setup >
+import { storeToRefs } from 'pinia'
+import { useStore } from '../../stores/store.js';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+
+const user = useStore()
 const username = ref('')
 const password = ref('')
-const usernameRules = ([
-  (v: any) => !!v || 'Name is required',
-  (v: any) => v.length <= 10 || 'Name must be less than 10 characters',
-])
+const login = () => {
+    console.log("something");
+    user.login(username.value, password.value)
+    console.log("after login");
+}
+// const token = window.localStorage.getItem("Apollotoken");
+    // const { user: { username, password } } = storeToRefs(user)
+    // console.log(user.login(username.value,password.value))
 
-const {mutate:login,onDone} = useMutation(
-  signin,()=>({
-    variables:{
-      username:username.value,
-      password:password.value
-    }
-  })
-)
 </script>
 <style scoped>
 .overlay {
