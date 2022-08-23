@@ -48,8 +48,8 @@
         </div>
     </div>
 </template>
-<script setup>
-import { ref } from 'vue'
+<script setup >
+import { ref,reactive } from 'vue'
 import { recipequery } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
@@ -58,8 +58,8 @@ const { loading, result, error } = useQuery(
     recipequery
 );
 
-var isnotfavorite = true
-var isfavorite = false
+const isnotfavorite = ref(true)
+const isfavorite = ref(false)
     const { mutate: makefav } = useMutation(gql`
     mutation MyMutation($recipeid: Int!) {
       insert_favorite(objects: {recipeid: $recipeid}){
@@ -67,9 +67,12 @@ var isfavorite = false
       }
     }
      `)
-const addtofavorite = () => {
-isfavorite = true
-isnotfavorite = false
+const addtofavorite = ()=>{
+    isnotfavorite.value = false
+    isfavorite.value = true
+}
+const removefavorite =()=>{
+    
 }
 </script>
 
