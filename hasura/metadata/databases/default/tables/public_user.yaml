@@ -1,0 +1,46 @@
+table:
+  name: user
+  schema: public
+array_relationships:
+  - name: recipes
+    using:
+      foreign_key_constraint_on:
+        column: owner
+        table:
+          name: recipe
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        id:
+          _eq: X-Hasura-User-Id
+      columns: []
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - email
+        - name
+        - username
+      filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - email
+        - name
+        - password
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check:
+        id:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      backend_only: false
+      filter:
+        id:
+          _eq: X-Hasura-User-Id

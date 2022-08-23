@@ -1,0 +1,32 @@
+type Mutation {
+  login(
+    arg1: SignInput!
+  ): SignOutput
+}
+
+type Mutation {
+  register(
+    arg1: SignupInput!
+  ): SignupOutput
+}
+
+input SignInput {
+  username: String!
+  password: String!
+}
+
+input SignupInput {
+  name: String!
+  email: String!
+  username: String!
+  password: String!
+}
+
+type SignOutput {
+  accessToken: String!
+}
+
+type SignupOutput {
+  Success: String!
+}
+

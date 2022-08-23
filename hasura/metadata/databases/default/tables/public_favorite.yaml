@@ -1,0 +1,3 @@
+table:
+  name: favorite
+  schema: public
