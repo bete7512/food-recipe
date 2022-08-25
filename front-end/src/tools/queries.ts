@@ -14,7 +14,7 @@ mutation login($password: String!, $username: String!) {
 }
 `
 const addrecipe = gql`
-mutation MyMutation($title: String!, $instructions: String!, $images: String!, $descriptions: String!, $categories: String!, $durations: Int!, $ingredient: String!, $likes: Int = 0) {
+mutation addnewrecipe($title: String!, $instructions: String!, $images: String!, $descriptions: String!, $categories: String!, $durations: Int!, $ingredient: String!, $likes: Int = 0) {
   insert_recipe(objects: {descriptions: $descriptions, images: $images, instructions: $instructions, title: $title, categories: $categories, durations: $durations, ingredient: $ingredient, likes: $likes}) {
     returning {
       title
@@ -25,6 +25,7 @@ mutation MyMutation($title: String!, $instructions: String!, $images: String!, $
 const recipequery = gql`
 query MyQuery {
   recipe {
+    id
     title
     owner
     likes

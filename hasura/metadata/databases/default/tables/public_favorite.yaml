@@ -1,3 +1,38 @@
 table:
   name: favorite
   schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        userid: x-hasura-User-Id
+      columns:
+        - id
+        - recipeid
+        - userid
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - recipeid
+      filter:
+        userid:
+          _eq: X-Hasura-User-Id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - recipeid
+      filter:
+        userid:
+          _eq: X-Hasura-User-Id
+      check: null
+delete_permissions:
+  - role: user
+    permission:
+      backend_only: false
+      filter:
+        userid:
+          _eq: X-Hasura-User-Id

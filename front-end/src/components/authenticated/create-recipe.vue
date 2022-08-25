@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center">
-        <div class="align-middle ">
+    <div class="flex justify-center ">
+        <div class="align-middle border-2 shadow-transparent">
             <div class="popup-content align-middle">
                 <h2 class="text-center text-lg font-bold pt-2">Add new recipe</h2>
                 <!-- <form @submit.prevent=""> -->
@@ -20,12 +20,11 @@
                             <label for="countries"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
                                 Categories</label>
-                            <select id="categories"
+                            <select v-model="categories" 
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>Choose a categories</option>
-                                <option value="US">breakfast</option>
-                                <option value="CA">lunch</option>
-                                <option value="FR">dinner</option>
+                                <option value="breakfast">breakfast</option>
+                                <option value="lunch">lunch</option>
+                                <option value="dinner">dinner</option>
                             </select>
                         </div>
                         <div class="group  w-80">
@@ -37,9 +36,13 @@
                             <div class="text-2xl font  border-b-gray-900">Ingridient</div>
                             <!-- <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
                                     v-model="ingridient[0]" size="50" placeholder="ingredient" :id="key"> -->
-                            <div class="space-x-2" v-for="key in ingredientcounter" :key="key">
-                                <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
-                                    v-model="ingridient[key]" placeholder="Another Field" :key="key">
+                            <div class="space-x-2 py-2" v-for="key in ingredientcounter" :key="key">
+                                <div class="flex space-x-2">
+                                    <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
+                                        v-model="ingridient[key]" placeholder="Add ingredient" :key="key">
+                                    <button @click="removeingridient" class="flex items-center justify-center "><span
+                                            class="text-base h-8 w-8 font-extrabold text-center text-black border-2 border-slate-900 rounded-full">x</span></button>
+                                </div>
                             </div>
                             <button @click="addNewIngredient"
                                 class="flex items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
@@ -47,12 +50,15 @@
                         </div>
                     </div>
                     <div class="">
-                        <div class="text-2xl font  border-b-gray-900">Instructions</div>
-                        <div class="flex space-x-2 items-start" v-for="key in instructioncounter" :key="key">
-                            <textarea class="border-2 p-3 bg-slate-300 border-black h-40 w-80 rounded"
-                                v-model="instructions[key]"></textarea>
-                            <!-- <button @click="removenewinstructions"
-                                class="w-auto p-10 py-4 flex h-10 items-center text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">remove</button> -->
+                        <div class="text-2xl  font  border-b-gray-900">Instructions</div>
+                        <div class=" space-x-2  py-2" v-for="key in instructioncounter" :key="key">
+                            <div><strong>step {{ key }}</strong></div>
+                            <div class="flex space-x-2">
+                                <textarea class="border-2 p-3 bg-slate-300 border-black h-20 w-80 rounded"
+                                    v-model="instructions[key]"></textarea>
+                                <button @click="removenewinstructions" class="flex items-center justify-center "><span
+                                        class="text-base h-8 w-8 font-extrabold text-center text-black border-2 border-slate-900 rounded-full">x</span></button>
+                            </div>
                         </div>
                         <button @click="addnewinstructions"
                             class="flex items-center p-7 justify-center w-auto  py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
@@ -67,22 +73,22 @@
                                 class="flex items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
                                 images
                             </button>
-                        <!-- <div v-for="key in ingredientcounter">{{ ingridientmediator[key],stringifiedingtredient}}</div>
+                            <!-- <div v-for="key in ingredientcounter">{{ ingridientmediator[key],stringifiedingtredient}}</div>
                         <div>{{JSON.stringify(ingridientmediator.toString())}}</div> -->
-                        <!-- <di>{{JSON.stringify(instructionmediator.toString())}}</di> -->
+                            <!-- <di>{{JSON.stringify(instructionmediator.toString())}}</di> -->
                         </div>
                     </div>
                 </div>
                 <button @click="addnewrecipe"
-                    class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">submit</button>
+                    class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">publish</button>
                 <!-- </form>  -->
             </div>
         </div>
     </div>
 </template>
-<script setup  lang="ts">
+<script setup lang="ts">
 import { useMutation } from '@vue/apollo-composable';
-import { ref, computed, onMounted,reactive} from 'vue'
+import { ref, computed, onMounted, reactive } from 'vue'
 import { addrecipe } from '@/tools/queries';
 import gql from 'graphql-tag';
 const title = ref('')
@@ -90,16 +96,20 @@ const duration = ref('')
 const description = ref('')
 const instructions = reactive([])
 const ingridient = reactive([])
-const ingredientcounter = ref(0)
-const instructioncounter = ref(0)
-const ingridientmediator:any = []
-const instructionmediator:any = []
+const ingredientcounter = ref(3)
+const instructioncounter = ref(3)
+const ingridientmediator: any = []
+const instructionmediator: any = []
+const categories = ref('')
+console.log(categories)
+console.log(duration);
+
 const stringifiedingtredient = JSON.stringify(ingridientmediator.join(','))
-const fileUpload = (file: File) => {
-    const fileName = file.name;
-    const fileType = file.type;
-    // const variables = { name: fileName, type: fileType, base64str: base64Str };
-}
+// const fileUpload = (file: File) => {
+//     const fileName = file.name;
+//     const fileType = file.type;
+//     // const variables = { name: fileName, type: fileType, base64str: base64Str };
+// }
 const addnewimages = () => {
     const images = ref([])
 }
@@ -108,21 +118,21 @@ const removeaddedimages = () => {
 const imagecounter = () => {
 }
 const addnewinstructions = () => {
-    instructionmediator.push(instructions[instructioncounter.value])
+    instructionmediator.push(`"${instructions[instructioncounter.value]}`)
     instructioncounter.value++;
 
 }
-const { mutate: addnewrecipe } = useMutation(addrecipe, () => ({
-  variables: {
-  title: title.value,
-  instructions: JSON.stringify(instructionmediator.toString()),
-  images: "there is no images here",
-  descriptions: description.value,
-  categories: "something for categories",
-  ingredient: JSON.stringify(ingridientmediator.toString()),
-  durations: duration.value
-}
-  }))
+const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({
+    variables: {
+        title: title.value,
+        instructions: JSON.stringify(instructionmediator.toString()),
+        images: "there is no images here",
+        descriptions: description.value,
+        categories: categories.value,
+        ingredient: JSON.stringify(ingridientmediator.toString()),
+        durations: duration.value
+    }
+}))
 const removenewinstructions = () => {
     instructioncounter.value--
 }
@@ -131,18 +141,11 @@ const addNewIngredient = () => {
     ingredientcounter.value++
 }
 
-const stringifiedinstructions = () => {
-
-}
-const stringifiedingridient = () => {
-
-}
-const stringifiedimages = () => {
-
-}
-const remove = () => {
+const removeingridient = ()=>{
     ingredientcounter.value--
 }
+
+
 </script>
 <style scoped>
 </style>

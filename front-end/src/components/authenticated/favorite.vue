@@ -43,4 +43,14 @@
     </div>
 </template>
 <script setup lang="ts">
+import gql from 'graphql-tag';
+import { useQuery } from '@vue/apollo-composable';
+const {error,loading,result} = useQuery(gql`
+query MyQuery($_eq: Int!) {
+  favorite(where: {recipeid: {_eq: $_eq}}) {
+    recipeid
+    id
+  }
+}
+`)
 </script>

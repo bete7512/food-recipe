@@ -27,7 +27,7 @@
             </svg>
         </button>
     </div>
-    <div class="">
+    <div class="h-auto">
         <router-view></router-view>
     </div>
     <profilecomponentVue v-if="profile" v-on:cancelprofile="profile = false"></profilecomponentVue>
