@@ -73,6 +73,7 @@ const password = ref('')
 const login = () => {
     console.log("something");
     user.login(username.value, password.value)
+    // console.log(user.login(username.value, password.value))
     console.log("after login");
 }
 

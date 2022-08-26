@@ -22,6 +22,13 @@ mutation addnewrecipe($title: String!, $instructions: String!, $images: String!,
   }
 }
 `
+const checkfavorite = gql`
+query MyQuery($id: Int!) {
+  favorite(where: {recipe_id: {_eq: $id}}) {
+    recipe_id
+  }
+}
+`
 const recipequery = gql`
 query MyQuery {
   recipe {
@@ -38,4 +45,13 @@ query MyQuery {
   }
 }
 `
-export {register,signin,addrecipe,recipequery};
+const addtofavorite = gql`
+mutation MyMutation($recipe_id: Int!) {
+  insert_favorite(objects: {recipe_id: $recipe_id}) {
+    returning {
+      recipe_id
+    }
+  }
+}
+ `
+ export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite};

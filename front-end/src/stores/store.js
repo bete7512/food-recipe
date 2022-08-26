@@ -1,20 +1,21 @@
 import { defineStore } from 'pinia'
-import { register,signin} from '@/tools/queries';
+import { register, signin, checkfavorite, addtofavorite, recipequery } from '@/tools/queries';
 import { provideApolloClient } from '@vue/apollo-composable';
 import apolloClient from './apolloclient'
-import  router  from '../router/index'
+import router from '../router/index'
+import gql from 'graphql-tag'
 provideApolloClient(apolloClient);
 export const useStore = defineStore("user", {
     state: () => ({
+        cards:[],
         emailconfirm: false,
         isauthenticated: false,
         counter: 200,
         returnUrl: null,
-        // user: {},
-        emailmodal:false
+        emailmodal: false
     }),
     actions: {
-        async signup(name, username,email,password,) {
+        async signup(name, username, email, password,) {
             const response = await apolloClient.mutate({
                 mutation: register,
                 variables: {
@@ -24,14 +25,14 @@ export const useStore = defineStore("user", {
                     password: password
                 }
             })
-            if (response.data.register.Success){
+            if (response.data.register.Success) {
                 router.push("/login")
             }
         },
         async login(username, password) {
             const result = await apolloClient.mutate({
                 mutation: signin,
-                variables:{
+                variables: {
                     username: username,
                     password: password,
                 }
@@ -42,8 +43,8 @@ export const useStore = defineStore("user", {
                     username: username,
                     token: window.localStorage.getItem("Apollotoken")
                 },
-                this.isauthenticated = true,
-                console.log( window.localStorage.getItem("Apollotoken"))
+                    this.isauthenticated = true,
+                    console.log(window.localStorage.getItem("Apollotoken"))
                 window.localStorage.setItem('user', JSON.stringify(this.user));
                 router.push('/main/feeds');
             }
@@ -53,8 +54,11 @@ export const useStore = defineStore("user", {
             this.user = {};
             localStorage.removeItem('user');
             router.push('/login');
-        }
+        },
+
     },
+
     getters: {
+
     }
 })

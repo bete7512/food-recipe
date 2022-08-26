@@ -13,7 +13,6 @@
         </div>
     </div>
     <div class="flex justify-center py-4 ">
-        <!-- <form> -->
             <div class="flex space-x-3">
             
                 <div class="w-80 space-y-2 justify-start">
@@ -43,7 +42,6 @@
                     </div>
                 </div>
             </div>
-        <!-- </form> -->
     </div>
      <div v-if="loading">loading...</div>
     <div v-if="error">error</div>
