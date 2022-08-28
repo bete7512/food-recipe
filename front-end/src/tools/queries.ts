@@ -47,6 +47,26 @@ query MyQuery {
   }
 }
 `
+const favoritequery = gql`
+query MyQuery {
+  favorite {
+    recipe {
+      Like_number
+      categories
+      descriptions
+      durations
+      id
+      images
+      ingredient
+      instructions
+      isfavorite
+      isliked
+      owner
+      title
+    }
+  }
+}
+`
 const addtofavorite = gql`
 mutation MyMutation($recipe_id: Int!) {
   insert_favorite(objects: {recipe_id: $recipe_id}) {
@@ -65,7 +85,22 @@ mutation MyMutation($id: Int!) {
   }
 }
  `
-
+const unauthenticatedquery = gql`
+query MyQuery {
+  recipe {
+    title
+    owner
+    instructions
+    ingredient
+    images
+    id
+    durations
+    descriptions
+    categories
+    Like_number
+  }
+}
+`
  const addlikes = gql`
  mutation MyMutation($id:Int) {
   insert_likes_one(object: {recipe_id: $id}) {
@@ -83,4 +118,4 @@ mutation MyMutation($id: Int!) {
 }
 
  `
- export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes};
+ export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,favoritequery,unauthenticatedquery};
