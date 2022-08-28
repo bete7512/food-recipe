@@ -5,37 +5,29 @@ import apolloClient from './apolloclient'
 import router from '../router/index'
 import gql from 'graphql-tag'
 provideApolloClient(apolloClient);
-export const recipeStore = defineStore("favorite", {
+export const recipeStore = defineStore("recipe",{
     state: () => ({
+        recipe: [],
+        error:[]
     }),
     actions: {
         fetchrecipe() {
-            // let cards = []
-            // console.log(this.cards);
             const result = apolloClient.query({
-                query: recipequery
+                query: recipequery,
+                //  pollInterval: 1000,
             }).then((response) => {
-                // console.log(response.data.recipe)
-                response.data.recipe.map((element)=>this.cards.push(element))
-                // cards = response?.response ?? []
-                // console.log();
-                // var i = 0
-                // response.data.recipe.forEach((element) => {
-                //     // cards.push(element);
-                //     cards[i]=element
-                //     // console.log(element);
-                //     i++;
-                // });
-                // response.data.recipe.map((index) => )
+                let i = 0;
+                for (; i < response.data.recipe.length; i++) {
+                    this.recipe[i] = response.data.recipe[i]
+                }
+                console.log(response.data.recipe);
             })
-            // console.log();
-            // console.log(this.cards);
-            // console.log(result);
-
-            return null
-        }
-    },
-    getters: {
-
-    }
+            .catch((err)=>{
+                console.log(err)})
+                // console.log("jnlljnlnmmm");
+            }
+        },
+persist: {
+    enabled: true
+}
 })

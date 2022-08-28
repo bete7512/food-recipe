@@ -5,12 +5,16 @@ import router  from './router/index'
 import apolloclient from './apollo'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import './index.css'
+import piniaPersist from 'pinia-plugin-persist'
+
+const pinia = createPinia()
+pinia.use(piniaPersist)
 const app = createApp({
   setup() {
     provide(DefaultApolloClient, apolloclient)
   },
   render: ()=> h(App),
 });
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 app.mount('#app');

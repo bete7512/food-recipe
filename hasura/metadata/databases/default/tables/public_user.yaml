@@ -2,6 +2,27 @@ table:
   name: user
   schema: public
 array_relationships:
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: comment
+          schema: public
+  - name: favorites
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: favorite
+          schema: public
+  - name: likes
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: likes
+          schema: public
   - name: recipes
     using:
       foreign_key_constraint_on:
@@ -17,6 +38,15 @@ insert_permissions:
           _eq: X-Hasura-User-Id
       columns: []
 select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - id
+        - email
+        - name
+        - password
+        - username
+      filter: {}
   - role: user
     permission:
       columns:

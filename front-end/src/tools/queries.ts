@@ -14,8 +14,8 @@ mutation login($password: String!, $username: String!) {
 }
 `
 const addrecipe = gql`
-mutation addnewrecipe($title: String!, $instructions: String!, $images: String!, $descriptions: String!, $categories: String!, $durations: Int!, $ingredient: String!, $likes: Int = 0) {
-  insert_recipe(objects: {descriptions: $descriptions, images: $images, instructions: $instructions, title: $title, categories: $categories, durations: $durations, ingredient: $ingredient, likes: $likes}) {
+mutation addnewrecipe($title: String!, $instructions: String!, $images: String!, $descriptions: String!, $categories: String!, $durations: Int!, $ingredient: String!) {
+  insert_recipe(objects: {descriptions: $descriptions, images: $images, instructions: $instructions, title: $title, categories: $categories, durations: $durations, ingredient: $ingredient}) {
     returning {
       title
     }
@@ -35,8 +35,10 @@ query MyQuery {
     id
     title
     owner
-    likes
     instructions
+    Like_number
+    isliked
+    isfavorite
     ingredient
     images
     durations
@@ -54,4 +56,31 @@ mutation MyMutation($recipe_id: Int!) {
   }
 }
  `
- export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite};
+ const removefavorite = gql`
+mutation MyMutation($id: Int!) {
+  delete_favorite(where: {recipe_id: {_eq: $id}}) {
+    returning {
+      recipe_id
+    }
+  }
+}
+ `
+
+ const addlikes = gql`
+ mutation MyMutation($id:Int) {
+  insert_likes_one(object: {recipe_id: $id}) {
+    recipe_id
+  }
+}
+ `
+ const deletelikes = gql`
+ mutation MyMutation($id:Int) {
+  delete_likes(where: {recipe_id: {_eq: $id}}) {
+    returning {
+      recipe_id
+    }
+  }
+}
+
+ `
+ export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes};

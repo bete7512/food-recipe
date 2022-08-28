@@ -5,16 +5,41 @@ object_relationships:
   - name: user
     using:
       foreign_key_constraint_on: owner
+array_relationships:
+  - name: comments
+    using:
+      foreign_key_constraint_on:
+        column: recipe_id
+        table:
+          name: comment
+          schema: public
+  - name: favorites
+    using:
+      foreign_key_constraint_on:
+        column: recipe_id
+        table:
+          name: favorite
+          schema: public
+computed_fields:
+  - name: Like_number
+    definition:
+      function:
+        name: recipe_like_counter
+        schema: public
+  - name: isfavorite
+    definition:
+      function:
+        name: user_favorite
+        schema: public
 insert_permissions:
   - role: user
     permission:
-      check:
-        id:
-          _eq: X-Hasura-User-Id
+      check: {}
+      set:
+        owner: x-hasura-User-Id
       columns:
         - durations
         - id
-        - likes
         - owner
         - categories
         - descriptions
@@ -26,23 +51,23 @@ select_permissions:
   - role: anonymous
     permission:
       columns:
-        - categories
-        - descriptions
         - durations
         - id
+        - owner
+        - categories
+        - descriptions
         - images
         - ingredient
         - instructions
-        - likes
-        - owner
         - title
+      computed_fields:
+        - Like_number
       filter: {}
   - role: user
     permission:
       columns:
         - durations
         - id
-        - likes
         - owner
         - categories
         - descriptions
@@ -50,6 +75,8 @@ select_permissions:
         - ingredient
         - instructions
         - title
+      computed_fields:
+        - Like_number
       filter: {}
 update_permissions:
   - role: user
@@ -57,7 +84,6 @@ update_permissions:
       columns:
         - durations
         - id
-        - likes
         - owner
         - categories
         - descriptions
@@ -66,7 +92,7 @@ update_permissions:
         - instructions
         - title
       filter:
-        id:
+        owner:
           _eq: X-Hasura-User-Id
       check: null
 delete_permissions:

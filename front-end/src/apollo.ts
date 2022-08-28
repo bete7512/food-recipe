@@ -10,6 +10,7 @@ const getHeaders = () => {
   
 const httpLink = createHttpLink({
     uri:'http://localhost:8080/v1/graphql',
+    fetch,
     headers:getHeaders()
 })
 // const cache = new InMemoryCache()
