@@ -63,7 +63,7 @@ import { recipequery, addlikes } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 const { error, loading, result } = useQuery(recipequery, null, {
-    pollInterval: 1000,
+    pollInterval: 100,
 });
 const user = useStore()
 const favorite = favoriteStore()

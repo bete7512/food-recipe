@@ -31,6 +31,13 @@ computed_fields:
       function:
         name: user_favorite
         schema: public
+      session_argument: hasura_session
+  - name: isliked
+    definition:
+      function:
+        name: user_likes
+        schema: public
+      session_argument: hasura_session
 insert_permissions:
   - role: user
     permission:
@@ -77,6 +84,8 @@ select_permissions:
         - title
       computed_fields:
         - Like_number
+        - isfavorite
+        - isliked
       filter: {}
 update_permissions:
   - role: user

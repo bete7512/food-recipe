@@ -2,14 +2,18 @@ table:
   name: likes
   schema: public
 insert_permissions:
+  - role: anonymous
+    permission:
+      check: {}
+      columns: []
   - role: user
     permission:
       check: {}
       set:
         user_id: x-hasura-User-Id
       columns:
-        - user_id
         - recipe_id
+        - user_id
 select_permissions:
   - role: anonymous
     permission:
