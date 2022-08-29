@@ -5,6 +5,7 @@ import signup from '../components/unauthenticated/signup.vue'
 import feeds from '../components/authenticated/feeds.vue'
 import favorite from '../components/authenticated/favorite.vue'
 import main from '../components/authenticated/main.vue'
+import recipedetailVue from '@/components/authenticated/recipedetail.vue'
 // import { useStore } from '../stores/store.js';
 import emailsentmodal from '../components/unauthenticated/emailsentmodal.vue'
 import { useStore } from '../stores/store.js'
@@ -26,6 +27,11 @@ const router = createRouter({
       name: 'signup',
       path: '/signup',
       component: signup
+    },
+    {
+      name:'recipedetail',
+      path:'/recipedetail/:id',
+      component:recipedetailVue
     },
     {
       name: 'main',

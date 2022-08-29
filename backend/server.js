@@ -1,8 +1,10 @@
 const express = require('express')
 require('dotenv').config()
+const bodyparser = require('body-parser')
 const confirm = require('./handler/confirm')
 const app  = express();
 app.use(express.json())
+app.use(bodyparser.json({limit:'50mb'}))
 app.use(express.static('public'))
 app.get('/confirm/:route',confirm)
 app.post('/:route', (req,res)=>{

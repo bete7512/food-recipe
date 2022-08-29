@@ -2,8 +2,9 @@
     <div v-if="error">error</div>
     <div v-if="loading">loading...</div>
     <div v-else class="flex flex-wrap p-5 justify-center items-center space-x-3 ">
-        <div class="card mt-2 hover:scale-105 max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-            v-for="(rec, index) in result.recipe" :key="rec.id">
+        <div  class="card  mt-2 hover:scale-105 max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+            v-for="(rec, index) in result.recipe" :key="rec.id" 
+            >
             <div class="relative">
                 <img class="rounded-t-lg "
                     src="https://media.istockphoto.com/photos/paleo-diet-healthy-food-background-picture-id1301565375?b=1&k=20&m=1301565375&s=170667a&w=0&h=D-u_kxPS9SL5MWmhN0xbwfNxPmqbqzhyjYvypM7V7xU="
@@ -27,11 +28,13 @@
                 </button>
             </div>
             <div class="p-5">
-                <div>
-                    <h5 class="mb-2 hover:underline text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        <strong>{{ rec.title }}</strong>
-                    </h5>
-                </div>
+                <router-link :to="'/recipedetail/'+rec.id">
+                    <div>
+                        <h5 class="mb-2 hover:underline text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            <strong>{{ rec.title }}</strong>
+                        </h5>
+                    </div>
+                </router-link>
                 <div class="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
                     {{ rec.descriptions }}</div>
                 <button
@@ -50,6 +53,7 @@
     </div>
 </template>
 <script setup  >
+import router from '../../router/index'
 import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
 import { favoriteStore } from '../../stores/favoritestore.js';
@@ -61,6 +65,7 @@ import gql from 'graphql-tag';
 const { error, loading, result } = useQuery(recipequery, null, {
     pollInterval: 100,
 });
+// const router = useRouter()
 const user = useStore()
 const favorite = favoriteStore()
 const managefavorite = (id, isfavorite) => {
@@ -79,6 +84,9 @@ const manalikes = (id, isliked) => {
     else {
         likes.addtolike(id)
     }
+}
+const singlerecipe = (id)=>{
+router.push('/recipedetail')
 }
 </script>
 <style>

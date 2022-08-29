@@ -118,6 +118,12 @@ const fileUpload = () => {
         }
     }))
     uploadfile()
+    onDone((response,error)=>{
+        if(error){
+            console.log(error);
+        }
+        console.log(response);
+    })
 }
 const changefile = async (e) => {
     file.value = e.target.files[0];
@@ -135,8 +141,10 @@ const changefile = async (e) => {
     reader.onerror = function () {
         console.log('Unable to parse file');
     };
+    reader.onerror()
 }
-const stringifiedingtredient = JSON.stringify(ingridientmediator.join(','))
+const stringifiedingtredient = JSON.stringify(ingridientmediator.join(',,,'))
+
 const addnewinstructions = () => {
     instructionmediator.push(`"${instructions[instructioncounter.value]}`)
     instructioncounter.value++;

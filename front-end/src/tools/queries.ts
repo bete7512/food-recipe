@@ -124,4 +124,26 @@ query MyQuery {
   }
 }
  `
- export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,favoritequery,unauthenticatedquery,file_upload};
+
+ const recipe_by_id = gql`
+ query MyQuery($id: Int!) {
+  recipe_by_pk(id: $id) {
+    title
+    isliked
+    isfavorite
+    instructions
+    ingredient
+    images
+    id
+    durations
+    descriptions
+    categories
+    Like_number
+    owner
+    user {
+      username
+    }
+  }
+}
+ `
+ export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,favoritequery,unauthenticatedquery,file_upload,recipe_by_id};
