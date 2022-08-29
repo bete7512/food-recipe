@@ -3,6 +3,7 @@ require('dotenv').config()
 const confirm = require('./handler/confirm')
 const app  = express();
 app.use(express.json())
+app.use(express.static('public'))
 app.get('/confirm/:route',confirm)
 app.post('/:route', (req,res)=>{
   try{
@@ -12,6 +13,8 @@ app.post('/:route', (req,res)=>{
         message:'not found'
       })
     }
+
+    
     handler(req,res);
   }
   catch(e){

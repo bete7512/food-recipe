@@ -116,6 +116,12 @@ query MyQuery {
     }
   }
 }
-
  `
- export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,favoritequery,unauthenticatedquery};
+ const file_upload = gql`
+ mutation MyMutation($base64str: String!, $name: String!, $type: String!) {
+  fileupload(base64str: $base64str, name: $name, type: $type) {
+    file_path
+  }
+}
+ `
+ export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,favoritequery,unauthenticatedquery,file_upload};

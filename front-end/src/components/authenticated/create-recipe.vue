@@ -20,7 +20,7 @@
                             <label for="countries"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
                                 Categories</label>
-                            <select v-model="categories" 
+                            <select v-model="categories"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="breakfast">breakfast</option>
                                 <option value="lunch">lunch</option>
@@ -38,7 +38,8 @@
                                     v-model="ingridient[0]" size="50" placeholder="ingredient" :id="key"> -->
                             <div class="space-x-2 py-2" v-for="key in ingredientcounter" :key="key">
                                 <div class="flex space-x-2">
-                                    <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
+                                    <input type="text"
+                                        class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
                                         v-model="ingridient[key]" placeholder="Add ingredient" :key="key">
                                     <button @click="removeingridient" class="flex items-center justify-center "><span
                                             class="text-base h-8 w-8 font-extrabold text-center text-black border-2 border-slate-900 rounded-full">x</span></button>
@@ -67,12 +68,13 @@
                         <div class="">
                             <div class="text-2xl font  border-b-gray-900">images</div>
                             <div>
-                                <input type="file" class="border-2 bg-slate-300 border-black h-10 w-80 rounded" />
+                                <input ref="file" type="file" @change="changefile"
+                                    class="border-2 bg-slate-300 border-black h-10 w-80 rounded" />
+                                <button @click="fileUpload"
+                                    class="flex items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
+                                    images
+                                </button>
                             </div>
-                            <button @click=""
-                                class="flex items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
-                                images
-                            </button>
                             <!-- <div v-for="key in ingredientcounter">{{ ingridientmediator[key],stringifiedingtredient}}</div>
                         <div>{{JSON.stringify(ingridientmediator.toString())}}</div> -->
                             <!-- <di>{{JSON.stringify(instructionmediator.toString())}}</di> -->
@@ -86,10 +88,10 @@
         </div>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { useMutation } from '@vue/apollo-composable';
 import { ref, computed, onMounted, reactive } from 'vue'
-import { addrecipe } from '@/tools/queries';
+import { addrecipe, file_upload } from '@/tools/queries';
 import gql from 'graphql-tag';
 const title = ref('')
 const duration = ref('')
@@ -98,25 +100,43 @@ const instructions = reactive([])
 const ingridient = reactive([])
 const ingredientcounter = ref(3)
 const instructioncounter = ref(3)
-const ingridientmediator: any = []
-const instructionmediator: any = []
+const ingridientmediator = []
+const instructionmediator = []
 const categories = ref('')
-console.log(categories)
-console.log(duration);
-
+const file = ref('')
+const base64str = ref('')
+const fileUpload = () => {
+    console.log(file.value);
+    const fileName = file.value.name;
+    const fileType = file.value.type;
+    console.log(fileName);
+    const { mutate: uploadfile, onDone } = useMutation(file_upload, () => ({
+        variables: {
+            name: fileName,
+            type: fileType,
+            base64str: base64str.value
+        }
+    }))
+    uploadfile()
+}
+const changefile = async (e) => {
+    file.value = e.target.files[0];
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+        console.log("wellcome to file");
+        reader.readAsBinaryString(e.target.files[0]);
+    }
+    reader.onload = ()=>{
+        console.log("welcome readload");
+        base64str.value = btoa(reader.result);
+        console.log("I am from here"+base64str.value);
+    };
+    reader.onload()
+    reader.onerror = function () {
+        console.log('Unable to parse file');
+    };
+}
 const stringifiedingtredient = JSON.stringify(ingridientmediator.join(','))
-// const fileUpload = (file: File) => {
-//     const fileName = file.name;
-//     const fileType = file.type;
-//     // const variables = { name: fileName, type: fileType, base64str: base64Str };
-// }
-const addnewimages = () => {
-    const images = ref([])
-}
-const removeaddedimages = () => {
-}
-const imagecounter = () => {
-}
 const addnewinstructions = () => {
     instructionmediator.push(`"${instructions[instructioncounter.value]}`)
     instructioncounter.value++;
@@ -141,7 +161,7 @@ const addNewIngredient = () => {
     ingredientcounter.value++
 }
 
-const removeingridient = ()=>{
+const removeingridient = () => {
     ingredientcounter.value--
 }
 
