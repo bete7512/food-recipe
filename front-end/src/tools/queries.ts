@@ -34,6 +34,7 @@ query MyQuery {
   recipe {
     id
     title
+    rating
     owner
     instructions
     Like_number
@@ -44,6 +45,18 @@ query MyQuery {
     durations
     descriptions
     categories
+    user {
+      email
+      name
+    }
+    comments {
+      comment
+      commented_at
+      star
+      user {
+        name
+      }
+    }
   }
 }
 `
@@ -56,6 +69,7 @@ query MyQuery {
       descriptions
       durations
       id
+      rating
       images
       ingredient
       instructions
@@ -131,6 +145,7 @@ query MyQuery {
     title
     isliked
     isfavorite
+    rating
     instructions
     ingredient
     images
@@ -143,7 +158,24 @@ query MyQuery {
     user {
       username
     }
+    comments {
+      comment
+      commented_at
+      star
+      user {
+        name
+      }
+    }
   }
 }
  `
- export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,favoritequery,unauthenticatedquery,file_upload,recipe_by_id};
+ const comment_mutation = gql`
+mutation MyMutation($recipe_id: Int!, $comment: String!,$star: Float!) {
+  insert_comment(objects: { recipe_id: $recipe_id,comment: $comment, star: $star}) {
+    returning {
+      comment
+    }
+  }
+}
+ `
+ export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,favoritequery,unauthenticatedquery,file_upload,recipe_by_id,comment_mutation};

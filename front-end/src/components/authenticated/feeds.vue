@@ -30,29 +30,26 @@
             <div class="p-5">
                 <router-link :to="'/recipedetail/'+rec.id">
                     <div>
-                        <h5 class="mb-2 hover:underline text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        <h5 class="mb-2 hover:underline text-lg font-bold tracking-tight text-gray-900 dark:text-white">
                             <strong>{{ rec.title }}</strong>
                         </h5>
+                        <!-- <div> -->
+                        </div>
+                    </router-link>
+                    <div class="flex justify-between">
+                        <StarRating  v-model:rating="rec.rating" :read-only="true" :increment="0.01" :star-size="12"></StarRating>
                     </div>
-                </router-link>
-                <div class="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
-                    {{ rec.descriptions }}</div>
-                <button
-                    class="inline-flex bottom-1 align-bottom items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16" id="IconChangeColor"> <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" id="mainIconPathAttribute" fill="blue"></path> </svg>-->
+                    <div class="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
+                        {{ rec.descriptions }}</div>
+                        <div class="text-xs bottom-1 ">By <button class="font-bold text-xs italic underline hover:underline">{{rec.user.name}}</button></div>
+                        
             </div>
         </div>
     </div>
 </template>
 <script setup  >
+import StarRating from 'vue-star-rating'
+
 import router from '../../router/index'
 import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
@@ -88,6 +85,7 @@ const manalikes = (id, isliked) => {
 const singlerecipe = (id)=>{
 router.push('/recipedetail')
 }
+const rating = ref(1.45)
 </script>
 <style>
 </style>

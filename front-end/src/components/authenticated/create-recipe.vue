@@ -36,11 +36,11 @@
                             <div class="text-2xl font  border-b-gray-900">Ingridient</div>
                             <!-- <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
                                     v-model="ingridient[0]" size="50" placeholder="ingredient" :id="key"> -->
-                            <div class="space-x-2 py-2" v-for="key in ingredientcounter" :key="key">
+                            <div class="space-x-2 py-2" v-for="(key,index) in ingredientcounter" :key="key">
                                 <div class="flex space-x-2">
                                     <input type="text"
                                         class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
-                                        v-model="ingridient[key]" placeholder="Add ingredient" :key="key">
+                                        v-model="ingridient[index]" placeholder="Add ingredient" :key="key">
                                     <button @click="removeingridient" class="flex items-center justify-center "><span
                                             class="text-base h-8 w-8 font-extrabold text-center text-black border-2 border-slate-900 rounded-full">x</span></button>
                                 </div>
@@ -52,11 +52,11 @@
                     </div>
                     <div class="">
                         <div class="text-2xl  font  border-b-gray-900">Instructions</div>
-                        <div class=" space-x-2  py-2" v-for="key in instructioncounter" :key="key">
+                        <div class=" space-x-2  py-2" v-for="(key,index) in instructioncounter" :key="key">
                             <div><strong>step {{ key }}</strong></div>
                             <div class="flex space-x-2">
                                 <textarea class="border-2 p-3 bg-slate-300 border-black h-20 w-80 rounded"
-                                    v-model="instructions[key]"></textarea>
+                                    v-model="instructions[index]"></textarea>
                                 <button @click="removenewinstructions" class="flex items-center justify-center "><span
                                         class="text-base h-8 w-8 font-extrabold text-center text-black border-2 border-slate-900 rounded-full">x</span></button>
                             </div>
@@ -96,12 +96,10 @@ import gql from 'graphql-tag';
 const title = ref('')
 const duration = ref('')
 const description = ref('')
-const instructions = reactive([])
-const ingridient = reactive([])
+const instructions = ref([])
+const ingridient = ref([])
 const ingredientcounter = ref(3)
 const instructioncounter = ref(3)
-const ingridientmediator = []
-const instructionmediator = []
 const categories = ref('')
 const file = ref('')
 const base64str = ref('')
@@ -143,35 +141,30 @@ const changefile = async (e) => {
     };
     reader.onerror()
 }
-const stringifiedingtredient = JSON.stringify(ingridientmediator.join(',,,'))
 
+const addNewIngredient = () => {
+    ingredientcounter.value++
+}
 const addnewinstructions = () => {
-    instructionmediator.push(`"${instructions[instructioncounter.value]}`)
     instructioncounter.value++;
-
+}
+const removenewinstructions = () => {
+    instructioncounter.value--
+}
+const removeingridient = () => {
+    ingredientcounter.value--
 }
 const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({
     variables: {
         title: title.value,
-        instructions: JSON.stringify(instructionmediator.toString()),
+        instructions: JSON.stringify(instructions.value.join(',,,,')),
         images: "there is no images here",
         descriptions: description.value,
         categories: categories.value,
-        ingredient: JSON.stringify(ingridientmediator.toString()),
+        ingredient: JSON.stringify(ingridient.value.join(',,,,')),
         durations: duration.value
     }
 }))
-const removenewinstructions = () => {
-    instructioncounter.value--
-}
-const addNewIngredient = () => {
-    ingridientmediator.push(ingridient[ingredientcounter.value])
-    ingredientcounter.value++
-}
-
-const removeingridient = () => {
-    ingredientcounter.value--
-}
 
 
 </script>

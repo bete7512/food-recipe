@@ -45,15 +45,15 @@ export const useStore = defineStore("user", {
                 this.username = username
                     this.isauthenticated = true,
                     console.log(window.localStorage.getItem("Apollotoken"))
-                window.localStorage.setItem('user', JSON.stringify(this.user));
+                // window.localStorage.setItem('user', JSON.stringify(this.user));
                 router.push('/main/feeds');
             }
         },
         logout() {
             window.localStorage.removeItem('Apollotoken');
-            this.username = {};
             localStorage.removeItem('user');
             router.push('/login');
+
         },
 
     },
