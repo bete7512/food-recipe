@@ -7,8 +7,7 @@ import gql from 'graphql-tag'
 provideApolloClient(apolloClient);
 export const useStore = defineStore("user", {
     state: () => ({
-        cards:[],
-        emailconfirm: false,
+        username:'',
         isauthenticated: false,
         counter: 200,
         returnUrl: null,
@@ -39,10 +38,11 @@ export const useStore = defineStore("user", {
             })
             window.localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
             if (window.localStorage.getItem("Apollotoken")) {
-                this.user = {
-                    username: username,
-                    token: window.localStorage.getItem("Apollotoken")
-                },
+                // this.user = {
+                //     username: username,
+                //     token: window.localStorage.getItem("Apollotoken")
+                // },
+                this.username = username
                     this.isauthenticated = true,
                     console.log(window.localStorage.getItem("Apollotoken"))
                 window.localStorage.setItem('user', JSON.stringify(this.user));
@@ -51,7 +51,7 @@ export const useStore = defineStore("user", {
         },
         logout() {
             window.localStorage.removeItem('Apollotoken');
-            this.user = {};
+            this.username = {};
             localStorage.removeItem('user');
             router.push('/login');
         },
@@ -60,5 +60,9 @@ export const useStore = defineStore("user", {
 
     getters: {
 
+    },
+    persist: {
+        enabled: true
     }
+
 })

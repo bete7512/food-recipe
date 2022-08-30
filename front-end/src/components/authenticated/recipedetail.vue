@@ -39,11 +39,14 @@
         <div class="lg:w-1/2 md:w-full  sm:w-full p-8 border-2 h-auto space-y-3">
             <div>Write your comment</div>
             <textarea class="rounded border-2 px-2 h-20 py-1 w-full" type="text" placeholder="write your comment"></textarea>
+            <vue3StarRatings v-model="rating"></vue3StarRatings>
             <button class="flex  w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">submit</button>
         </div>
     </div>
 </template>
 <script setup >
+import vue3StarRatings from "vue3-star-ratings";
+
 import router from '../../router/index'
 import { useRoute } from 'vue-router'
 import { useStore } from '../../stores/store.js';
@@ -55,8 +58,11 @@ import { recipe_by_id } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 const route = useRoute()
+const rating = ref(0)
+console.log("ther");
 const id = route.params.id
 console.log(id);
+console.log("here"+rating);
 
 const { error, loading, result } = useQuery(recipe_by_id
     ,
