@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   const finduser = require('../checker/findusername')
   const { data, error } = await finduser({ username })
   const user = data["user"][0]
-  console.log(user);
+  // console.log(user);
   if (user) {
     return res.status(400).json({
       message: 'you are  registered no registratrion again'
@@ -45,11 +45,11 @@ const handler = async (req, res) => {
         // })
       } else {
         console.log(`Email link confirmation was sent to your email address ${email}`);
-        // return res.json({
-        //   Success: `Email link confirmation was sent to your email address ${email}`
-        // })
       }
     });
+    return res.json({
+      Success: `Email link confirmation was sent to your email address ${email}`
+    })
 
   }
 };

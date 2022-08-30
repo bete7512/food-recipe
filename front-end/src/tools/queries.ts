@@ -77,6 +77,10 @@ query MyQuery {
       isliked
       owner
       title
+      user {
+      email
+      name
+    }
     }
   }
 }
@@ -112,6 +116,10 @@ query MyQuery {
     descriptions
     categories
     Like_number
+    user {
+      email
+      name
+    }
   }
 }
 `
