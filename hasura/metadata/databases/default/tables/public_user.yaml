@@ -41,16 +41,16 @@ select_permissions:
   - role: anonymous
     permission:
       columns:
-        - id
         - email
+        - id
         - name
-        - password
         - username
       filter: {}
   - role: user
     permission:
       columns:
         - email
+        - id
         - name
         - username
       filter: {}

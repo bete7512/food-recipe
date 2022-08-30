@@ -1,4 +1,10 @@
 actions:
+  - name: fileupload
+    definition:
+      kind: synchronous
+      handler: http://host.docker.internal:3000/fileupload
+    permissions:
+      - role: user
   - name: login
     definition:
       kind: synchronous
@@ -21,4 +27,5 @@ custom_types:
   objects:
     - name: SignOutput
     - name: SignupOutput
+    - name: fileoutput
   scalars: []

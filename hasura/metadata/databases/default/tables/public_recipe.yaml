@@ -38,6 +38,11 @@ computed_fields:
         name: user_likes
         schema: public
       session_argument: hasura_session
+  - name: rating
+    definition:
+      function:
+        name: rate_average
+        schema: public
 insert_permissions:
   - role: user
     permission:
@@ -69,6 +74,8 @@ select_permissions:
         - title
       computed_fields:
         - Like_number
+        - isliked
+        - rating
       filter: {}
   - role: user
     permission:
@@ -86,6 +93,7 @@ select_permissions:
         - Like_number
         - isfavorite
         - isliked
+        - rating
       filter: {}
 update_permissions:
   - role: user

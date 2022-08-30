@@ -7,9 +7,8 @@ import gql from 'graphql-tag'
 provideApolloClient(apolloClient);
 export const useStore = defineStore("user", {
     state: () => ({
-        username:'',
+        username: '',
         isauthenticated: false,
-        counter: 200,
         returnUrl: null,
         emailmodal: false
     }),
@@ -24,11 +23,15 @@ export const useStore = defineStore("user", {
                     password: password
                 }
             })
-            if (response.data.register.Success) {
-                router.push("/login")
+            if(response.data.register.Success){
+                return response.data.register.Success
+                // router.push("/login")
+            }
+            else{
+                return null
             }
         },
-        async login(username, password) {
+        async login(username, password){
             const result = await apolloClient.mutate({
                 mutation: signin,
                 variables: {
@@ -38,14 +41,8 @@ export const useStore = defineStore("user", {
             })
             window.localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
             if (window.localStorage.getItem("Apollotoken")) {
-                // this.user = {
-                //     username: username,
-                //     token: window.localStorage.getItem("Apollotoken")
-                // },
                 this.username = username
-                    this.isauthenticated = true,
-                    console.log(window.localStorage.getItem("Apollotoken"))
-                // window.localStorage.setItem('user', JSON.stringify(this.user));
+                this.isauthenticated = true,
                 router.push('/main/feeds');
             }
         },

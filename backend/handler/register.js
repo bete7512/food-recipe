@@ -14,15 +14,14 @@ const handler = async (req, res) => {
 
 
   }
-  else 
-  {
+  else {
     const tokenContents = {
       name: name,
       username: username,
       email: email,
-      password:password
+      password: password
     }
-    const token = jwt.sign(tokenContents,process.env.SIGNUPSECREKEY)
+    const token = jwt.sign(tokenContents, process.env.SIGNUPSECREKEY)
     const link = `${process.env.SIGNUPDESTINATION}/${token}`
     console.log(link);
     let transporter = nodemailer.createTransport({
@@ -38,16 +37,20 @@ const handler = async (req, res) => {
       subject: 'Email confirmation',
       text: link
     };
-    transporter.sendMail(mailOptions, function(err, data) {
+    transporter.sendMail(mailOptions, function (err, data) {
       if (err) {
-        console.log("Error " + err);
+        console.log(err);
+        // return res.status(400).json({
+        //   message: err.message
+        // })
       } else {
-        console.log("Email sent successfully");
+        console.log(`Email link confirmation was sent to your email address ${email}`);
+        // return res.json({
+        //   Success: `Email link confirmation was sent to your email address ${email}`
+        // })
       }
     });
-    return res.json({
-      Success: `Email link confirmation was sent to your email address ${email}`
-    })
+
   }
 };
 module.exports = handler;

@@ -1,4 +1,12 @@
 type Mutation {
+  fileupload(
+    name: String!
+    type: String!
+    base64str: String!
+  ): fileoutput
+}
+
+type Mutation {
   login(
     arg1: SignInput!
   ): SignOutput
@@ -28,5 +36,9 @@ type SignOutput {
 
 type SignupOutput {
   Success: String!
+}
+
+type fileoutput {
+  file_path: String!
 }
 
