@@ -1,16 +1,41 @@
 <template>
-    <div v-if="error">error</div>
-    <div v-if="loading">loading...</div>
+        <div class="flex justify-center py-4 ">
+          <div class="flex flex-wrap space-x-4">
+              <div class="w-80">
+                  <div>search by</div>
+                  <div class="relative w-full">
+                      <input type="search" id="search-dropdown"
+                      class="block p-2.5 w-full  z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-2  border-gray-200 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                      placeholder="search by title ingredient" required>
+                    </div>
+                </div>
+                <div class="w-50 space-y-2  justify-start">
+                    <div>Filter by</div>
+                    <select id="categories"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="Title"><button>Title</button></option>
+                        <option value="ingridient"><button>ingredient</button></option>
+                        <option value="duration"><button>duration</button></option>
+                    </select>
+                </div>
+              <div>
+                  <button
+                      class="flex  w-auto p-7 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Filter</button>
+              </div>
+          </div>
+      </div>
+
+    <div v-if="error" class="flex justify-center items-center">error</div>
+    <div v-if="loading" class="flex justify-center items-center">loading...</div>
     <div v-else class="flex">
-        <div class="w-2/12">
+        <div class="flex justify-center w-3/12">
         </div>
-        <div class="flex w-10/12 flex-wrap p-5 justify-center items-center space-x-3 ">
-            <div class="card  mt-2 hover:scale-105 max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+        <div class="flex  w-10/12 flex-wrap  justify-center items-center space-x-3 ">
+            <div class="card hover:border-2 hover:border-sky-800 duration-300 mt-2 hover:scale-105 max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
                 v-for="(rec, index) in result.recipe" :key="rec.id">
                 <div class="relative">
-                    <img class="rounded-t-lg w-full h-40"  :src="JSON.parse(rec.images).split(',,,,')[0]" />
-                    <!-- <div v-for="(image, index) in JSON.parse(rec.images).split(',,,,')" alt="" :key="image">
-                    </div> -->
+                    <img class="rounded-t-lg w-full h-48" :src="JSON.parse(rec.images).split(',,,,')[0]" />
+                    <!-- <div v-for="(image, index) in JSON.parse(rec.images).split(',,,,')" alt="" :key="image"></div> -->
                     <button @click="managefavorite(rec.id, rec.isfavorite)"
                         class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
                         <div class="flex justify-center  pt-1 pl-3">
@@ -37,7 +62,6 @@
                                 class="mb-2 hover:underline text-lg font-bold tracking-tight text-gray-900 dark:text-white">
                                 <strong>{{ rec.title }}</strong>
                             </h5>
-                            <!-- <div> -->
                         </div>
                     </router-link>
                     <div class="flex justify-between">
@@ -62,11 +86,17 @@
                     <div class="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
                         {{ rec.descriptions }}</div>
                     <div class="text-xs bottom-1 ">By <button
-                            class="font-bold text-xs italic underline hover:underline">{{ rec.user.name }}</button></div>
+                            class="font-bold text-xs italic underline hover:underline">{{ rec.user.name }}</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="w-2/12">
+        <div class="w-3/12 flex justify-start">
+            <!-- <div class="w-full   h-96 p-10">
+                <div class="w-full  bg-gray-600 h-96 ">
+
+                </div>
+            </div> -->
         </div>
     </div>
 </template>

@@ -187,4 +187,33 @@ mutation MyMutation($recipe_id: Int!, $comment: String!,$star: Float!) {
   }
 }
  `
- export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,favoritequery,unauthenticatedquery,file_upload,recipe_by_id,comment_mutation};
+
+
+const user_query = gql`
+query MyQuery($id: Int!) {
+  user(where: {id: {_eq: $id}}) {
+    name
+    id
+    email
+    username
+    recipes {
+      title
+      rating
+      images
+      descriptions
+      durations
+      id
+      Like_number
+      categories
+      isfavorite
+      isliked
+      owner
+      instructions
+      ingredient
+    }
+  }
+}
+
+`
+ export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,
+  favoritequery,unauthenticatedquery,file_upload,recipe_by_id,comment_mutation,user_query};

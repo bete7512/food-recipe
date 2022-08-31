@@ -1,56 +1,94 @@
 <template>
-    <div class=" bg-blue-600 h-28 items-center flex justify-center text-6xl font-extrabold">
+    <div class=" bg-cyan-800  h-28 items-center flex justify-center text-6xl font-extrabold">
         <h1><span class="text-yellow-900">Discover</span> Recipe</h1>
     </div>
     <div class="flex flex-wrap justify-center mt-5 ">
         <div class=" p-5 lg:w-auto md:w-full sm:w-full ">
             <div class="flex justify-center font-extrabold text-3xl font-serif">Some images about the food</div>
-            <img class="rounded-t-lg "
-                src="https://media.istockphoto.com/photos/paleo-diet-healthy-food-background-picture-id1301565375?b=1&k=20&m=1301565375&s=170667a&w=0&h=D-u_kxPS9SL5MWmhN0xbwfNxPmqbqzhyjYvypM7V7xU="
-                alt="" />
+            <a :href="JSON.parse(result.recipe_by_pk.images).split(',,,,')[imageat]"><img
+                    class="rounded-t-lg w-full h-80"
+                    :src="JSON.parse(result.recipe_by_pk.images).split(',,,,')[imageat]" /></a>
+            <div class="flex flex-wrap">
+                <div class="flex space-x-3"
+                    v-for="(image, index) in JSON.parse(result.recipe_by_pk.images).split(',,,,')" :key="image">
+                    <button @click="imageat = index">
+                        <img :src="image" class="w-36 h-28 flex px-2 my-2 " alt="" />
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="p-5 lg:w-1/2 md:w-full sm:w-full border-2 ">
             <div v-if="error">something were wrong</div>
             <div v-if="loading">loading</div>
             <div v-else>
                 <div class=" font-extrabold text-3xl font-serif">Title</div>
-                <div>
-                    {{  result.recipe_by_pk.title  }}
+                <div class="font-thin text-3xl">
+                    {{ result.recipe_by_pk.title }}
                 </div>
                 <div class=" font-extrabold text-3xl font-serif">Descriptions</div>
-                <div>{{  result.recipe_by_pk.descriptions  }}</div>
-                <div class=" font-extrabold text-3xl font-serif">Ingridients</div>
+                <div class="font-thin text-xl">{{ result.recipe_by_pk.descriptions }}</div>
+                <div class=" font-extrabold text-3xl font-serif mb-3">Ingridients</div>
+
                 <div v-for="(ingredient, index) in JSON.parse(result.recipe_by_pk.ingredient).split(',,,,')"
                     :key="ingredient">
-                    <span class="font-bold">{{  index + 1  }},</span> {{  ingredient  }}
+                    <div class="flex space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                            class="bi bi-check" viewBox="0 0 16 16">
+                            <path
+                                d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                        </svg>
+                        <div class="font-thin text-xl">
+                            {{ ingredient }}
+                        </div>
+                    </div>
                 </div>
-                <div class=" font-extrabold text-3xl font-serif">Instructions</div>
-                <div v-for="(instruction, index) in JSON.parse(result.recipe_by_pk.instructions).split(',,,,')"
-                    :key="instruction"><span class="font-bold">Step {{  index + 1  }},</span> {{  instruction  }}</div>
+                <div class=" font-extrabold text-3xl font-serif mb-3">Instructions</div>
+                <div class="my-5"
+                    v-for="(instruction, index) in JSON.parse(result.recipe_by_pk.instructions).split(',,,,')"
+                    :key="instruction">
+                    <div class="">
+                        <div class="flex font-bold text-2xl space-x-2 items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                class="bi bi-check-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path
+                                    d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                            </svg>
+                            <div class="">
+                                Step {{ index + 1 }}
+                            </div>
+                        </div>
+                        <div class="text-xl font-thin">
+                            {{ instruction }}
+                        </div>
+                    </div>
+                </div>
                 <div class=" font-extrabold text-3xl font-serif">Duration</div>
-                <div>{{  result.recipe_by_pk.durations  }}</div>
+                <div class="font-thin text-xl">{{ result.recipe_by_pk.durations }}</div>
                 <div class=" font-extrabold text-3xl font-serif">Categories</div>
-                <div>{{  result.recipe_by_pk.categories  }}</div>
-                <div class=" font-extrabold text-3xl font-serif">Reviews</div>
-                <div v-for="comment in result.recipe_by_pk.comments" :key="comment">
+                <div class="font-thin text-xl">{{ result.recipe_by_pk.categories }}</div>
+                <div class=" font-extrabold text-3xl font-serif ">Reviews</div>
+                <div class="py-2" v-for="comment in result.recipe_by_pk.comments" :key="comment">
                     <div class="flex space-x-2 items-center">
-                        <div class="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        <div class="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                                 class="bi bi-person" viewBox="0 0 16 16">
                                 <path
                                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                            </svg></div>
+                            </svg>
+                        </div>
                         <button class="font-bold underline text-orange-600">{{ comment.user.name }}</button>
                     </div>
                     <div class="flex space-x-2 px-2">
                         <div>
-                            <StarRating class="justify-end" :read-only="true" v-model:rating="comment.star" :increment="0.05"
-                                active-color="#d6612d" :star-size="8"></StarRating>
+                            <StarRating class="justify-end" :read-only="true" v-model:rating="comment.star"
+                                :increment="0.05" active-color="#d6612d" :star-size="8"></StarRating>
                         </div>
                         <div>
                             {{ comment.commented_at }}
                         </div>
                     </div>
-                    <div>{{  comment.comment  }}</div>
+                    <div>{{ comment.comment }}</div>
                 </div>
 
             </div>
@@ -85,7 +123,7 @@ import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 const route = useRoute()
 const rating = ref(0)
-
+const imageat = ref(0)
 const comment = ref('')
 const id = route.params.id
 
@@ -94,8 +132,7 @@ const { error, loading, result } = useQuery(recipe_by_id
     ,
     () => ({
         id: id
-    }),
-    null, {
+    }), {
     pollInterval: 100,
 }
 );
