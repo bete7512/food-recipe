@@ -3,7 +3,6 @@
     <div v-if="loading">loading...</div>
     <div v-else class="flex">
         <div class="w-2/12">
-
         </div>
         <div class="flex w-10/12 flex-wrap p-5 justify-center items-center space-x-3 ">
             <div class="card  mt-2 hover:scale-105 max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
@@ -64,7 +63,6 @@
                         {{ rec.descriptions }}</div>
                     <div class="text-xs bottom-1 ">By <button
                             class="font-bold text-xs italic underline hover:underline">{{ rec.user.name }}</button></div>
-
                 </div>
             </div>
         </div>
@@ -74,7 +72,6 @@
 </template>
 <script setup >
 import StarRating from 'vue-star-rating'
-
 import router from '../../router/index'
 import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
