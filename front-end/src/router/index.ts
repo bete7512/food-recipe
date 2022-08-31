@@ -59,7 +59,7 @@ const router = createRouter({
   ]
 })
 router.beforeEach(async (to) => {
-  const publicPages = ['/', '/login', '/signup'];
+  const publicPages = ['/', '/login', '/signup','/recipedetail/:id'];
   const authRequired = !publicPages.includes(to.path);
   const user = useStore();
   if (authRequired && !window.localStorage.getItem("Apollotoken")) {

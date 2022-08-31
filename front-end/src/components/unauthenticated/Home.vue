@@ -56,7 +56,7 @@
                     <img class="rounded-t-lg "
                         src="https://media.istockphoto.com/photos/paleo-diet-healthy-food-background-picture-id1301565375?b=1&k=20&m=1301565375&s=170667a&w=0&h=D-u_kxPS9SL5MWmhN0xbwfNxPmqbqzhyjYvypM7V7xU="
                         alt="" />
-                    <button @click="managefavorite(rec.id, rec.isfavorite)"
+                    <button @click="managefavorite"
                         class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
                         <div class="flex justify-center  pt-1 pl-3">
                             <svg v-if="rec.isfavorite" style="color: red" xmlns="http://www.w3.org/2000/svg" width="32"
@@ -104,9 +104,12 @@
     </div>
 </template>
 <script setup >
+import StarRating from 'vue-star-rating'
+
 import { unauthenticatedquery } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
+import router from '@/router';
 import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
 import { favoriteStore } from '../../stores/favoritestore.js';
@@ -116,13 +119,8 @@ const { loading, result, error } = useQuery(
     pollInterval: 1000,
 }
 );
-const managefavorite = (id, isfavorite) => {
-    if (!isfavorite) {
-        favorite.addtofavor(id)
-    }
-    else {
-        favorite.deletefavorite(id)
-    }
+const managefavorite = () => {
+    router.push('/login')
 }
 const likes = likeStore()
 const manalikes = (id, isliked) => {

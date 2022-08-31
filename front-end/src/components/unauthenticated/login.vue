@@ -45,9 +45,9 @@
                                         <button @click="login"
                                             class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
                                         in</button>
-                                
                                 </div>
                             </div>
+                            <button class="flex justify-end text-blue-500">create new account</button>
                             <div class="relative my-4">
                                 <div class="absolute inset-0 flex items-center">
                                     <div class="w-full border-t border-gray-300"></div>

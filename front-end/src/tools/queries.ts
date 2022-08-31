@@ -112,6 +112,7 @@ query MyQuery {
     ingredient
     images
     id
+    rating
     durations
     descriptions
     categories
