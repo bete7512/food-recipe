@@ -33,7 +33,7 @@ const handler = async (req, res) => {
     const { name, type, base64str } = req.body.input;
 let filebuffer = Buffer.from(base64str,'base64')
 
-fs.writeFileSync('./public/file/'+name,filebuffer,'base64')
+fs.writeFileSync('/home/kevin/portfolio_store/food-recipe/imag_microservice/public/'+name,filebuffer,'base64')
 // run some business logic
 
 
@@ -46,7 +46,7 @@ fs.writeFileSync('./public/file/'+name,filebuffer,'base64')
 
     // success
     return res.json({
-        file_path: "<value>"
+        file_path: `http://localhost:4000/${name}`
     })
 }
 module.exports = handler

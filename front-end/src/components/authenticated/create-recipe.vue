@@ -36,7 +36,7 @@
                             <div class="text-2xl font  border-b-gray-900">Ingridient</div>
                             <!-- <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
                                     v-model="ingridient[0]" size="50" placeholder="ingredient" :id="key"> -->
-                            <div class="space-x-2 py-2" v-for="(key,index) in ingredientcounter" :key="key">
+                            <div class="space-x-2 py-2" v-for="(key, index) in ingredientcounter" :key="key">
                                 <div class="flex space-x-2">
                                     <input type="text"
                                         class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
@@ -50,9 +50,10 @@
                                 ingridient</button>
                         </div>
                     </div>
+                    <img src="" alt="">
                     <div class="">
                         <div class="text-2xl  font  border-b-gray-900">Instructions</div>
-                        <div class=" space-x-2  py-2" v-for="(key,index) in instructioncounter" :key="key">
+                        <div class=" space-x-2  py-2" v-for="(key, index) in instructioncounter" :key="key">
                             <div><strong>step {{ key }}</strong></div>
                             <div class="flex space-x-2">
                                 <textarea class="border-2 p-3 bg-slate-300 border-black h-20 w-80 rounded"
@@ -68,16 +69,27 @@
                         <div class="">
                             <div class="text-2xl font  border-b-gray-900">images</div>
                             <div>
-                                <input ref="file" type="file" @change="changefile"
-                                    class="border-2 bg-slate-300 border-black h-10 w-80 rounded" />
-                                <button @click="fileUpload"
-                                    class="flex items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
-                                    images
+                                <div class="grid grid-cols-3 space-x-3" v-for="(imageurl, index) in path">
+                                        <img :src="imageurl" alt="no image" class="w-20 m-2 h-20"/>
+                                    
+                                    <!-- <button @click="removenewinstructions"
+                                        class="flex items-center justify-center "><span
+                                            class="text-base h-8 w-8 font-extrabold text-center text-black border-2 border-slate-900 rounded-full">x</span></button> -->
+                                </div>
+                                <div class="flex items-center mt-2 bg-grey-lighter">
+
+                                    <div class="block mb-2 w-20 text-xs font-medium text-gray-900 dark:text-gray-300"
+                                        >Upload file</div>
+                                    <input
+                                        class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                         ref="file" type="file" @change="changefile">
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" > PNG,JPG </p>
+
+                                </div>
+                                <button  @click="fileUpload"
+                                    class="flex items-center justify-center w-auto p-7 py-4 my-2 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">upload image
                                 </button>
                             </div>
-                            <!-- <div v-for="key in ingredientcounter">{{ ingridientmediator[key],stringifiedingtredient}}</div>
-                        <div>{{JSON.stringify(ingridientmediator.toString())}}</div> -->
-                            <!-- <di>{{JSON.stringify(instructionmediator.toString())}}</di> -->
                         </div>
                     </div>
                 </div>
@@ -89,6 +101,7 @@
     </div>
 </template>
 <script setup>
+import VueFileAgent from 'vue-file-agent';
 import { useMutation } from '@vue/apollo-composable';
 import { ref, computed, onMounted, reactive } from 'vue'
 import { addrecipe, file_upload } from '@/tools/queries';
@@ -102,12 +115,12 @@ const ingredientcounter = ref(3)
 const instructioncounter = ref(3)
 const categories = ref('')
 const file = ref('')
+const path = ref([])
 const base64str = ref('')
+
 const fileUpload = () => {
-    console.log(file.value);
     const fileName = file.value.name;
     const fileType = file.value.type;
-    console.log(fileName);
     const { mutate: uploadfile, onDone } = useMutation(file_upload, () => ({
         variables: {
             name: fileName,
@@ -116,11 +129,17 @@ const fileUpload = () => {
         }
     }))
     uploadfile()
-    onDone((response,error)=>{
-        if(error){
+    onDone((response, error) => {
+        if (error) {
             console.log(error);
         }
-        console.log(response);
+        path.value.push(response["data"]["fileupload"]["file_path"])
+        console.log("on test"+file.value);
+        file.value= ''
+        base64str.value = ''
+        changefile('')
+        console.log("after test"+file.value);
+        
     })
 }
 const changefile = async (e) => {
@@ -130,10 +149,10 @@ const changefile = async (e) => {
         console.log("wellcome to file");
         reader.readAsBinaryString(e.target.files[0]);
     }
-    reader.onload = ()=>{
+    reader.onload = () => {
         console.log("welcome readload");
         base64str.value = btoa(reader.result);
-        console.log("I am from here"+base64str.value);
+        console.log("I am from here" + base64str.value);
     };
     reader.onload()
     reader.onerror = function () {
@@ -141,7 +160,6 @@ const changefile = async (e) => {
     };
     reader.onerror()
 }
-
 const addNewIngredient = () => {
     ingredientcounter.value++
 }
@@ -158,7 +176,7 @@ const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({
     variables: {
         title: title.value,
         instructions: JSON.stringify(instructions.value.join(',,,,')),
-        images: "there is no images here",
+        images: JSON.stringify(path.value.join(',,,,')),
         descriptions: description.value,
         categories: categories.value,
         ingredient: JSON.stringify(ingridient.value.join(',,,,')),

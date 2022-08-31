@@ -7,7 +7,7 @@ const app  = express();
 app.use(express.json({limit: '200mb'}));
 app.use(express.urlencoded({limit: '200mb'}));
 app.use(bodyparser.json({limit:'50mb'}))
-app.use(express.static('public'))
+// app.use(express.static('public'))
 app.get('/confirm/:route',confirm)
 app.post('/:route', (req,res)=>{
   try{

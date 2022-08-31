@@ -6,15 +6,18 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
 node_modules
 .DS_Store
 dist
-public
 dist-ssr
 coverage
 *.local
+public
+public0001.jpg
 /cypress/videos/
 /cypress/screenshots/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
