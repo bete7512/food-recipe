@@ -1,73 +1,16 @@
 <template>
-    <div class="h-40 w-full bg-cyan-800">
-        <div class="flex space-x-4 justify-end font-semibold text-xl pt-4 pr-4 text-white ">
-            <router-link :to="{ name: 'login' }">
-                <button class=" hover:bg-orange-900  p-4 rounded">Signin</button>
-            </router-link>
-            <router-link :to="{ name: 'signup' }">
-                <button class="  hover:bg-orange-800 p-4 rounded">signup</button>
-            </router-link>
-        </div>
-        <div class="flex justify-center items-center text-5xl   font-extrabold">
-            <h1><span class="text-yellow-900 items-center  ">Discover</span> Recipe</h1>
-        </div>
-    </div>
-    <div class="flex justify-center flex-wrap space-y-2 mt-2 ">
-        <div class="flex flex-wrap items-center w-1/2 justify-center  border-2  rounded shadow-lg p-4  ">
-            <div class="w-80  p-2">
-                <div>Title or Ingridient</div>
-                <div class="relative w-full h-14">
-                    <input type="text" v-model="title"
-                        class="block p-2.5 w-full h-14 z-20 border-gray-900 text-sm text-gray-900 bg-gray-50 rounded-lg border-2   focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                        placeholder="Recipe title,duration(min),ingridient" required>
-                </div>
-            </div>
-            <div class="w-80  p-2">
-                <div class="flex justify-between">
-                    <div>Duration</div>
-                    <div>{{ duration }}</div>
-                </div>
-                <div class="relative w-full h-14">
-                    <input type="range" v-model="duration" min="10" max="200"
-                        class="block p-2.5 w-full h-14 z-20 border-gray-900 text-sm text-gray-900 bg-gray-50 rounded-lg border-2   focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                        placeholder="Recipe title,duration(min),ingridient" required>
-                </div>
-            </div>
-            <div class="w-50  p-2  justify-start items-end">
-                <div class="text-white">here</div>
-                <div></div>
-                <select v-model="categories"
-                    class="bg-gray-50 h-14 px-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="breakfast">Breakfast</option>
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">dinner</option>
-                </select>
-            </div>
-            <div class="w-50  p-2">
-                <div class="text-white">here</div>
-
-                <button @click="searchrecipe"
-                    class="flex justify-center items-center h-14  p-3   w-24 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Filter</button>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="flex text-teal-800 mt-4 items-center justify-center font-extrabold lg:text-4xl md:text-2xl sm:text-xl lg:pt-16 lg:pb-8 md:pt-14 md:pb-7 sm:pt-8 sm:pb-4">
-        Most Featured Food Recipe
-    </div>
-
     <div v-if="error" class="flex justify-center items-center">error</div>
     <div v-if="loading" class="flex justify-center items-center">loading...</div>
     <div v-else class="flex">
-        <div class="w-2/12">
+        <div class="flex justify-center w-3/12">
         </div>
-        <div class="flex w-10/12 flex-wrap p-5 justify-center items-center space-x-3 ">
-            <div class="card hover:border hover:shadow-xl hover:border-sky-800 duration-100 mt-4  max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                v-for="(rec, index) in recipe" :key="rec.id">
+        <div class="flex  w-10/12 flex-wrap  justify-center items-center space-x-3 ">
+            <div class="card hover:border hover:border-sky-800 duration-100 mt-2 hover:scale-100 max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                v-for="(rec, index) in result.recipe" :key="rec.id">
                 <div class="relative">
-                    <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[2]" />
-                    <button @click="managefavorite"
+                    <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[0]" />
+                    <!-- <div v-for="(image, index) in JSON.parse(rec.images).split(',,,,')" alt="" :key="image"></div> -->
+                    <button @click="managefavorite(rec.id, rec.isfavorite)"
                         class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
                         <div class="flex justify-center  pt-1 pl-3">
                             <svg v-if="rec.isfavorite" style="color: red" xmlns="http://www.w3.org/2000/svg" width="32"
@@ -86,7 +29,7 @@
                         </div>
                     </button>
                 </div>
-                <div class="p-4">
+                <div class="p-5">
                     <router-link :to="'/recipedetail/' + rec.id">
                         <div>
                             <h5
@@ -114,73 +57,78 @@
                             <div class="text-xs">Helpfull({{ rec.Like_number }})</div>
                         </div>
                     </div>
-                    <div class="mb-1 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
+                    <div class="mb-1font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
                         {{ rec.descriptions }}</div>
                     <div class="text-xs bottom-1 mb-3 ">By <button
                             class="font-bold text-xs italic underline hover:underline">{{ rec.user.full_name }}</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-3/12 flex justify-start">
+        </div>
+    </div>
 
-                </div>
-            </div>
-        </div>
-        <div class="w-2/12">
-        </div>
-    </div>
-    <div class="flex text-teal-800 mt-4 items-center justify-center font-extrabold lg:text-4xl md:text-2xl sm:text-xl lg:pt-16 lg:pb-8 md:pt-14 md:pb-7 sm:pt-8 sm:pb-4">
-        To Recipe Organizer
-    </div>
-    <div>
-        <div class="flex justify-center items-center  space-x-10">
-            <div class="space-y-2 m-2" v-for="user in users">
-                <div class="text-5xl h-24 w-24 rounded-full bg-orange-700 text-white flex items-center justify-center">
-                <div>
-                    {{user.full_name.charAt(0).toUpperCase()}}
-                </div>
-            </div>
-            <div class="font-bold">{{user.full_name}}</div>
-            <div>posted {{user.users_counted_recipe}} recipes</div>
-            </div>
-        </div>
-    </div>
 </template>
 <script setup >
 import StarRating from 'vue-star-rating'
-
-import { unauthenticatedquery } from '@/tools/queries';
-import { useMutation, useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
+import router from '../../router/index'
 import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
 import { favoriteStore } from '../../stores/favoritestore.js';
 import { likeStore } from '../../stores/likeStore.js'
-import router from '../../router/index'
-import { ref,computed } from 'vue';
-const title = ref('')
-const duration = ref(20)
-const categories = ref('lunch')
+import { ref, reactive, computed, onMounted } from 'vue'
+import { recipequery, search_query, addlikes } from '@/tools/queries';
+import { useMutation, useQuery } from '@vue/apollo-composable';
+import gql from 'graphql-tag';
+import { useRoute } from 'vue-router';
+const currentquery = ref(recipequery)
+const route = useRoute()
+const title = route.params.title ? `%${route.params.title}%` : ''
+const categories = route.params.id
+const ingridient = route.params.title ? `%${route.params.title}%` : ''
+const duration = route.params.duration
+const pages = ref(0)
+const limit = ref(10)
+const offset = ref(0)
+const loadmore = () => {
+    pages.value++;
+    offset.value = limit.value * pages.value
+
+}
+const variables2 = ref({
+    offset: offset.value,
+    limit: limit.value
+})
 const searchrecipe = () => {
-    router.push({ name: 'search', params: { id: categories.value, duration: duration.value, title: title.value } })
+    refetch()
 }
-const user = useStore()
-const { loading, result, error } = useQuery(
-    unauthenticatedquery, () => ({
-        offset: 0,
-        limit: 3
-    }), {
-    pollInterval: 1000,
-}
+
+const { error, loading, result, refetch } = useQuery(
+    search_query,
+    () => ({
+        title: route.params.title ? `%${route.params.title}%` : '',
+        categories: route.params.id,
+        ingridient: route.params.title ? `%${route.params.title}%` : '',
+        durations: route.params.duration
+    }),
+    {
+        pollInterval: 100,
+    },
+    { enabled: true }
 );
-const users = computed(() => result.value?.users)
-const recipe = computed(() => result.value?.recipe)
-
-
-
-
-const managefavorite = () => {
-    router.push('/login')
+const user = useStore()
+const favorite = favoriteStore()
+const managefavorite = (id, isfavorite) => {
+    if (!isfavorite) {
+        favorite.addtofavor(id)
+    }
+    else {
+        favorite.deletefavorite(id)
+    }
 }
 const likes = likeStore()
-const manalikes = (id, isliked) => {
+const managelikes = (id, isliked) => {
     if (isliked) {
         likes.deletelikes(id)
     }
@@ -188,7 +136,10 @@ const manalikes = (id, isliked) => {
         likes.addtolike(id)
     }
 }
+const singlerecipe = (id) => {
+    router.push('/recipedetail')
+}
+const rating = ref(1.45)
 </script>
-
 <style>
 </style>

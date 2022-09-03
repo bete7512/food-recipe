@@ -1,40 +1,16 @@
 <template>
-        <div class="flex justify-center py-4 ">
-          <div class="flex flex-wrap space-x-4">
-              <div class="w-80">
-                  <div>search by</div>
-                  <div class="relative w-full">
-                      <input type="search" id="search-dropdown"
-                      class="block p-2.5 w-full  z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border-2  border-gray-200 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                      placeholder="search by title ingredient" required>
-                    </div>
-                </div>
-                <div class="w-50 space-y-2  justify-start">
-                    <div>Filter by</div>
-                    <select id="categories"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value="Title"><button>Title</button></option>
-                        <option value="ingridient"><button>ingredient</button></option>
-                        <option value="duration"><button>duration</button></option>
-                    </select>
-                </div>
-              <div>
-                  <button
-                      class="flex  w-auto p-7 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Filter</button>
-              </div>
-          </div>
-      </div>
-
     <div v-if="error" class="flex justify-center items-center">error</div>
     <div v-if="loading" class="flex justify-center items-center">loading...</div>
     <div v-else class="flex">
         <div class="flex justify-center w-3/12">
         </div>
         <div class="flex  w-10/12 flex-wrap  justify-center items-center space-x-3 ">
-            <div class="card hover:border-2 hover:border-sky-800 duration-300 mt-2 hover:scale-105 max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                v-for="(rec, index) in result.recipe" :key="rec.id">
+            <div class="card hover:border h-96 hover:border-sky-800 duration-100 mt-2 hover:scale-100 max-w-sm  w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                v-for="(rec, index) in recipe" :key="rec.id">
                 <div class="relative">
-                    <img class="rounded-t-lg w-full h-48" :src="JSON.parse(rec.images).split(',,,,')[0]" />
+                    <img src="" alt="">
+                  
+                    <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[2]" />
                     <!-- <div v-for="(image, index) in JSON.parse(rec.images).split(',,,,')" alt="" :key="image"></div> -->
                     <button @click="managefavorite(rec.id, rec.isfavorite)"
                         class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
@@ -83,10 +59,10 @@
                             <div class="text-xs">Helpfull({{ rec.Like_number }})</div>
                         </div>
                     </div>
-                    <div class="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
+                    <div class="mb-1 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
                         {{ rec.descriptions }}</div>
-                    <div class="text-xs bottom-1 ">By <button
-                            class="font-bold text-xs italic underline hover:underline">{{ rec.user.name }}</button>
+                    <div class="text-xs bottom-1 mb-3">By <button
+                            class="font-bold text-xs italic underline hover:underline">{{ rec.user.full_name }}</button>
                     </div>
                 </div>
             </div>
@@ -94,11 +70,11 @@
         <div class="w-3/12 flex justify-start">
             <!-- <div class="w-full   h-96 p-10">
                 <div class="w-full  bg-gray-600 h-96 ">
-
                 </div>
             </div> -->
         </div>
     </div>
+    <div><button @click="loadmore">fetchMore</button></div>
 </template>
 <script setup >
 import StarRating from 'vue-star-rating'
@@ -107,14 +83,56 @@ import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
 import { favoriteStore } from '../../stores/favoritestore.js';
 import { likeStore } from '../../stores/likeStore.js'
-import { ref, reactive, computed, onMounted } from 'vue'
-import { recipequery, addlikes } from '@/tools/queries';
+import { onActivated, watch, ref, onBeforeMount, reactive, computed, onMounted } from 'vue'
+import { recipequery, search_query, addlikes } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
-const { error, loading, result } = useQuery(recipequery, null, {
-    pollInterval: 100,
-});
-// const router = useRouter()
+import apolloclient from '@/apollo';
+
+const pages = ref(1)
+const limit = ref(5)
+const offset = ref(0)
+const recipe = computed(() => result.value?.recipe ?? [])
+const loadmore = () => {
+    fetchMore({
+        variables: {
+            offset: offset.value,
+            // result.value.recipe.length,
+
+            limit: limit.value
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          // No new feed posts
+          if (!fetchMoreResult) return previousResult
+
+          // Concat previous feed with new feed posts
+          return {
+            ...previousResult,
+            recipe: [
+              ...previousResult.recipe,
+              ...fetchMoreResult.recipe,
+            ],
+          }
+        },
+    })
+    offset.value = limit.value * pages.value,
+        pages.value++;
+}
+
+
+const { error, loading, result, fetchMore } = useQuery(recipequery,
+    () => ({
+        offset: offset.value,
+        limit: limit.value
+    }),
+    {
+        fetchPolicy: 'cache-and-network',
+    },
+    {
+        pollInterval: 100,
+    },
+    { enabled: true });
+    console.log(recipe);
 const user = useStore()
 const favorite = favoriteStore()
 const managefavorite = (id, isfavorite) => {
@@ -137,7 +155,6 @@ const managelikes = (id, isliked) => {
 const singlerecipe = (id) => {
     router.push('/recipedetail')
 }
-const rating = ref(1.45)
 </script>
 <style>
 </style>

@@ -1,5 +1,5 @@
 <template>
-        <div class=" bg-blue-600 h-28 items-center flex justify-center text-6xl font-extrabold">
+        <div class=" bg-cyan-800 h-28 items-center flex justify-center text-5xl font-extrabold">
             <h1><span class="text-yellow-900">Discover</span> Recipe</h1>
         </div>
         <section class="">

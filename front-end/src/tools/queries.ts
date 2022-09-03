@@ -1,12 +1,12 @@
 import gql from "graphql-tag";
 const register = gql`
-mutation register($password: String!, $username: String!, $email: String!, $name: String!, ) {
-  register(arg1: {email: $email, name: $name,username:$username,password: $password}) {
+mutation MyMutation($full_name: String!, $Lname: String!, $email: String!, $username: String!, $password: String!) {
+  register(arg1: {full_name: $full_name, Lname: $Lname, email: $email, password: $password, username: $username}) {
     Success
   }
 }
 `
-const  signin= gql`
+const signin = gql`
 mutation login($password: String!, $username: String!) {
   login(arg1: {password: $password, username: $username}) {
     accessToken
@@ -14,11 +14,9 @@ mutation login($password: String!, $username: String!) {
 }
 `
 const addrecipe = gql`
-mutation addnewrecipe($title: String!, $instructions: String!, $images: String!, $descriptions: String!, $categories: String!, $durations: Int!, $ingredient: String!) {
-  insert_recipe(objects: {descriptions: $descriptions, images: $images, instructions: $instructions, title: $title, categories: $categories, durations: $durations, ingredient: $ingredient}) {
-    returning {
-      title
-    }
+mutation MyMutation($descriptions: String!, $durations: Int!, $title: String!, $instructions: String!, $ingredient: String!, $images: String!, $categories: String!) {
+  insert_recipe(objects: {title: $title, descriptions: $descriptions, durations: $durations, instructions: $instructions, ingredient: $ingredient, images: $images, categories: $categories}) {
+    affected_rows
   }
 }
 `
@@ -30,8 +28,8 @@ query MyQuery($id: Int!) {
 }
 `
 const recipequery = gql`
-query MyQuery {
-  recipe {
+query MyQuery($offset: Int!, $limit: Int!) {
+  recipe(offset: $offset, limit: $limit) {
     id
     title
     rating
@@ -47,22 +45,54 @@ query MyQuery {
     categories
     user {
       email
-      name
+      full_name
     }
     comments {
       comment
       commented_at
       star
       user {
-        name
+        full_name
       }
     }
   }
 }
 `
+
+const search_query = gql`
+query MyQuery($ingridient: String="", $categories: String="", $title: String="", $durations: Int = 0) {
+  recipe(where:{_or:[{_or:[{categories: {_eq: $categories}},{durations: {_eq: $durations}}]}, {_or:[{ingredient: {_ilike: $ingridient}}, {title: {_ilike: $title}}]}]}) {
+    id
+    title
+    rating
+    owner
+    instructions
+    Like_number
+    isliked
+    isfavorite
+    ingredient
+    images
+    durations
+    descriptions
+    categories
+    user {
+      email
+      full_name
+    }
+    comments {
+      comment
+      commented_at
+      star
+      user {
+        full_name
+      }
+    }
+}
+}
+`
 const favoritequery = gql`
-query MyQuery {
-  favorite {
+query MyQuery($offset: Int!, $limit: Int!) {
+  favorite(offset: $offset, limit: $limit) {
     recipe {
       Like_number
       categories
@@ -77,9 +107,9 @@ query MyQuery {
       isliked
       owner
       title
-      user {
+      user{
       email
-      name
+      full_name
     }
     }
   }
@@ -94,7 +124,7 @@ mutation MyMutation($recipe_id: Int!) {
   }
 }
  `
- const removefavorite = gql`
+const removefavorite = gql`
 mutation MyMutation($id: Int!) {
   delete_favorite(where: {recipe_id: {_eq: $id}}) {
     returning {
@@ -104,8 +134,8 @@ mutation MyMutation($id: Int!) {
 }
  `
 const unauthenticatedquery = gql`
-query MyQuery {
-  recipe {
+query MyQuery($offset: Int!, $limit: Int!) {
+  recipe(offset: $offset, limit: $limit) {
     title
     owner
     instructions
@@ -119,19 +149,26 @@ query MyQuery {
     Like_number
     user {
       email
-      name
+      full_name
     }
+  }
+  users(order_by: {users_counted_recipe: desc}, limit: 5, offset: 0) {
+    users_counted_recipe
+    full_name
+    email
+    username
+    id
   }
 }
 `
- const addlikes = gql`
+const addlikes = gql`
  mutation MyMutation($id:Int) {
   insert_likes_one(object: {recipe_id: $id}) {
     recipe_id
   }
 }
  `
- const deletelikes = gql`
+const deletelikes = gql`
  mutation MyMutation($id:Int) {
   delete_likes(where: {recipe_id: {_eq: $id}}) {
     returning {
@@ -140,7 +177,7 @@ query MyQuery {
   }
 }
  `
- const file_upload = gql`
+const file_upload = gql`
  mutation MyMutation($base64str: String!, $name: String!, $type: String!) {
   fileupload(base64str: $base64str, name: $name, type: $type) {
     file_path
@@ -148,7 +185,7 @@ query MyQuery {
 }
  `
 
- const recipe_by_id = gql`
+const recipe_by_id = gql`
  query MyQuery($id: Int!) {
   recipe_by_pk(id: $id) {
     title
@@ -172,13 +209,13 @@ query MyQuery {
       commented_at
       star
       user {
-        name
+        full_name
       }
     }
   }
 }
  `
- const comment_mutation = gql`
+const comment_mutation = gql`
 mutation MyMutation($recipe_id: Int!, $comment: String!,$star: Float!) {
   insert_comment(objects: { recipe_id: $recipe_id,comment: $comment, star: $star}) {
     returning {
@@ -191,8 +228,8 @@ mutation MyMutation($recipe_id: Int!, $comment: String!,$star: Float!) {
 
 const user_query = gql`
 query MyQuery($id: Int!) {
-  user(where: {id: {_eq: $id}}) {
-    name
+  users(where: {id: {_eq: $id}}) {
+    full_name
     id
     email
     username
@@ -215,5 +252,7 @@ query MyQuery($id: Int!) {
 }
 
 `
- export {register,signin,addrecipe,recipequery,checkfavorite,addtofavorite,removefavorite,addlikes,deletelikes,
-  favoritequery,unauthenticatedquery,file_upload,recipe_by_id,comment_mutation,user_query};
+export {
+  register, signin, addrecipe, recipequery, checkfavorite, addtofavorite, removefavorite, addlikes, deletelikes,
+  favoritequery, unauthenticatedquery, file_upload, recipe_by_id, comment_mutation, user_query,search_query
+};

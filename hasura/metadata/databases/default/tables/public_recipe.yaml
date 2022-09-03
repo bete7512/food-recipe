@@ -20,6 +20,13 @@ array_relationships:
         table:
           name: favorite
           schema: public
+  - name: likes
+    using:
+      foreign_key_constraint_on:
+        column: recipe_id
+        table:
+          name: likes
+          schema: public
 computed_fields:
   - name: Like_number
     definition:
@@ -74,9 +81,9 @@ select_permissions:
         - title
       computed_fields:
         - Like_number
-        - isliked
         - rating
       filter: {}
+      allow_aggregations: true
   - role: user
     permission:
       columns:
@@ -95,7 +102,26 @@ select_permissions:
         - isliked
         - rating
       filter: {}
+      allow_aggregations: true
 update_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - id
+        - title
+        - instructions
+        - images
+        - durations
+        - ingredient
+        - owner
+        - categories
+        - descriptions
+      filter:
+        owner:
+          _eq: X-Hasura-User-Id
+      check: null
+      set:
+        owner: x-hasura-User-Id
   - role: user
     permission:
       columns:
@@ -112,6 +138,8 @@ update_permissions:
         owner:
           _eq: X-Hasura-User-Id
       check: null
+      set:
+        owner: x-hasura-User-Id
 delete_permissions:
   - role: user
     permission:

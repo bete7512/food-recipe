@@ -7,6 +7,7 @@ import favorite from '../components/authenticated/favorite.vue'
 import main from '../components/authenticated/main.vue'
 import recipedetailVue from '@/components/authenticated/recipedetail.vue'
 // import { useStore } from '../stores/store.js';
+import searchVue from '@/components/authenticated/search.vue'
 import emailsentmodal from '../components/unauthenticated/emailsentmodal.vue'
 import { useStore } from '../stores/store.js'
 import createrecipe from '../components/authenticated/create-recipe.vue'
@@ -35,23 +36,28 @@ const router = createRouter({
     },
     {
       name: 'main',
-      path: '/main',
+      path: '/main/:id',
       component: main,
       children: [
         {
+          name: 'feeds',
+          path: '',
+          component: feeds
+        },
+        {
           name: 'addrecipe',
-          path: 'addnewrecipe',
+          path: '',
           component: createrecipe
         },
         {
           name: 'favorite',
-          path: 'savedrecipe',
+          path: '',
           component: favorite
         },
         {
-          name: 'feeds',
-          path: 'feeds',
-          component: feeds
+          name:'search',
+          path:'/search/:id',
+          component:searchVue
         }
       ]
     },
@@ -59,7 +65,7 @@ const router = createRouter({
   ]
 })
 router.beforeEach(async (to) => {
-  const publicPages = ['/', '/login', '/signup','/recipedetail/:id'];
+  const publicPages = ['/', '/login', '/signup','/recipedetail/:id','search/:id'];
   const authRequired = !publicPages.includes(to.path);
   const user = useStore();
   if (authRequired && !window.localStorage.getItem("Apollotoken")) {
@@ -68,3 +74,11 @@ router.beforeEach(async (to) => {
   }
 });
 export default router
+
+
+/*
+const search_query = gql`
+query MyQuery($ingridient: String="", $categories: String="", $title: String="", $durations: Int = 10) {
+  recipe(where:_and:[{_and:[{categories: {_eq: $categories}},{durations: {_eq: $durations}}]}, {_or:[{ingredient: {_ilike: $ingridient}}, {title: {_ilike: $title}}]}]) {
+  id
+  */

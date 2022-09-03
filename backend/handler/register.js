@@ -2,10 +2,10 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const handler = async (req, res) => {
-  const { name, username, email, password } = req.body.input.arg1;
+  const { Fname,Lname, username, email, password } = req.body.input.arg1;
   const finduser = require('../checker/findusername')
   const { data, error } = await finduser({ username })
-  const user = data["user"][0]
+  const user = data["users"][0]
   // console.log(user);
   if (user) {
     return res.status(400).json({
@@ -16,7 +16,8 @@ const handler = async (req, res) => {
   }
   else {
     const tokenContents = {
-      name: name,
+      Fname: Fname,
+      Lname:Lname,
       username: username,
       email: email,
       password: password

@@ -13,13 +13,14 @@ export const useStore = defineStore("user", {
         emailmodal: false
     }),
     actions: {
-        async signup(name, username, email, password,) {
+        async signup(Fname,Lname, username, email, password,) {
             const response = await apolloClient.mutate({
                 mutation: register,
                 variables: {
+                    Fname: Fname,
+                    Lname: Lname,
                     username: username,
                     email: email,
-                    name: name,
                     password: password
                 }
             })
@@ -43,7 +44,7 @@ export const useStore = defineStore("user", {
             if (window.localStorage.getItem("Apollotoken")) {
                 this.username = username
                 this.isauthenticated = true,
-                router.push('/main/feeds');
+                router.push({name:'feeds',params:{id:'recipe'}});
             }
         },
         logout() {

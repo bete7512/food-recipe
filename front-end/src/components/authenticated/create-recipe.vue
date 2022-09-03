@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center ">
-        <div class="align-middle border-2 shadow-transparent">
+        <div class="align-middle inline-flex border-2 shadow-transparent">
             <div class="popup-content align-middle">
                 <h2 class="text-center text-lg font-bold pt-2">Add new recipe</h2>
                 <!-- <form @submit.prevent=""> -->
@@ -134,11 +134,11 @@ const fileUpload = () => {
             console.log(error);
         }
         path.value.push(response["data"]["fileupload"]["file_path"])
-        console.log("on test"+file.value);
-        file.value= ''
-        base64str.value = ''
-        changefile('')
-        console.log("after test"+file.value);
+        // console.log("on test"+file.value);
+        // file.value= ''
+        // base64str.value = ''
+        // changefile('')
+        // console.log("after test"+file.value);
         
     })
 }

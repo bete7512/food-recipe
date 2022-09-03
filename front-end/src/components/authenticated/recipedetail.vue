@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-5 lg:w-1/2 md:w-full sm:w-full border-2 ">
+        <div class="p-5 lg:w-1/2 md:w-full sm:w-full border border-cyan-600 ">
             <div v-if="error">something were wrong</div>
             <div v-if="loading">loading</div>
             <div v-else>
@@ -77,7 +77,7 @@
                                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                             </svg>
                         </div>
-                        <button class="font-bold underline text-orange-600">{{ comment.user.name }}</button>
+                        <button class="font-bold underline text-orange-600">{{ comment.user.full_name }}</button>
                     </div>
                     <div class="flex space-x-2 px-2">
                         <div>
@@ -95,9 +95,9 @@
         </div>
     </div>
     <div class="flex justify-center  mt-2">
-        <div class="lg:w-1/2 md:w-full  sm:w-full p-8 border-2 h-auto space-y-3">
+        <div class="lg:w-1/2 md:w-full  sm:w-full p-8 border border-slate-800 h-auto space-y-3">
             <div>Write your comment</div>
-            <textarea class="rounded border-2 px-2 h-20 py-1 w-full" v-model="comment" type="text"
+            <textarea class="rounded border border-black px-2 h-20 py-1 w-full" v-model="comment" type="text"
                 placeholder="write your comment"></textarea>
 
 

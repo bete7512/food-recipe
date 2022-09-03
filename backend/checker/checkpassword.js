@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const HASURA_OPERATION = `
 query password($username:String!) {
-  user(where: {username: {_eq: $username}}) {
+  users(where: {username: {_eq: $username}}) {
     password
   }
 }
@@ -26,8 +26,8 @@ const execute = async (variables) => {
 const passwordcheck = async (username) => {
     const { data } = await execute(username);
     console.log('for the purpose of it')
-    console.log(data["user"][0]["password"])
-    const old = data["user"][0]["password"]
+    console.log(data["users"][0]["password"])
+    const old = data["users"][0]["password"]
     if (old) {
         return old
     }
