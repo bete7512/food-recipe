@@ -96,7 +96,6 @@
     </section>
 </template>
 <script setup>
-import Emailsentmodal from './emailsentmodal.vue'
 import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { useMutation,} from '@vue/apollo-composable';

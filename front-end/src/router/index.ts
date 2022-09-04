@@ -6,9 +6,7 @@ import feeds from '../components/authenticated/feeds.vue'
 import favorite from '../components/authenticated/favorite.vue'
 import main from '../components/authenticated/main.vue'
 import recipedetailVue from '@/components/authenticated/recipedetail.vue'
-// import { useStore } from '../stores/store.js';
 import searchVue from '@/components/authenticated/search.vue'
-import emailsentmodal from '../components/unauthenticated/emailsentmodal.vue'
 import { useStore } from '../stores/store.js'
 import createrecipe from '../components/authenticated/create-recipe.vue'
 const router = createRouter({
