@@ -2,7 +2,7 @@ actions:
   - name: fileupload
     definition:
       kind: synchronous
-      handler: http://host.docker.internal:3000/fileupload
+      handler: http://host.docker.internal:4000/fileupload
     permissions:
       - role: user
   - name: login
