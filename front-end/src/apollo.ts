@@ -13,7 +13,6 @@ const httpLink = createHttpLink({
     fetch,
     headers:getHeaders()
 })
-// const cache = new InMemoryCache()
 const apolloclient = new ApolloClient({
     link:httpLink,
     cache:new InMemoryCache()

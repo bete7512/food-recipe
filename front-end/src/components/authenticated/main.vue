@@ -57,7 +57,6 @@
                             </router-link>
                         </li>
                         <li>
-                            <!-- <button class="flex p-4 px-8 hover:bg-slate-400 rounded">favorite</button> -->
                             <router-link :to="{ name: 'favorite', params: { id: 'savedrecipe' } }">
                                 <span
                                     class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Saved
@@ -129,7 +128,6 @@
 
 <script setup lang="ts">
 import router from '../../router/index'
-// import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useStore } from '../../stores/store.js';
 import { ref } from 'vue';
 const title = ref('')

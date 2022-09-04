@@ -21,7 +21,6 @@
             <div v-if="error">something were wrong</div>
             <div v-if="loading">loading</div>
             <div v-else>
-                <!-- <div></div> -->
                 <div class=" font-extrabold text-3xl font-serif">{{ result.recipe_by_pk.title }}</div>
                 <StarRating v-model:rating="result.recipe_by_pk.rating" :read-only="true" :increment="0.01"
                     :star-size="20">
@@ -125,8 +124,6 @@
 </template>
 <script setup >
 import StarRating from 'vue-star-rating'
-
-import router from '../../router/index'
 import { useRoute } from 'vue-router'
 import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
@@ -141,18 +138,12 @@ const rating = ref(0)
 const imageat = ref(0)
 const comment = ref('')
 const id = route.params.id
-
-
-const { error, loading, result } = useQuery(recipe_by_id
-    ,
+const { error, loading, result } = useQuery(recipe_by_id ,
     () => ({
         id: id
     }), {
     pollInterval: 100,
-}
-);
-// console.log(result);
-// console.log("hello"+typeof parseFloat(rating.value))
+});
 const { mutate: addcomment } = useMutation(
     comment_mutation,
     () => ({
@@ -163,6 +154,4 @@ const { mutate: addcomment } = useMutation(
         },
     })
 )
-
-
 </script>

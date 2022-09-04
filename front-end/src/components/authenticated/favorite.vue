@@ -84,9 +84,8 @@ import { favoritequery } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 const pages = ref(0)
-const limit = ref(2)
+const limit = ref(6)
 const offset = ref(0)
-
 const loadmore = ()=>{
     fetchMore({
         limit:limit.value,

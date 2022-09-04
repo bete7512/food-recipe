@@ -74,9 +74,4 @@ router.beforeEach(async (to) => {
 export default router
 
 
-/*
-const search_query = gql`
-query MyQuery($ingridient: String="", $categories: String="", $title: String="", $durations: Int = 10) {
-  recipe(where:_and:[{_and:[{categories: {_eq: $categories}},{durations: {_eq: $durations}}]}, {_or:[{ingredient: {_ilike: $ingridient}}, {title: {_ilike: $title}}]}]) {
-  id
-  */
+

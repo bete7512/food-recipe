@@ -1,10 +1,8 @@
 <template>
     <div class="flex justify-center ">
-        <div class="align-middle inline-flex border-2 shadow-transparent">
             <div class="popup-content align-middle">
                 <h2 class="text-center text-lg font-bold pt-2">Add new recipe</h2>
-                <!-- <form @submit.prevent=""> -->
-                <div class="grid sm:grid-cols-1 lg:grid-cols-2 space-x-10">
+                <div class="flex flex-wrap space-x-10">
                     <div class="mx-10">
                         <div class="">
                             <div class="text-2xl font  border-b-gray-900 bg">Title</div>
@@ -34,8 +32,6 @@
                         </div>
                         <div class="">
                             <div class="text-2xl font  border-b-gray-900">Ingridient</div>
-                            <!-- <input type="text" class="border-2 p-3 bg-slate-300 border-black h-10 py-2 w-80 rounded"
-                                    v-model="ingridient[0]" size="50" placeholder="ingredient" :id="key"> -->
                             <div class="space-x-2 py-2" v-for="(key, index) in ingredientcounter" :key="key">
                                 <div class="flex space-x-2">
                                     <input type="text"
@@ -71,10 +67,6 @@
                             <div>
                                 <div class="grid grid-cols-3 space-x-3" v-for="(imageurl, index) in path">
                                         <img :src="imageurl" alt="no image" class="w-20 m-2 h-20"/>
-                                    
-                                    <!-- <button @click="removenewinstructions"
-                                        class="flex items-center justify-center "><span
-                                            class="text-base h-8 w-8 font-extrabold text-center text-black border-2 border-slate-900 rounded-full">x</span></button> -->
                                 </div>
                                 <div class="flex items-center mt-2 bg-grey-lighter">
 
@@ -93,11 +85,9 @@
                         </div>
                     </div>
                 </div>
+                <div></div>
                 <button @click="addnewrecipe"
-                    class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">publish</button>
-                <!-- </form>  -->
-            </div>
-        </div>
+                    class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">publish</button>            </div>
     </div>
 </template>
 <script setup>
@@ -133,30 +123,20 @@ const fileUpload = () => {
         if (error) {
             console.log(error);
         }
-        path.value.push(response["data"]["fileupload"]["file_path"])
-        // console.log("on test"+file.value);
-        // file.value= ''
-        // base64str.value = ''
-        // changefile('')
-        // console.log("after test"+file.value);
-        
+        path.value.push(response["data"]["fileupload"]["file_path"])       
     })
 }
 const changefile = async (e) => {
     file.value = e.target.files[0];
     const reader = new FileReader();
     if (e.target.files[0]) {
-        console.log("wellcome to file");
         reader.readAsBinaryString(e.target.files[0]);
     }
     reader.onload = () => {
-        console.log("welcome readload");
         base64str.value = btoa(reader.result);
-        console.log("I am from here" + base64str.value);
     };
     reader.onload()
     reader.onerror = function () {
-        console.log('Unable to parse file');
     };
     reader.onerror()
 }

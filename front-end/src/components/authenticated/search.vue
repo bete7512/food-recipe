@@ -9,7 +9,6 @@
                 v-for="(rec, index) in result.recipe" :key="rec.id">
                 <div class="relative">
                     <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[0]" />
-                    <!-- <div v-for="(image, index) in JSON.parse(rec.images).split(',,,,')" alt="" :key="image"></div> -->
                     <button @click="managefavorite(rec.id, rec.isfavorite)"
                         class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
                         <div class="flex justify-center  pt-1 pl-3">
@@ -139,7 +138,6 @@ const managelikes = (id, isliked) => {
 const singlerecipe = (id) => {
     router.push('/recipedetail')
 }
-const rating = ref(1.45)
 </script>
 <style>
 </style>

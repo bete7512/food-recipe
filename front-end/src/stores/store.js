@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia'
-import { register, signin, checkfavorite, addtofavorite, recipequery } from '@/tools/queries';
+import { register, signin } from '@/tools/queries';
 import { provideApolloClient } from '@vue/apollo-composable';
 import apolloClient from './apolloclient'
 import router from '../router/index'
-import gql from 'graphql-tag'
 provideApolloClient(apolloClient);
 export const useStore = defineStore("user", {
     state: () => ({
@@ -26,7 +25,6 @@ export const useStore = defineStore("user", {
             })
             if(response.data.register.Success){
                 return response.data.register.Success
-                // router.push("/login")
             }
             else{
                 return null
@@ -51,13 +49,9 @@ export const useStore = defineStore("user", {
             window.localStorage.removeItem('Apollotoken');
             localStorage.removeItem('user');
             router.push('/');
-
         },
-
     },
-
     getters: {
-
     },
     persist: {
         enabled: true

@@ -68,10 +68,6 @@
             </div>
         </div>
         <div class="w-3/12 flex justify-start">
-            <!-- <div class="w-full   h-96 p-10">
-                <div class="w-full  bg-gray-600 h-96 ">
-                </div>
-            </div> -->
         </div>
     </div>
     <div><button @click="loadmore">fetchMore</button></div>
@@ -113,8 +109,6 @@ const loadmore = () => {
     })
 
 }
-
-
 const { error, loading, result, fetchMore } = useQuery(recipequery,
     () => ({
         offset: offset.value,
@@ -122,9 +116,7 @@ const { error, loading, result, fetchMore } = useQuery(recipequery,
     }),
     {
         pollInterval: 100,
-    },
-    { enabled: true });
-console.log(recipes);
+    } );
 const user = useStore()
 const favorite = favoriteStore()
 const managefavorite = (id, isfavorite) => {

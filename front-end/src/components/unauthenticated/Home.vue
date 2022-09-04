@@ -176,7 +176,6 @@ const loadmore = () => {
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult || fetchMoreResult.recipe.length === 0) return previousResult
              return {
-                // recipes : previousResult.recipe.concat(fetchMoreResult.recipe),
                 ...previousResult,
                 recipes: [
                   ...previousResult.recipe,

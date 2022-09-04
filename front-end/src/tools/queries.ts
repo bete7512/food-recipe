@@ -20,13 +20,7 @@ mutation MyMutation($descriptions: String!, $durations: Int!, $title: String!, $
   }
 }
 `
-const checkfavorite = gql`
-query MyQuery($id: Int!) {
-  favorite(where: {recipe_id: {_eq: $id}}) {
-    recipe_id
-  }
-}
-`
+
 const recipequery = gql`
 query MyQuery($offset: Int!, $limit: Int!) {
   recipe(offset: $offset, limit: $limit) {
@@ -252,6 +246,6 @@ query MyQuery($id: Int!) {
 
 `
 export {
-  register, signin, addrecipe, recipequery, checkfavorite, addtofavorite, removefavorite, addlikes, deletelikes,
+  register, signin, addrecipe, recipequery, addtofavorite, removefavorite, addlikes, deletelikes,
   favoritequery, unauthenticatedquery, file_upload, recipe_by_id, comment_mutation, user_query,search_query
 };
