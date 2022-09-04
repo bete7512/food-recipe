@@ -24,8 +24,8 @@ input SignInput {
 }
 
 input SignupInput {
-  Fname: String!
-  Lname: String!
+  fname: String!
+  lname: String!
   email: String!
   username: String!
   password: String!
