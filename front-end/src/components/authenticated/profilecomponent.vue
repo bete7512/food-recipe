@@ -35,7 +35,6 @@
   </div>
 </template>
 <script setup >
-import { useStore } from '../../stores/store.js';
 import { onMounted } from 'vue';
 import { defineProps, defineEmits } from 'vue';
 const emit = defineEmits(['cancelprofile'])

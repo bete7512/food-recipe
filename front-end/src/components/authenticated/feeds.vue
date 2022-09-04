@@ -6,10 +6,10 @@
         </div>
         <div class="flex  w-10/12 flex-wrap  justify-center items-center space-x-3 ">
             <div class="card hover:border h-96 hover:border-sky-800 duration-100 mt-2 hover:scale-100 max-w-sm  w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                v-for="(rec, index) in recipe" :key="rec.id">
+                v-for="(rec, index) in recipes" :key="rec.id">
                 <div class="relative">
                     <img src="" alt="">
-                  
+
                     <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[2]" />
                     <!-- <div v-for="(image, index) in JSON.parse(rec.images).split(',,,,')" alt="" :key="image"></div> -->
                     <button @click="managefavorite(rec.id, rec.isfavorite)"
@@ -89,34 +89,64 @@ import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 import apolloclient from '@/apollo';
 
-const pages = ref(1)
+const pages = ref(0)
 const limit = ref(5)
 const offset = ref(0)
-const recipe = computed(() => result.value?.recipe ?? [])
+const recipes = computed(() => result.value?.recipe ?? [])
+console.log("pages" + pages.value + "offset" + offset.value);
 const loadmore = () => {
+    // offset.value = limit.value * pages.value,
+    // pages.value++;
     fetchMore({
         variables: {
-            offset: offset.value,
+            offset: 3,
+            // offset.value,
             // result.value.recipe.length,
 
             limit: limit.value
         },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          // No new feed posts
-          if (!fetchMoreResult) return previousResult
-
-          // Concat previous feed with new feed posts
-          return {
-            ...previousResult,
-            recipe: [
-              ...previousResult.recipe,
-              ...fetchMoreResult.recipe,
-            ],
-          }
-        },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult || fetchMoreResult.recipe.length === 0) return previousResult
+             return {
+                // recipes : previousResult.recipe.concat(fetchMoreResult.recipe),
+                ...previousResult,
+                recipes: [
+                  ...previousResult.recipe,
+                  ...fetchMoreResult.recipe,
+                ],
+            }
+            },
     })
-    offset.value = limit.value * pages.value,
-        pages.value++;
+
+
+
+
+    // fetchMore({
+    //       query: MORE_COMMENTS_QUERY,
+    //       variables: { cursor: cursor },
+    //       updateQuery: (previousResult, { fetchMoreResult }) => {
+    //         const previousEntry = previousResult.entry;
+    //         const newComments = fetchMoreResult.moreComments.comments;
+    //         const newCursor = fetchMoreResult.moreComments.cursor;
+
+    //         return {
+    //           // By returning `cursor` here, we update the `fetchMore` function
+    //           // to the new cursor.
+    //           cursor: newCursor,
+    //           entry: {
+    //             // Put the new comments in the front of the list
+    //             comments: [...newComments, ...previousEntry.comments]
+    //           },
+    //           __typename: previousEntry.__typename
+    //         };
+    //       }
+    //     })
+    //   }
+
+
+
+
+
 }
 
 
@@ -128,11 +158,11 @@ const { error, loading, result, fetchMore } = useQuery(recipequery,
     {
         fetchPolicy: 'cache-and-network',
     },
-    {
-        pollInterval: 100,
-    },
+    // {
+    //     pollInterval: 100,
+    // },
     { enabled: true });
-    console.log(recipe);
+console.log(recipes);
 const user = useStore()
 const favorite = favoriteStore()
 const managefavorite = (id, isfavorite) => {

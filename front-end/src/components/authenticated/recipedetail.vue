@@ -21,9 +21,16 @@
             <div v-if="error">something were wrong</div>
             <div v-if="loading">loading</div>
             <div v-else>
-                <div class=" font-extrabold text-3xl font-serif">Title</div>
-                <div class="font-thin text-3xl">
-                    {{ result.recipe_by_pk.title }}
+                <!-- <div></div> -->
+                <div class=" font-extrabold text-3xl font-serif">{{ result.recipe_by_pk.title }}</div>
+                <StarRating v-model:rating="result.recipe_by_pk.rating" :read-only="true" :increment="0.01"
+                    :star-size="20">
+                </StarRating>
+                <div class="font-bold  text-3xl"> Likes({{result.recipe_by_pk.Like_number}})  </div>
+                <div class="relative my-4">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
                 </div>
                 <div class=" font-extrabold text-3xl font-serif">Descriptions</div>
                 <div class="font-thin text-xl">{{ result.recipe_by_pk.descriptions }}</div>
@@ -67,28 +74,36 @@
                 <div class="font-thin text-xl">{{ result.recipe_by_pk.durations }}</div>
                 <div class=" font-extrabold text-3xl font-serif">Categories</div>
                 <div class="font-thin text-xl">{{ result.recipe_by_pk.categories }}</div>
-                <div class=" font-extrabold text-3xl font-serif ">Reviews</div>
+                <div class=" font-extrabold text-3xl mb-4 text-gray-500 font-serif ">Reviews</div>
+                <div class="relative my-4">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                </div>
                 <div class="py-2" v-for="comment in result.recipe_by_pk.comments" :key="comment">
-                    <div class="flex space-x-2 items-center">
-                        <div class="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                class="bi bi-person" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                            </svg>
+                    <div class=" space-x-2 ">
+                        <div class="flex space-x-2 items-center">
+                            <div class="w-12 h-12 bg-gray-500 rounded-full flex justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                    class="bi bi-person" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                </svg>
+                            </div>
+                            <button class="text-orange-600 hover:underline ">{{ comment.user.full_name }}</button>
                         </div>
-                        <button class="font-bold underline text-orange-600">{{ comment.user.full_name }}</button>
+                        <div class="font-bold  pl-9">
+                            <div class="flex space-x-2 ">
+                                <StarRating class="justify-end" :read-only="true" v-model:rating="comment.star"
+                                    :increment="0.05" active-color="#d6612d" :star-size="8"></StarRating>
+                                <div>
+                                    {{ comment.commented_at }}
+                                </div>
+                            </div>
+                            <div class="">{{ comment.comment }}</div>
+                        </div>
                     </div>
-                    <div class="flex space-x-2 px-2">
-                        <div>
-                            <StarRating class="justify-end" :read-only="true" v-model:rating="comment.star"
-                                :increment="0.05" active-color="#d6612d" :star-size="8"></StarRating>
-                        </div>
-                        <div>
-                            {{ comment.commented_at }}
-                        </div>
-                    </div>
-                    <div>{{ comment.comment }}</div>
+
                 </div>
 
             </div>

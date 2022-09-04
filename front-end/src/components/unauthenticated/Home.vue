@@ -95,7 +95,7 @@
                             </h5>
                         </div>
                     </router-link>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between text-black">
                         <StarRating v-model:rating="rec.rating" :read-only="true" :increment="0.01" :star-size="12">
                         </StarRating>
                         <div class="flex space-x-1 items-center">

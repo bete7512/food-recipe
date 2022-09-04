@@ -30,6 +30,7 @@ query MyQuery($id: Int!) {
 const recipequery = gql`
 query MyQuery($offset: Int!, $limit: Int!) {
   recipe(offset: $offset, limit: $limit) {
+   __typename
     id
     title
     rating
@@ -117,10 +118,8 @@ query MyQuery($offset: Int!, $limit: Int!) {
 `
 const addtofavorite = gql`
 mutation MyMutation($recipe_id: Int!) {
-  insert_favorite(objects: {recipe_id: $recipe_id}) {
-    returning {
-      recipe_id
-    }
+  insert_favorite_one(object: {recipe_id: $recipe_id}) {
+    recipe_id
   }
 }
  `
@@ -141,8 +140,8 @@ query MyQuery($offset: Int!, $limit: Int!) {
     instructions
     ingredient
     images
-    id
     rating
+    id
     durations
     descriptions
     categories
