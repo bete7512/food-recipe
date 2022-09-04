@@ -29,6 +29,7 @@ export const useStore = defineStore("user", {
             else{
                 return null
             }
+            // return response.data.register.Success
         },
         async login(username, password){
             const result = await apolloClient.mutate({

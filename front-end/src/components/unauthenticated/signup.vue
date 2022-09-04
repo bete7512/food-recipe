@@ -70,6 +70,7 @@
                             password? </a>
                     </div>
                 </div>
+                <div class="text-cyan-600">{{modal}}</div>
                 <div class="pt-2">
                     <button v-on:click="onSubmit" type="submit"
                         class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
@@ -107,29 +108,25 @@ const schema = Yup.object().shape({
     acceptTerms: Yup.string()
         .required('Accept Ts & Cs is required')
 });
-
-
 const fname = ref('')
 const lname = ref('')
 const email = ref('')
 const username = ref('')
 const password1 = ref('')
 const password2 = ref('')
-
-
 const user = useStore()
-const registersuccessfully = () => {
-   
-}
-const onSubmit = (values)=>{
+const modal = ref('')
+const onSubmit = async (values)=>{
     if(values){
-        user.signup(
-            fname.value,
-            lname.value,
-           username.value,
-           email.value,
-           password1.value
-        )
+    const success = await user.signup(  
+                                        fname.value,
+                                         lname.value,
+                                         username.value,
+                                        email.value,
+                                        password1.value
+                                        )
+                                    modal.value = success
+                                        console.log(success);
     }
     else {
         console.log("there is something");
