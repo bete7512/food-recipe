@@ -1,6 +1,6 @@
 const HASURA_OPERATION = `
 query test($username: String!) {
-  user(where: {username: {_eq: $username}}) {
+  users(where: {username: {_eq: $username}}) {
     username
   }
 }

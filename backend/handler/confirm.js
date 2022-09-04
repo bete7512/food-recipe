@@ -2,11 +2,12 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
  require('dotenv').config()
  const HASURA_SIGNUP_OPERATION = `
- mutation Signup($name:String!,$username:String!,$email:String!,$password:String!){
-   insert_user_one(object: {name:$name,username:$username, email: $email, password:$password}) {
-     id
-   }
- }
+ mutation MyMutation($username: String!, $password: String!, $email: String!, $Lname: String!, $Fname: String!) {
+  insert_users_one(object: {fname: $Fname, lname: $Lname, email: $email, username: $username, password: $password}) {
+    id
+  }
+}
+
  `;
  const execute = async (variables) => {
   const fetchResponse = await fetch(
@@ -33,7 +34,8 @@ const handler = async (req, res) => {
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashed = bcrypt.hashSync(payload.password, salt);
     const user = {
-        name: payload.name,
+        Fname: payload.Fname,
+        Lname: payload.Lname,
         email: payload.email,
         password: hashed,
         username: payload.username

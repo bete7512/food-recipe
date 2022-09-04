@@ -1,19 +1,37 @@
 <template>
-    <div class=" bg-blue-600 h-28 items-center flex justify-center text-6xl font-extrabold">
+    <div class=" bg-cyan-800 h-28 items-center flex justify-center text-5xl font-extrabold">
         <h1><span class="text-yellow-900">Discover</span> Recipe</h1>
     </div>
+    <!-- <section v-if="signupemailmodal" class="">
+        <div class=" items-center  px-5  lg:px-20 bg-green-600">
+            <div
+                class="flex flex-col h-96 w-full max-w-md shadow-xl p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-green rounded-lg md:mt-0">
+                <div class="mt-8">
+                    <div class="mt-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
     <section class="">
         <div class=" items-center px-5 py-12 lg:px-20">
             <div
-                class="flex flex-col w-full max-w-md shadow-xl p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-white rounded-lg md:mt-0">
+                class="flex flex-col w-full max-w-md shadow-xl p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-green rounded-lg md:mt-0">
                 <div class="mt-8">
                     <div class="mt-2">
                         <div class="space-y-3">
 
                             <div>
-                                <label for="name" class="block text-sm font-medium text-neutral-600">Name</label>
+                                <label for="name" class="block text-sm font-medium text-neutral-600">First Name</label>
                                 <div class="mt-1">
-                                    <input id="name" v-model="name" type="text" autocomplete="name" placeholder="your name"
+                                    <input id="name" v-model="Fname" type="text" autocomplete="name" placeholder="your first name"
+                                        class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-neutral-600">Last name</label>
+                                <div class="mt-1">
+                                    <input id="name" v-model="Lname" type="text" autocomplete="name" placeholder="your last name"
                                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
                                 </div>
                             </div>
@@ -33,6 +51,7 @@
                                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
                                 </div>
                             </div>
+                            
                             <div class="space-y-1">
                                 <label for="password" class="block text-sm font-medium text-neutral-600"> Password </label>
                                 <div class="mt-1">
@@ -41,7 +60,7 @@
                                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
                                 </div>
                             </div>
-    
+   
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
                                     <input type="checkbox" placeholder="Your password"
@@ -74,7 +93,6 @@
             </div>
         </div>
     </section>
-<Emailsentmodal v-if="user.emailmodal"></Emailsentmodal>
 </template>
 <script setup>
 import Emailsentmodal from './emailsentmodal.vue'
@@ -85,7 +103,9 @@ import { useStore } from '../../stores/store.js';
 const router = useRouter()
 const route = useRoute()
 const email = ref('')
-const name = ref('')
+const Fname = ref('')
+const Lname = ref('')
+
 const username = ref('')
 const password = ref('')
 const passwordii = ref('')
@@ -96,11 +116,13 @@ const signupemailmodal = ref(false)
 const user = useStore()
 const registersuccessfully = () => {
     user.signup(
-        name.value,
+        Fname.value,
+        Lname.value,
        username.value,
        email.value,
        password.value
     )
+    signupemailmodal.value = true
 }
 </script>
 <style scoped>

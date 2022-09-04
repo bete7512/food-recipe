@@ -5,8 +5,8 @@ const handler = async (req, res) => {
   const { username, password } = req.body.input.arg1;
   const finduser = require('../checker/findusername')
   const { data, error } = await finduser({ username })
-  const user = data["user"][0]
-  console.log(data["user"][0])
+  const user = data["users"][0]
+  console.log(data["users"][0])
  
   if (!user) {
     return res.status(400).json({
@@ -34,7 +34,7 @@ const handler = async (req, res) => {
     console.log(token)
     return res.json({
       accessToken: token,
-      ...data.user
+      ...data.users
     })
   }
 };

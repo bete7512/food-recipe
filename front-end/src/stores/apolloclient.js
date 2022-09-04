@@ -1,24 +1,3 @@
-// import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client/core";
-// const getHeaders = () => {
-//   const token = window.localStorage.getItem("Apollotoken");
-//   if (token) {
-//     return `Bearer ${token}`;
-//   }
-//   return ''
-// };
-// const httpLink = createHttpLink({
-//   uri: 'http://localhost:8080/v1/graphql',
-//   headers:
-//     {
-//       Authorization: getHeaders() || ''
-//     }
-//     || ''
-// })
-// const apolloClient = new ApolloClient({
-//   link: httpLink,
-//   cache: new InMemoryCache()
-// })
-// export default apolloClient;
 import { ApolloClient,createHttpLink,InMemoryCache } from "@apollo/client/core";
 const getHeaders = () => {
     const headers = {};
@@ -30,9 +9,10 @@ const getHeaders = () => {
   };
 const httpLink = createHttpLink({
     uri:'http://localhost:8080/v1/graphql',
+    fetch,
     headers:getHeaders()
 })
-// const cache = new InMemoryCache()
+
 const apolloclient = new ApolloClient({
     link:httpLink,
     cache:new InMemoryCache()
