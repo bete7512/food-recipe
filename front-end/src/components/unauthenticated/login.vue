@@ -74,29 +74,27 @@ import { ref } from 'vue';
 import { computed } from 'vue';
 
 const user = useStore()
-// const username = ref('')
-// const password = ref('')
-const simpleSchema = {
-  username(value) {
-    if(
-        
-    )
-    if(value.length <= 3){
-        return "username must be greater than 3"
-    }
-  },
-  password(value) {
-  },
-};
-const { errors, useFieldModel } = useForm({
-  validationSchema: simpleSchema,
-});
-const username = useFieldModel('username');
-const password = useFieldModel('password');
-const [username, password] = useFieldModel(['username', 'password']);
-const login = () => {
-    user.login(username, password)
-}
+const username = ref('')
+const password = ref('')
+// const simpleSchema = {
+//   username(value) {
+
+//     if(value.length <= 3){
+//         return "username must be greater than 3"
+//     }
+//   },
+//   password(value) {
+//   },
+// };
+// const { errors, useFieldModel } = useForm({
+//   validationSchema: simpleSchema,
+// });
+// const username = useFieldModel('username');
+// const password = useFieldModel('password');
+// const [username, password] = useFieldModel(['username', 'password']);
+// const login = () => {
+//     user.login(username, password)
+// }
 
 </script>
 <style scoped>

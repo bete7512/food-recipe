@@ -13,7 +13,6 @@ dist
 dist-ssr
 coverage
 *.local
-public
 public0001.jpg
 /cypress/videos/
 /cypress/screenshots/
