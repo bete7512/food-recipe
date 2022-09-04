@@ -135,7 +135,7 @@ import { ref } from 'vue';
 const title = ref('')
 const duration = ref(20)
 const categories = ref('lunch')
-const profile = ref(true)
+const profile = ref(false)
 const user = useStore()
 const searchrecipe = () => {
     router.push({ name: 'search', params: { id: categories.value, duration: duration.value, title: title.value } })
