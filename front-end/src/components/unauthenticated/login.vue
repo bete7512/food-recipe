@@ -15,8 +15,8 @@
                                     <input
                                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                                         v-model="username" placeholder="enter your username" type="text" />
-                                    <span class="text-red-800">{{ errorMessage }}</span>
-                                    <span>{{errors.username}}</span>
+                                    <!-- <span class="text-red-800">{{ errorMessage }}</span> -->
+                                    <!-- <span>{{errors.username}}</span> -->
                                 </div>
                             </div>
 
@@ -27,7 +27,7 @@
                                     <input id="password" v-model="password" name="password" type="password"
                                         autocomplete="current-password" placeholder="Your Password"
                                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
-                                        <span>{{ errors.password }}</span>
+                                        <!-- <span>{{ errors.password }}</span> -->
 
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
 import { useForm } from 'vee-validate';
 import { useField } from 'vee-validate';
 import * as yup from 'yup';
-import { defineProps, toRef } from 'vue';
+// import { defineProps, toRef } from 'vue';
 
 import { useStore } from '../../stores/store.js';
 import { ref } from 'vue';
@@ -76,6 +76,9 @@ import { computed } from 'vue';
 const user = useStore()
 const username = ref('')
 const password = ref('')
+const login = () => {
+    user.login(username.value, password.value)
+}
 // const simpleSchema = {
 //   username(value) {
 
@@ -92,9 +95,6 @@ const password = ref('')
 // const username = useFieldModel('username');
 // const password = useFieldModel('password');
 // const [username, password] = useFieldModel(['username', 'password']);
-// const login = () => {
-//     user.login(username, password)
-// }
 
 </script>
 <style scoped>

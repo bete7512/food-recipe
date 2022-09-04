@@ -87,28 +87,22 @@ import { onActivated, watch, ref, onBeforeMount, reactive, computed, onMounted }
 import { recipequery, search_query, addlikes } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
-import apolloclient from '@/apollo';
 
 const pages = ref(0)
-const limit = ref(5)
+const limit = ref(6)
 const offset = ref(0)
 const recipes = computed(() => result.value?.recipe ?? [])
-console.log("pages" + pages.value + "offset" + offset.value);
 const loadmore = () => {
-    // offset.value = limit.value * pages.value,
-    // pages.value++;
+    offset.value = limit.value * pages.value,
+    pages.value++;
     fetchMore({
         variables: {
             offset: 3,
-            // offset.value,
-            // result.value.recipe.length,
-
             limit: limit.value
         },
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult || fetchMoreResult.recipe.length === 0) return previousResult
              return {
-                // recipes : previousResult.recipe.concat(fetchMoreResult.recipe),
                 ...previousResult,
                 recipes: [
                   ...previousResult.recipe,
@@ -117,35 +111,6 @@ const loadmore = () => {
             }
             },
     })
-
-
-
-
-    // fetchMore({
-    //       query: MORE_COMMENTS_QUERY,
-    //       variables: { cursor: cursor },
-    //       updateQuery: (previousResult, { fetchMoreResult }) => {
-    //         const previousEntry = previousResult.entry;
-    //         const newComments = fetchMoreResult.moreComments.comments;
-    //         const newCursor = fetchMoreResult.moreComments.cursor;
-
-    //         return {
-    //           // By returning `cursor` here, we update the `fetchMore` function
-    //           // to the new cursor.
-    //           cursor: newCursor,
-    //           entry: {
-    //             // Put the new comments in the front of the list
-    //             comments: [...newComments, ...previousEntry.comments]
-    //           },
-    //           __typename: previousEntry.__typename
-    //         };
-    //       }
-    //     })
-    //   }
-
-
-
-
 
 }
 
