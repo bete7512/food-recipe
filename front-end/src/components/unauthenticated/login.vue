@@ -2,7 +2,7 @@
     <div class=" bg-cyan-800 h-28 items-center flex justify-center text-5xl font-extrabold">
         <h1><span class="text-yellow-900">Discover</span> Recipe</h1>
     </div>
-    <section class="">
+    <!-- <section class="">
         <div class=" items-center px-5 py-6 lg:px-20 ">
             <div
                 class="flex flex-col w-full shadow-2xl max-w-md p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-white rounded-lg md:mt-0">
@@ -15,8 +15,6 @@
                                     <input
                                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                                         v-model="username" placeholder="enter your username" type="text" />
-                                    <!-- <span class="text-red-800">{{ errorMessage }}</span> -->
-                                    <!-- <span>{{errors.username}}</span> -->
                                 </div>
                             </div>
 
@@ -27,7 +25,6 @@
                                     <input id="password" v-model="password" name="password" type="password"
                                         autocomplete="current-password" placeholder="Your Password"
                                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300">
-                                        <!-- <span>{{ errors.password }}</span> -->
 
                                 </div>
                             </div>
@@ -59,43 +56,77 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
+
+    <div class="flex justify-center ">
+        <Form class=" justify-center rounded shadow-xl items-center space-y-2 p-10" @submit="onSubmit"
+            :validation-schema="schema" v-slot="{ errors }">
+            <div>
+                <div class="form-row">
+
+                </div>
+                <div class="form-group col">
+                    <label>Username</label>
+                    <Field name="username" type="text" v-model="username"
+                        class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                        :class="{ 'is-invalid': errors.username }" />
+                    <div class="text-red-700">{{errors.username}}</div>
+                </div>
+
+                <div class="form-group col">
+                    <label>Password</label>
+                    <Field name="password" type="password" v-model="password"
+                        class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                        :class="{ 'is-invalid': errors.password }" />
+                    <div class="text-red-700">{{errors.password}}</div>
+                </div>
+
+                <div class="text-sm">
+                    <a href="#" class="font-medium text-blue-600 hover:text-blue-500 px-2"> Forgot your
+                        password? </a>
+                </div>
+            </div>
+            <div class="pt-2">
+                <button v-on:click="onSubmit" type="submit"
+                    class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign in</button>
+                <span></span>
+            </div>
+        </Form>
+    </div>
+    <!-- </div> -->
 
 </template>
 <script setup >
-import { useForm } from 'vee-validate';
-import { useField } from 'vee-validate';
-import * as yup from 'yup';
-// import { defineProps, toRef } from 'vue';
-
+import { Form, Field } from 'vee-validate';
+import * as Yup from 'yup';
 import { useStore } from '../../stores/store.js';
-import { ref } from 'vue';
-
-import { computed } from 'vue';
-
-const user = useStore()
+import {ref} from 'vue'
 const username = ref('')
 const password = ref('')
+const schema = Yup.object().shape({
+    username: Yup.string()
+        .required('username is required'),
+     password: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
+    })
+
+const user = useStore()
+
 const login = () => {
     user.login(username.value, password.value)
 }
-// const simpleSchema = {
-//   username(value) {
-
-//     if(value.length <= 3){
-//         return "username must be greater than 3"
-//     }
-//   },
-//   password(value) {
-//   },
-// };
-// const { errors, useFieldModel } = useForm({
-//   validationSchema: simpleSchema,
-// });
-// const username = useFieldModel('username');
-// const password = useFieldModel('password');
-// const [username, password] = useFieldModel(['username', 'password']);
-
+const onSubmit = (values)=>{
+    if(values){
+        user.login(
+           username.value,
+           password.value
+        )
+    }
+    else {
+        console.log("there is something");
+    }
+}
 </script>
 <style scoped>
 .overlay {

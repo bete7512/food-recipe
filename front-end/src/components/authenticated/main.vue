@@ -1,6 +1,5 @@
 <template>
     <div @click="profile = false" class="relative inset-0 h-full w-full z-10"></div>
-
     <div class=" bg-cyan-800 h-28  items-center flex justify-center text-6xl font-extrabold">
         <h1><span class="text-yellow-900">Discover</span> Recipe</h1>
     </div>
@@ -11,10 +10,8 @@
                 <path
                     d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
             </svg>
-
         </button>
         <div class="flex space-x-3 ">
-
             <router-link :to="{ name: 'feeds', params: { id: 'recipe' } }">
                 <button class="flex p-4 px-8 hover:bg-slate-400 rounded">feeds</button>
             </router-link>
@@ -31,7 +28,6 @@
                         </svg>
                     </button>
                 </div>
-
                 <div v-if="profile"
                     class="absolute  z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                     <div class="py-3 px-4 text-sm text-gray-900 dark:text-white">
@@ -114,7 +110,6 @@
             </div>
             <div class="w-50  p-2">
                 <div class="text-white">here</div>
-
                 <button @click="searchrecipe"
                     class="flex justify-center items-center h-14  p-3   w-24 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Filter</button>
             </div>
@@ -124,8 +119,6 @@
         <router-view></router-view>
     </div>
 </template>
-
-
 <script setup lang="ts">
 import router from '../../router/index'
 import { useStore } from '../../stores/store.js';

@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 const register = gql`
-mutation MyMutation($full_name: String!, $Lname: String!, $email: String!, $username: String!, $password: String!) {
-  register(arg1: {full_name: $full_name, Lname: $Lname, email: $email, password: $password, username: $username}) {
+mutation MyMutation($fname: String!, $lname: String!, $email: String!, $username: String!, $password: String!) {
+  register(arg1: {fname: $fname, lname: $lname, email: $email, password: $password, username: $username}) {
     Success
   }
 }

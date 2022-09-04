@@ -12,12 +12,12 @@ export const useStore = defineStore("user", {
         emailmodal: false
     }),
     actions: {
-        async signup(Fname,Lname, username, email, password,) {
+        async signup(fname,lname, username, email, password,) {
             const response = await apolloClient.mutate({
                 mutation: register,
                 variables: {
-                    Fname: Fname,
-                    Lname: Lname,
+                    fname: fname,
+                    lname: lname,
                     username: username,
                     email: email,
                     password: password
