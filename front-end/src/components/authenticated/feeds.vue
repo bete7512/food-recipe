@@ -85,7 +85,7 @@ import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 
 const pages = ref(0)
-const limit = ref(6)
+const limit = ref(12)
 const offset = ref(0)
 const recipes = computed(() => result.value?.recipe ?? [])
 const loadmore = () => {
