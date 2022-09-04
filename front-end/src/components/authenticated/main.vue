@@ -89,13 +89,12 @@
             </div>
             <div class="w-80  p-2">
                 <div class="flex justify-between">
-                    <div>Duration</div>
-                    <div>{{ duration }}</div>
+                    <div>Duration in minute</div>
                 </div>
                 <div class="relative w-full h-14">
-                    <input type="range" v-model="duration" min="10" max="200"
+                    <input type="number" v-model="duration" min="10" 
                         class="block p-2.5 w-full h-14 z-20 border-gray-900 text-sm text-gray-900 bg-gray-50 rounded-lg border-2   focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                        placeholder="Recipe title,duration(min),ingridient" required>
+                     required>
                 </div>
             </div>
             <div class="w-50  p-2  justify-start items-end">

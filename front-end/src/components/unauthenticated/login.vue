@@ -58,24 +58,22 @@
         </div>
     </section> -->
 
-    <div class="flex justify-center ">
-        <Form class=" justify-center rounded shadow-xl items-center space-y-2 p-10" @submit="onSubmit"
+    <div class="flex justify-center mt-8 ">
+        <Form class=" justify-center space-y-10  rounded shadow-xl items-center  p-10" @submit="onSubmit"
             :validation-schema="schema" v-slot="{ errors }">
-            <div>
-                <div class="form-row">
-
-                </div>
-                <div class="form-group col">
+            <div class="space-y-10">
+        
+                <div class="space-y-3">
                     <label>Username</label>
-                    <Field name="username" type="text" v-model="username"
+                    <Field name="username" type="text" v-model="username" placeholder="enter username"
                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                         :class="{ 'is-invalid': errors.username }" />
                     <div class="text-red-700">{{errors.username}}</div>
                 </div>
 
-                <div class="form-group col">
+                <div class="space-y-3">
                     <label>Password</label>
-                    <Field name="password" type="password" v-model="password"
+                    <Field name="password" type="password" v-model="password" placeholder="enter passwpord"
                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                         :class="{ 'is-invalid': errors.password }" />
                     <div class="text-red-700">{{errors.password}}</div>
