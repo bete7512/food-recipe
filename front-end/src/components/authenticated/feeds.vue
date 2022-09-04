@@ -121,11 +121,8 @@ const { error, loading, result, fetchMore } = useQuery(recipequery,
         limit: limit.value
     }),
     {
-        fetchPolicy: 'cache-and-network',
+        pollInterval: 100,
     },
-    // {
-    //     pollInterval: 100,
-    // },
     { enabled: true });
 console.log(recipes);
 const user = useStore()

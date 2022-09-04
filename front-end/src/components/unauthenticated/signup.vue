@@ -2,17 +2,6 @@
     <div class=" bg-cyan-800 h-28 items-center flex justify-center text-5xl font-extrabold">
         <h1><span class="text-yellow-900">Discover</span> Recipe</h1>
     </div>
-    <!-- <section v-if="signupemailmodal" class="">
-        <div class=" items-center  px-5  lg:px-20 bg-green-600">
-            <div
-                class="flex flex-col h-96 w-full max-w-md shadow-xl p-10 mx-auto my-6 transition duration-500 ease-in-out transform bg-green rounded-lg md:mt-0">
-                <div class="mt-8">
-                    <div class="mt-2">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
     <section class="">
         <div class=" items-center px-5 py-12 lg:px-20">
             <div

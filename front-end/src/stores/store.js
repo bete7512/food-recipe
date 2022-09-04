@@ -50,7 +50,7 @@ export const useStore = defineStore("user", {
         logout() {
             window.localStorage.removeItem('Apollotoken');
             localStorage.removeItem('user');
-            router.push('/login');
+            router.push('/');
 
         },
 
