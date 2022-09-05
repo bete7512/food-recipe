@@ -2,7 +2,7 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const handler = async (req, res) => {
-  const { Fname,Lname, username, email, password } = req.body.input.arg1;
+  const { fname,lname, username, email, password } = req.body.input.arg1;
   const finduser = require('../checker/findusername')
   const { data, error } = await finduser({ username })
   const user = data["users"][0]
@@ -12,19 +12,18 @@ const handler = async (req, res) => {
       message: 'you are  registered no registratrion again'
     })
 
-
+zz
   }
   else {
     const tokenContents = {
-      Fname: Fname,
-      Lname:Lname,
+      fname: fname,
+      lname:lname,
       username: username,
       email: email,
       password: password
     }
     const token = jwt.sign(tokenContents, process.env.SIGNUPSECREKEY)
     const link = `${process.env.SIGNUPDESTINATION}/${token}`
-    console.log(link);
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -38,19 +37,16 @@ const handler = async (req, res) => {
       subject: 'Email confirmation',
       text: link
     };
-    transporter.sendMail(mailOptions, function (err, data) {
-      if (err) {
-        console.log(err);
-        // return res.status(400).json({
-        //   message: err.message
-        // })
-      } else {
-        console.log(`Email link confirmation was sent to your email address ${email}`);
-      }
-    });
-    return res.json({
-      Success: `Email link confirmation was sent to your email address ${email}`
-    })
+try {
+	   let info = await transporter.sendMail(mailOptions);
+	    return res.json({
+	      Success: `Email link confirmation was sent to your email address ${email}`
+	    })
+} catch (error) {
+  return res.status(400).json({
+    Success: `something were wrong`
+  })	
+}
 
   }
 };

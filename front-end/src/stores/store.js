@@ -12,26 +12,25 @@ export const useStore = defineStore("user", {
         emailmodal: false
     }),
     actions: {
-        async signup(fname,lname, username, email, password,) {
-            const response = await apolloClient.mutate({
-                mutation: register,
-                variables: {
-                    fname: fname,
-                    lname: lname,
-                    username: username,
-                    email: email,
-                    password: password
-                }
-            })
-            if(response.data.register.Success){
+        async signup(fname, lname, username, email, password,) {
+            try {
+                const response = await apolloClient.mutate({
+                    mutation: register,
+                    variables: {
+                        fname: fname,
+                        lname: lname,
+                        username: username,
+                        email: email,
+                        password: password
+                    }
+                })
                 return response.data.register.Success
+            } catch (error) {
+                return error.message
             }
-            else{
-                return null
-            }
-            // return response.data.register.Success
+
         },
-        async login(username, password){
+        async login(username, password) {
             try {
                 const result = await apolloClient.mutate({
                     mutation: signin,
@@ -41,10 +40,10 @@ export const useStore = defineStore("user", {
                     }
                 })
                 window.localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
-                    this.username = username
-                    this.isauthenticated = true,
-                    router.push({name:'feeds',params:{id:'recipe'}});
-                    return 
+                this.username = username
+                this.isauthenticated = true,
+                    router.push({ name: 'feeds', params: { id: 'recipe' } });
+                return
             } catch (error) {
                 return error.message
             }
