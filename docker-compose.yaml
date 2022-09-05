@@ -8,21 +8,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      # POSTGRES_USER: bete_kbebe
-      # POSTGRES_PASSWORD: bete@7512
-      # POSTGRES_DB: taskmanager
       POSTGRES_PASSWORD: postgrespassword
-
-  # postgres:
-  #   image: postgres:12
-  #   ports:
-  #     - "5432:5432"
-  #   # restart: always
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data
-  #   environment:
-  #     POSTGRES_PASSWORD: postgrespassword
-
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
@@ -35,7 +21,6 @@ services:
     depends_on:
       - postgres
   graphql-engine:
-    # endpoint: http://localhost:8080
     image: hasura/graphql-engine:latest
     ports:
       - "8080:8080"
