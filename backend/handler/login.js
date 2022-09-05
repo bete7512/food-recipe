@@ -10,7 +10,7 @@ const handler = async (req, res) => {
  
   if (!user) {
     return res.status(400).json({
-      message: 'invalid input please enter your username and password again'
+      message: 'incorrect username or password please enter again'
     })
   }
   else {

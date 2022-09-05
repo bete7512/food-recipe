@@ -123,15 +123,9 @@ const user = useStore()
 const modal = ref('')
 const onSubmit = async (values)=>{
     if(values){
-    const success = await user.signup(  
-                                        fname.value,
-                                         lname.value,
-                                         username.value,
-                                        email.value,
-                                        password1.value
-                                        )
-                                    modal.value = success
-                                        console.log(success);
+    const success = await user.signup(fname.value,lname.value,username.value, email.value, password1.value )
+ modal.value = success
+      console.log(success);
     }
     else {
         console.log("there is something");

@@ -32,18 +32,21 @@ export const useStore = defineStore("user", {
             // return response.data.register.Success
         },
         async login(username, password){
-            const result = await apolloClient.mutate({
-                mutation: signin,
-                variables: {
-                    username: username,
-                    password: password,
-                }
-            })
-            window.localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
-            if (window.localStorage.getItem("Apollotoken")) {
-                this.username = username
-                this.isauthenticated = true,
-                router.push({name:'feeds',params:{id:'recipe'}});
+            try {
+                const result = await apolloClient.mutate({
+                    mutation: signin,
+                    variables: {
+                        username: username,
+                        password: password,
+                    }
+                })
+                window.localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
+                    this.username = username
+                    this.isauthenticated = true,
+                    router.push({name:'feeds',params:{id:'recipe'}});
+                    return 
+            } catch (error) {
+                return error.message
             }
         },
         logout() {
