@@ -80,6 +80,11 @@
             </div>
         </Form>
     </div>
+    <div class="flex justify-center bg-green-700 h-96 w-full">
+        <div>
+            {{modal}}
+        </div>
+    </div>
 </template>
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
