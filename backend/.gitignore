@@ -13,6 +13,7 @@ public
 dist-ssr
 coverage
 *.local
+dirty
 /cypress/videos/
 /cypress/screenshots/
 # Editor directories and files

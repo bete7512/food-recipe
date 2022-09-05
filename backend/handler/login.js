@@ -20,8 +20,7 @@ const handler = async (req, res) => {
         message: "incorrect password"
       })
     }
-    // const tokenContents = {
-    // }
+
     const token = jwt.sign({
       "https://hasura.io/jwt/claims":
       {

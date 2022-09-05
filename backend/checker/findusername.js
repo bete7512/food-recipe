@@ -1,4 +1,3 @@
-// const fetch = require('node-fetch');
 const FIND_USER = `
 query finduser($username: String!) {
     users(where: {username: {_eq: $username}}, limit: 1) {
@@ -25,8 +24,6 @@ const finduser = async (variables) => {
         });
     console.log('here is well')
     const data = await fetchResponse.json();
-
-    // console.log('DEBUG: ',data);
     return data;
 };
 module.exports = finduser;

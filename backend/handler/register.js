@@ -6,7 +6,6 @@ const handler = async (req, res) => {
   const finduser = require('../checker/findusername')
   const { data, error } = await finduser({ username })
   const user = data["users"][0]
-  // console.log(user);
   if (user) {
     return res.status(400).json({
       message: 'you are  registered no registratrion again'
@@ -47,7 +46,6 @@ try {
     Success: `something were wrong`
   })	
 }
-
   }
 };
 module.exports = handler;

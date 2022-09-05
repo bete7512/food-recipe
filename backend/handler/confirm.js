@@ -53,7 +53,6 @@ const handler = async (req, res) => {
         message: "something went wrong please try again"
       })
     }
-
     
 };
 module.exports =  handler
