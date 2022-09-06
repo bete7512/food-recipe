@@ -21,11 +21,8 @@
             <div class="card hover:border h-96 hover:border-sky-800 duration-100 mt-2 hover:scale-100 max-w-sm  w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
                 v-for="(rec, index) in result.recipe" :key="rec.id">
                 <div class="relative">
-                    <img src="" alt="">
-
                     <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[0]" />
-                    <button @click="managefavorite(rec.id, rec.isfavorite)"
-                        class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
+                    <button @click="managefavorite(rec.id, rec.isfavorite)" class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
                         <div class="flex justify-center  pt-1 pl-3">
                             <svg v-if="rec.isfavorite" style="color: red" xmlns="http://www.w3.org/2000/svg" width="32"
                                 height="32" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">

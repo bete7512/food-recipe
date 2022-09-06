@@ -1,60 +1,58 @@
 <template>
-    <div class=" bg-cyan-800 h-28 items-center flex justify-center text-5xl font-extrabold">
-        <h1><span class="text-yellow-900">Discover</span> Recipe</h1>
-    </div>
-    <div v-if="success" class="flex justify-center bg-green-700 h-96 w-full">
-        <div>
-            {{modal}}
+
+<div class="overlay bg-fixed top-0 left-0 bg-slate-400 bottom-0 right-0 flex items-center justify-center">
+    <div class="bg-white p-5 rounded shadow-xl">
+        <div class="items-center  flex justify-end px-5 pt-1 ">
+            <button @click="emitsignup" class="  text-4xl text-black rounded  ">X</button>
         </div>
-    </div>
-    <div v-else class="flex justify-center ">
-        <Form class="flex justify-center rounded shadow-xl items-center space-y-2 p-10" @submit="onSubmit"
+        <div class="flex ">
+        <Form class="flex justify-center bg-white rounded  items-center space-y-5 p-b-10 px-10" @submit="onSubmit"
             :validation-schema="schema" v-slot="{ errors }">
             <div>
                 <div class="form-row">
                     <div class="form-group col-5">
                         <label>First Name</label>
-                        <Field name="firstName" type="text" v-model="fname"
+                        <Field name="firstName" type="text" v-model="fname" placeholder="First name"
                             class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                             :class="{ 'is-invalid': errors.firstName }" />
-                        <div class="text-red-700">{{errors.firstName}}</div>
+                        <div class="text-red-700">{{ errors.firstName }}</div>
                     </div>
                     <div class="form-group col-5">
                         <label>Last Name</label>
-                        <Field name="lastName" type="text" v-model="lname"
+                        <Field name="lastName" type="text" v-model="lname" placeholder="Last name"
                             class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                             :class="{ 'is-invalid': errors.lastName }" />
-                        <div class="text-red-700">{{errors.lastName}}</div>
+                        <div class="text-red-700">{{ errors.lastName }}</div>
                     </div>
                 </div>
                 <div class="form-group col">
                     <label>Username</label>
-                    <Field name="username" type="text" v-model="username"
+                    <Field name="username" type="text" v-model="username" placeholder="username"
                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                         :class="{ 'is-invalid': errors.username }" />
-                    <div class="text-red-700">{{errors.username}}</div>
+                    <div class="text-red-700">{{ errors.username }}</div>
                 </div>
                 <div class="form-group col">
                     <label>Email</label>
-                    <Field name="email" type="text" v-model="email"
+                    <Field name="email" type="text" v-model="email" placeholder="Email"
                         class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                         :class="{ 'is-invalid': errors.email }" />
-                    <div class="text-red-700">{{errors.email}}</div>
+                    <div class="text-red-700">{{ errors.email }}</div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col">
                         <label>Password</label>
-                        <Field name="password" type="password" v-model="password1"
+                        <Field name="password" type="password" v-model="password1" placeholder="password"
                             class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                             :class="{ 'is-invalid': errors.password }" />
-                        <div class="text-red-700">{{errors.password}}</div>
+                        <div class="text-red-700">{{ errors.password }}</div>
                     </div>
                     <div class="form-group col">
                         <label>Confirm Password</label>
-                        <Field name="confirmPassword" type="password" v-model="password2"
+                        <Field name="confirmPassword" type="password" v-model="password2" placeholder="confirm password"
                             class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
                             :class="{ 'is-invalid': errors.confirmPassword }" />
-                        <div class="text-red-700">{{errors.confirmPassword}}</div>
+                        <div class="text-red-700">{{ errors.confirmPassword }}</div>
                     </div>
                 </div>
 
@@ -67,7 +65,7 @@
                             <label for="acceptTerms" class="block ml-2 text-sm text-neutral-600">Accept Terms &
                                 Conditions</label>
                         </div>
-                        <div class="text-red-700">{{errors.acceptTerms}}</div>
+                        <div class="text-red-700">{{ errors.acceptTerms }}</div>
                     </div>
 
                     <div class="text-sm">
@@ -75,11 +73,8 @@
                             password? </a>
                     </div>
                 </div>
-                <div class="text-cyan-600">{{modal}}</div>
+                <div class="text-cyan-600">{{ modal }}</div>
                 <div class="pt-2">
-                    <!-- <button v-on:click="onSubmit" type="submit"
-                        class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign
-                        up</button> -->
                     <button v-on:click="onSubmit" type="submit"
                         class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         <div v-if="signupprocess" class="text-2xl">
@@ -99,23 +94,26 @@
                             Sign up
                         </div>
                     </button>
-
-
-                    <span></span>
                 </div>
             </div>
         </Form>
     </div>
-
+    </div>
+        
+    </div>
 </template>
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { useMutation,} from '@vue/apollo-composable';
+import { useMutation, } from '@vue/apollo-composable';
 import { useStore } from '../../stores/store.js';
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
-
+import { defineEmits } from 'vue';
+const emit = defineEmits(['signupSuccess','signupSuccessfull'])
+const emitsignup = (event)=>{
+    emit('signupSuccess')
+}
 const schema = Yup.object().shape({
     firstName: Yup.string()
         .required('First Name is required'),
@@ -144,15 +142,14 @@ const password2 = ref('')
 const user = useStore()
 const modal = ref('')
 const success = ref(false)
-const signupprocess  = ref(false)
-const onSubmit = async ()=>{
-    if(fname.value&&lname.value&&username.value&&email.value&&password1.value&&password2.value){
+const signupprocess = ref(false)
+const onSubmit = async () => {
+    if (fname.value && lname.value && username.value && email.value && password1.value && password2.value) {
         signupprocess.value = true
         try {
-        const success = await user.signup(fname.value,lname.value,username.value, email.value, password1.value )
-         modal.value = success  
-   
-        } catch (error){
+            const success = await user.signup(fname.value, lname.value, username.value, email.value, password1.value)
+            modal.value = success
+        } catch (error) {
             modal.value = error.message
             signupprocess.value = false
         }

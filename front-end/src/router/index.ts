@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../components/unauthenticated/Home.vue'
-import login from '../components/unauthenticated/login.vue'
-import signup from '../components/unauthenticated/signup.vue'
+
 import feeds from '../components/authenticated/feeds.vue'
 import favorite from '../components/authenticated/favorite.vue'
 import main from '../components/authenticated/main.vue'
@@ -17,16 +16,16 @@ const router = createRouter({
       path: '/',
       component: Home
     },
-    {
-      name: 'login',
-      path: '/login',
-      component: login
-    },
-    {
-      name: 'signup',
-      path: '/signup',
-      component: signup
-    },
+    // {
+    //   name: 'login',
+    //   path: '/login',
+    //   component: login
+    // },
+    // {
+    //   name: 'signup',
+    //   path: '/signup',
+    //   component: signup
+    // },
     {
       name:'recipedetail',
       path:'/recipedetail/:id',
@@ -63,12 +62,12 @@ const router = createRouter({
   ]
 })
 router.beforeEach(async (to) => {
-  const publicPages = ['/', '/login', '/signup','/recipedetail/:id','search/:id'];
+  const publicPages = ['/', '/signup','/recipedetail/:id','search/:id'];
   const authRequired = !publicPages.includes(to.path);
   const user = useStore();
   if (authRequired && !window.localStorage.getItem("Apollotoken")) {
     user.returnUrl = to.fullPath;
-    return '/login';
+    return '/';
   }
 });
 export default router

@@ -1,68 +1,82 @@
 <template>
-    <div class="h-40 w-full bg-cyan-800">
-        <div class="flex space-x-4 justify-end font-semibold text-xl pt-4 pr-4 text-white ">
-            <router-link :to="{ name: 'login' }">
-                <button class=" hover:bg-orange-900  p-4 rounded">Signin</button>
-            </router-link>
-            <router-link :to="{ name: 'signup' }">
-                <button class="  hover:bg-orange-800 p-4 rounded">signup</button>
-            </router-link>
+    <div class="h-20 flex justify-between px-10 w-full bg-cyan-800">
+        <div class="flex items-center text-white justify-center text-lg font-bold ">
+            <button class="hover:bg-pink-600 rounded p-3">Home</button>
+            <button class="hover:bg-pink-600 rounded p-3">Service</button>
+            <button class="hover:bg-pink-600 rounded p-3">About</button>
         </div>
-        <div class="flex justify-center items-center text-5xl   font-extrabold">
-            <h1><span class="text-yellow-900 items-center  ">Discover</span> Recipe</h1>
+        <div class="flex px-7 items-center justify-end font-semibold text-lg  text-white ">
+
+            <button @click="signupmodal = true"  class="hover:bg-pink-600 flex items-center p-5 rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                </svg>
+                <button class="">Register</button>
+            </button>
+            <button @click="loginmodallisten" class="hover:bg-pink-600 flex items-center p-5 rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 flex items-center">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+                <button class=" rounded">Login</button>
+            </button>
         </div>
     </div>
-    <div class="flex justify-center flex-wrap space-y-2 mt-2 ">
-        <div class="flex flex-wrap items-center w-1/2 justify-center  border-2  rounded shadow-lg p-4  ">
-            <div class="w-80  p-2">
-                <div>Title or Ingridient</div>
-                <div class="relative w-full h-14">
-                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <div class="relative mt-0 flex h-96">
+        <div class="absolute h-32 top-1/2 right-0  text-white w-auto  left-1/4 rounded text-6xl font-bold  flex items-center justify-center ">We Make You Faster</div>
+        <div class="absolute h-16 bottom-1/4 hover:bg-white right-0  p-10 border border-white w-72  left-1/4 rounded text-4xl font-bold flex items-center justify-center  ">
+                More
+        </div>
+        <img src="../../assets/cover2.png" class="w-full" alt="">
+    </div>
+    <div class="flex w-full justify-center space-x-3 items-center  mt-0 ">
+        <div class="flex justify-end">
+            <div class="flex text-2xl space-x-3 font-extrabold font-serif">
+                <span>Search</span>
+                <span class="italic text-green-800">Food</span>
+                <span>Recipe</span>
+            </div>
+        </div>
+        <div class="flex items-center  w-3/4  justify-center  p-4  ">
+            <div
+                class="relative flex w-full h-14 rounded-lg border-black focus:ring-blue-500 focus:border-blue-500">
+                <div class="w-full  rounded-r-lg border-none ">
+                    <div class="absolute rounded h-16 w-32 border-none">
+                        <select v-model="categories"
+                            class="bg-gray-50 h-16 px-2 pt-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="breakfast">All Categories</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">dinner</option>
+                        </select>
+                    </div>
+                    <div class="flex absolute inset-y-0 pt-2 items-center pl-32 justify-center pointer-events-none">
+                        <svg class="w-8 h-8 text-blue-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                                 clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <input type="text" v-model="title"
-                        class="block p-2.5 pl-8 w-full h-14 z-20 border-gray-900 text-sm text-gray-900 bg-gray-50 rounded-lg border-2   focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                        placeholder="Recipe title,duration(min),ingridient" required>
+                    <div>
+                        <input type="text" v-model="title"
+                            class="block p-2.5  pl-40 w-full h-16 z-20 border-gray-900 border-r-0 text-sm text-gray-900 border bg-gray-50 rounded-r-none rounded-t-lg rounded-b-lg    dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                            placeholder="Search" required>
+                    </div>
                 </div>
-            </div>
-            <div class="w-80  p-2">
-                <div class="flex justify-between">
-                    <div>Duration</div>
-                    <div>{{ duration }}</div>
+                <div
+                    class="w-50 h-16 bg-blue-600 rounded-l-none rounded-r-lg flex justify-center items-center rounded-t-lg rounded-b-lg ">
+                    <button @click="searchrecipe"
+                        class="flex justify-center items-center   p-3   w-24 text-base font-medium text-center text-white transition duration-500 transform  ">Search</button>
                 </div>
-                <div class="relative w-full h-14">
-                    <input type="range" v-model="duration" min="10" max="200"
-                        class="block p-2.5 w-full h-14 z-20 border-gray-900 text-sm text-gray-900 bg-gray-50 rounded-lg border-2   focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                        placeholder="Recipe title,duration(min),ingridient" required>
-                </div>
-            </div>
-            <div class="w-50  p-2  justify-start items-end">
-                <div class="text-white">here</div>
-                <div></div>
-                <select v-model="categories"
-                    class="bg-gray-50 h-14 px-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="breakfast">Breakfast</option>
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">dinner</option>
-                </select>
-            </div>
-            <div class="w-50  p-2">
-                <div class="text-white">here</div>
-
-                <button @click="searchrecipe"
-                    class="flex justify-center items-center h-14  p-3   w-24 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Filter</button>
             </div>
         </div>
     </div>
-
-
     <div
-        class="flex text-teal-800 mt-4 items-center justify-center font-extrabold lg:text-4xl md:text-2xl sm:text-xl lg:pt-16 lg:pb-8 md:pt-14 md:pb-7 sm:pt-8 sm:pb-4">
+        class="flex text-teal-800 pt-2 items-center justify-center font-extrabold lg:text-4xl md:text-2xl sm:text-xl lg:pt-16 lg:pb-8 md:pt-14 md:pb-7 sm:pt-8 sm:pb-4">
         Most Featured Food Recipe
     </div>
 
@@ -84,25 +98,23 @@
             <div class="text-2xl font-bold ">
                 loading...
             </div>
-
         </div>
     </div>
     <div v-else class="flex">
         <div class="w-2/12">
         </div>
-        <button @click="loadless" class="flex items-center justify-center">
+        <button @click="loadless" class="flex items-center justify-center rounded  ">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-16 h-16 text-sky-600">
+                stroke="currentColor" class="w-16 h-16 hover:bg-orange-500 rounded text-sky-600">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
-
         </button>
         <div class="flex w-10/12 flex-wrap p-5 justify-center items-center space-x-3 ">
             <div class="card hover:border hover:shadow-xl hover:border-sky-800 duration-100 mt-4  max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
                 v-for="(rec, index) in recipes" :key="rec.id">
                 <div class="relative">
                     <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[2]" />
-                    <button @click="managefavorite"
+                    <button @click="loginmodal = true"
                         class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
                         <div class="flex justify-center  pt-1 pl-3">
                             <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -127,7 +139,7 @@
                         <StarRating v-model:rating="rec.rating" :read-only="true" :increment="0.01" :star-size="12">
                         </StarRating>
                         <div class="flex space-x-1 items-center">
-                            <button>
+                            <button @click="loginmodal = true">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
                                     <path
@@ -142,22 +154,20 @@
                     <div class="text-xs bottom-1 mb-3 ">By <button
                             class="font-bold text-xs italic underline hover:underline">{{ rec.user.full_name }}</button>
                     </div>
-
                 </div>
             </div>
         </div>
         <button @click="loadmore" class="flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-16 h-16 text-sky-700">
+                stroke="currentColor" class="w-16 h-16 hover:bg-orange-500 rounded text-sky-700">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
-
         </button>
         <div class="w-2/12">
         </div>
     </div>
     <div
-        class="flex text-teal-800 mt-4 items-center justify-center font-extrabold lg:text-4xl md:text-2xl sm:text-xl lg:pt-16 lg:pb-8 md:pt-14 md:pb-7 sm:pt-8 sm:pb-4">
+        class="flex text-teal-800 pt-2 items-center justify-center font-extrabold lg:text-4xl md:text-2xl sm:text-xl lg:pt-16 lg:pb-8 md:pt-14 md:pb-7 sm:pt-8 sm:pb-4">
         To Recipe Organizer
     </div>
     <div>
@@ -165,14 +175,16 @@
             <div class="space-y-2 m-2" v-for="user in users">
                 <div class="text-5xl h-24 w-24 rounded-full bg-orange-700 text-white flex items-center justify-center">
                     <div>
-                        {{user.full_name.charAt(0).toUpperCase()}}
+                        {{ user.full_name.charAt(0).toUpperCase() }}
                     </div>
                 </div>
-                <div class="font-bold">{{user.full_name}}</div>
-                <div>posted {{user.users_counted_recipe}} recipes</div>
+                <div class="font-bold">{{ user.full_name }}</div>
+                <div>posted {{ user.users_counted_recipe }} recipes</div>
             </div>
         </div>
     </div>
+<Login v-if="loginmodal" v-on:loginSuccess="loginmodal = false"></Login>
+<Signup  v-if="signupmodal" v-on:signupSuccess="signupmodal = false" ></Signup>
 </template>
 <script setup >
 import StarRating from 'vue-star-rating'
@@ -184,7 +196,17 @@ import { recipeStore } from '../../stores/recipestore.js';
 import { favoriteStore } from '../../stores/favoritestore.js';
 import { likeStore } from '../../stores/likeStore.js'
 import router from '../../router/index'
-import { ref,computed } from 'vue';
+import { ref, computed } from 'vue';
+import Login from './login.vue'
+import Signup from './signup.vue'
+
+const loginmodal = ref(false)
+const signupmodal = ref(false)
+console.log(loginmodal.value);
+const loginmodallisten = ()=>{
+    loginmodal.value = !loginmodal.value
+    console.log(loginmodal);
+}
 const title = ref('')
 const duration = ref(20)
 const categories = ref('lunch')
@@ -195,79 +217,56 @@ const searchrecipe = () => {
     router.push({ name: 'search', params: { id: categories.value, duration: duration.value, title: title.value } })
 }
 const user = useStore()
-const { error,loading, result,fetchMore } = useQuery(
+const { error, loading, result, fetchMore } = useQuery(
     unauthenticatedquery, () => ({
         offset: offset.value,
         limit: limit.value
     }), {
-        fetchPolicy:'cache-and-network'
-    },{
+    fetchPolicy: 'cache-and-network'
+}, {
     pollInterval: 100,
-}
-);
+});
 const users = computed(() => result.value?.users)
 const recipes = computed(() => result.value?.recipe)
 const loadmore = () => {
     pages.value++;
     offset.value = limit.value * pages.value,
-    fetchMore({
-        variables: {
-            offset: offset.value,
-            limit: limit.value
-        },
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              if (!fetchMoreResult || fetchMoreResult.recipe.length === 0) return previousResult
-             return {
-                ...previousResult,
-                recipes: [
-                  ...previousResult.recipe,
-                  ...fetchMoreResult.recipe,
-                ],
-            }
-            },
-    })
-}
-
-
-const loadless = () => {
-    // if(offset.value > 0){
-        --pages.value;
-        offset.value = limit.value * pages.value,
         fetchMore({
             variables: {
                 offset: offset.value,
                 limit: limit.value
             },
-                updateQuery: (previousResult, { fetchMoreResult }) => {
-                  if (!fetchMoreResult || fetchMoreResult.recipe.length === 0) return previousResult
-                 return {
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+                if (!fetchMoreResult || fetchMoreResult.recipe.length === 0) return previousResult
+                return {
                     ...previousResult,
                     recipes: [
-                      ...previousResult.recipe,
-                      ...fetchMoreResult.recipe,
+                        ...previousResult.recipe,
+                        ...fetchMoreResult.recipe,
                     ],
                 }
-                },
+            },
         })
-    // }
-    // else{
-    //     fetchMore({
-    //         variables: {
-    //             offset: offset.value,
-    //             limit: limit.value
-    //         },
-    //             updateQuery: (previousResult, { fetchMoreResult }) => {
-    //               if (!fetchMoreResult || fetchMoreResult.recipe.length === 0) return previousResult
-    //              return {
-    //                 ...previousResult,
-    //                 recipes: [
-    //                   ...previousResult.recipe,
-    //                   ...fetchMoreResult.recipe,
-    //                 ],
-    //             }
-    //             },
-    //     })
-    // }
+}
+const loadless = () => {
+    --pages.value;
+    offset.value = limit.value * pages.value,
+        fetchMore({
+            variables: {
+                offset: offset.value,
+                limit: limit.value
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+                if (!fetchMoreResult || fetchMoreResult.recipe.length === 0) return previousResult
+                return {
+                    ...previousResult,
+                    recipes: [
+                        ...previousResult.recipe,
+                        ...fetchMoreResult.recipe,
+                    ],
+                }
+            },
+        })
 }
 const managefavorite = () => {
     router.push('/login')
@@ -282,6 +281,5 @@ const manalikes = (id, isliked) => {
     }
 }
 </script>
-
 <style>
 </style>

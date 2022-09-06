@@ -37,11 +37,15 @@ zz
       text: link
     };
 try {
-	   let info = await transporter.sendMail(mailOptions);
+	  let info =await transporter.sendMail(mailOptions);
+      console.log("well done");
+      console.log(info.messageId);
 	    return res.json({
 	      Success: `Email link confirmation was sent to your email address ${email}`
 	    })
-} catch (error) {
+}
+ catch (error) {
+  console.log("well wrong");
   return res.status(400).json({
     Success: `something were wrong`
   })	
