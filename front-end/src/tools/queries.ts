@@ -85,6 +85,36 @@ query MyQuery($ingridient: String="", $categories: String="", $title: String="",
 }
 }
 `
+
+const searchunauthenticated = gql`
+query MyQuery($ingridient: String="", $categories: String="", $title: String="", $durations: Int = 0) {
+  recipe(where:{_or:[{_or:[{categories: {_eq: $categories}},{durations: {_eq: $durations}}]}, {_or:[{ingredient: {_ilike: $ingridient}}, {title: {_ilike: $title}}]}]}) {
+    id
+    title
+    rating
+    owner
+    instructions
+    Like_number
+    ingredient
+    images
+    durations
+    descriptions
+    categories
+    user {
+      email
+      full_name
+    }
+    comments {
+      comment
+      commented_at
+      star
+      user {
+        full_name
+      }
+    }
+}
+}
+`
 const favoritequery = gql`
 query MyQuery($offset: Int!, $limit: Int!) {
   favorite(offset: $offset, limit: $limit) {
@@ -178,12 +208,12 @@ const file_upload = gql`
 }
  `
 
+    // isliked
+    // isfavorite
 const recipe_by_id = gql`
  query MyQuery($id: Int!) {
   recipe_by_pk(id: $id) {
     title
-    isliked
-    isfavorite
     rating
     instructions
     ingredient
@@ -217,8 +247,6 @@ mutation MyMutation($recipe_id: Int!, $comment: String!,$star: Float!) {
   }
 }
  `
-
-
 const user_query = gql`
 query MyQuery($id: Int!) {
   users(where: {id: {_eq: $id}}) {
@@ -247,5 +275,5 @@ query MyQuery($id: Int!) {
 `
 export {
   register, signin, addrecipe, recipequery, addtofavorite, removefavorite, addlikes, deletelikes,
-  favoritequery, unauthenticatedquery, file_upload, recipe_by_id, comment_mutation, user_query,search_query
+  favoritequery, unauthenticatedquery, file_upload, recipe_by_id, comment_mutation, user_query,search_query,searchunauthenticated
 };

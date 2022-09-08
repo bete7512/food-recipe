@@ -28,7 +28,6 @@ export const useStore = defineStore("user", {
             } catch (error) {
                 return error.message
             }
-
         },
         async login(username, password) {
             try {
@@ -45,13 +44,14 @@ export const useStore = defineStore("user", {
                     router.push({ name: 'feeds', params: { id: 'recipe' } });
                 return
             } catch (error) {
-                return error.message
+                return error.messsage
             }
         },
         logout() {
             window.localStorage.removeItem('Apollotoken');
             localStorage.removeItem('user');
-            router.push('/');
+            this.isauthenticated = false
+             router.push('/');
         },
     },
     getters: {
