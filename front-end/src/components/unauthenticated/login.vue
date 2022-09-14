@@ -5,7 +5,7 @@
                 <button @click="emitlogin" class="  text-4xl text-black rounded  ">X</button>
             </div>
             <div class="flex ">
-                <Form class=" justify-center space-y-6 bg-white   items-center  p-b-10 px-10" @submit="onSubmit"
+                <Form class=" justify-center space-y-6 bg-white   items-center  p-b-10 px-10" @submit.preventDefault="onSubmit"
                     :validation-schema="schema" v-slot="{ errors }">
                     <div class="space-y-10">
                         <div class="space-y-3">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="text-red-600">{{loginreturn}}</div>
                     <div class="pt-2">
-                        <button v-on:click="onSubmit" type="submit"
+                        <button  type="submit"
                             class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             <div v-if="loginprocess" class="text-2xl">
                                 <svg role="status" class="inline mr-3 w-4 h-4 text-white animate-spin"
@@ -80,7 +80,7 @@ const loginprocess = ref(false)
 let loginreturn = ref('')
 const onSubmit = async () => {
 
-    if (username.value && password.value) {
+    // if (username.value && password.value) {
         loginprocess.value = true
         try {
             loginreturn.value = await user.login(username.value, password.value)
@@ -92,10 +92,10 @@ const onSubmit = async () => {
             loginreturn = error.message
             loginprocess.value = false
         }
-    }
-    else {
-        console.log("please enter the correct input");
-    }
+    // }
+    // else {
+    //     console.log("please enter the correct input");
+    // }
 
 }
 </script>

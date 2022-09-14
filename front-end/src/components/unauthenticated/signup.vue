@@ -6,7 +6,7 @@
             </div>
             <div class="flex ">
                 <Form class="flex justify-center bg-white rounded  items-center space-y-5 p-b-10 px-10"
-                    @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
+                    @submit.preventDefault="onSubmit" :validation-schema="schema" v-slot="{ errors }">
                     <div>
                         <div class="form-row">
                             <div class="form-group col-5">
@@ -75,7 +75,7 @@
                         </div>
                         <div class="text-cyan-600">{{ modal }}</div>
                         <div class="pt-2">
-                            <button v-on:click="onSubmit" type="submit"
+                            <button  type="submit"
                                 class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 <div v-if="signupprocess" class="text-2xl">
                                     <svg role="status" class="inline mr-3 w-4 h-4 text-white animate-spin"
@@ -102,9 +102,7 @@
     </div>
 </template>
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { useMutation, } from '@vue/apollo-composable';
 import { useStore } from '../../stores/store.js';
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
@@ -132,7 +130,6 @@ const schema = Yup.object().shape({
     acceptTerms: Yup.string()
         .required('Accept Ts & Cs is required')
 });
-
 const fname = ref('')
 const lname = ref('')
 const email = ref('')
@@ -144,9 +141,8 @@ const modal = ref('')
 const success = ref(false)
 const signupprocess = ref(false)
 const onSubmit = async () => {
-    if (fname.value && lname.value && username.value && email.value && password1.value && password2.value) {
-        signupprocess.value = true
-        try {
+    try {
+            signupprocess.value = true
             const success = await user.signup(fname.value, lname.value, username.value, email.value, password1.value)
             modal.value = success
             if(success){
@@ -157,10 +153,6 @@ const onSubmit = async () => {
             modal.value = error.message
             signupprocess.value = false
         }
-    }
-    else {
-        console.log("there is something");
-    }
 }
 </script>
 <style scoped>

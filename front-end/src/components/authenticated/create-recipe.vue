@@ -119,33 +119,10 @@ const objectfile = reactive([])
 const path = reactive([])
 const url = reactive([])
 const fileUpload = async () => {
-    console.log(objectfile);
-    console.log(objectfile.length);
     for (let i = 0; i < objectfile.length; i++) {
         var hold = objectfile[i]
-        console.log(hold);
         var tempourl = await recipe.upload_file(hold)
         path.push(tempourl)
-        console.log(tempourl);
-        // tempourl = ''
-
-        // hold = ''
-        //     const { mutate: uploadfile, onDone } = useMutation(file_upload, () => ({
-        //         variables: {
-        //             name: hold.file.name,
-        //             type: hold.file.type,
-        //             base64str: hold.base64str
-        //         }
-        //     }))
-        //    uploadfile();
-        //     onDone((response, error) => {
-        //         if (error) {
-        //             console.log(error);
-        //         }
-        //         // console.log(response["data"]["fileupload"]["file_path"]);
-        //         path.push(response["data"]["fileupload"]["file_path"])
-        //         console.log(path);
-        //     })
     }
 }
 const changefile = async (e) => {
@@ -157,31 +134,10 @@ const changefile = async (e) => {
     if (e.target.files[0]) {
         reader.readAsBinaryString(e.target.files[0]);
     }
-
     reader.onload = () => {
         base64str.value = btoa(reader.result);
-        // console.log("from trial"+base64str.value);
         objectfile.push({file:file.value,base64str:base64str.value});
     };
-    // reader.onerror = function () {
-    // };
-    // let obj = {file.value,base64str}
- 
-    //     function setNull(obj) {
-    //     setAll(obj, null);
-    // }
-    // for (key in files){
-    //     if (files.hasOwnProperty()) {
-    //         files[key] = null;
-    //     }
-    // }
-    // files.base64str = null;
-    // files.file = null
-
-    // // console.log(file.value);
-    // files.file = ''
-    // file.base64str = ''
-    // console.log(file.value);
 }
 
 const addNewIngredient = () => {
@@ -197,12 +153,8 @@ const removeingridient = () => {
     ingredientcounter.value--
 }
 const createrecipe = async () => {
-    console.log("befor any thing ahppens" + path);
     await fileUpload();
-    console.log("after something" + path);
     addnewrecipes();
-
-    console.log("file uploaded" + path)
 }
 const addnewrecipes = () => {
     console.log("at the inside of recipe " + path);
@@ -219,8 +171,6 @@ const addnewrecipes = () => {
     }))
     addnewrecipe();
 }
-
-
 </script>
 <style scoped>
 
