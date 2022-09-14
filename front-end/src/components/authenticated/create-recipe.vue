@@ -47,7 +47,6 @@
                                 ingridient</button>
                         </div>
                     </div>
-                    <img src="" alt="">
                     <div class="">
                         <div class="text-2xl  font  border-b-gray-900">Instructions</div>
                         <div class=" space-x-2  py-2" v-for="(key, index) in instructioncounter" :key="key">
@@ -63,32 +62,36 @@
                             class="flex items-center p-7 justify-center w-auto  py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
                             instructions
                         </button>
-                        <div class="">
-                            <div class="text-2xl font  border-b-gray-900">images</div>
-                            <div>
-                                <div class="grid grid-cols-3 space-x-3" v-for="(imageurl, index) in path">
-                                    <img :src="imageurl" alt="no image" class="w-20 m-2 h-20" />
+                        <div class="flex items-center justify-center">
+                            <div class="">
+                                <div class="space-y-3" v-for="(key, index) in url.length" :key="key">
+                                    <div class="my-3">
+                                        <img :src="url[index]" class="bg-black py-2" width="150" height="150"
+                                            alt="insert image">
+                                    </div>
                                 </div>
-                                <div class="flex items-center mt-2 bg-grey-lighter">
+                                <div class="flex justify-center items-center w-64 mt-5">
+                                    <label for="dropzone-file"
+                                        class="flex flex-col justify-center items-center w-full h-16 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                        <div class="flex flex-col justify-center items-center py-5">
 
-                                    <div class="block mb-2 w-20 text-xs font-medium text-gray-900 dark:text-gray-300">
-                                        Upload file</div>
-                                    <input
-                                        class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                        ref="file" type="file" @change="changefile">
-                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300"> PNG,JPG </p>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="py-auto w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                                strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                    d="M12 4.5v15m7.5-7.5h-15" />
+                                            </svg>
 
+
+                                        </div>
+                                        <input @change="changefile" id="dropzone-file" type="file" class="hidden" />
+                                    </label>
                                 </div>
-                                <button @click="fileUpload"
-                                    class="flex items-center justify-center w-auto p-7 py-4 my-2 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">upload
-                                    image
-                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div></div>
-                <button @click="addnewrecipe"
+                <button @click="createrecipe"
                     class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">publish</button>
             </div>
         </div>
@@ -98,8 +101,10 @@
 import settinglayoutVue from './layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
 import { ref, computed, onMounted, reactive } from 'vue'
+import { recipeStore } from '../../stores/recipestore.js';
 import { addrecipe, file_upload } from '@/tools/queries';
 const title = ref('')
+const recipe = recipeStore()
 const duration = ref('')
 const description = ref('')
 const instructions = ref([])
@@ -108,41 +113,77 @@ const ingredientcounter = ref(3)
 const instructioncounter = ref(3)
 const categories = ref('')
 const file = ref('')
-const path = ref([])
 const base64str = ref('')
 
-const fileUpload = () => {
-    const fileName = file.value.name;
-    const fileType = file.value.type;
-    const { mutate: uploadfile, onDone } = useMutation(file_upload, () => ({
-        variables: {
-            name: fileName,
-            type: fileType,
-            base64str: base64str.value
-        }
-    }))
-    uploadfile()
-    onDone((response, error) => {
-        if (error) {
-            console.log(error);
-        }
-        path.value.push(response["data"]["fileupload"]["file_path"])
-    })
+const objectfile = reactive([])
+const path = reactive([])
+const url = reactive([])
+const fileUpload = async () => {
+    console.log(objectfile);
+    console.log(objectfile.length);
+    for (let i = 0; i < objectfile.length; i++) {
+        var hold = objectfile[i]
+        console.log(hold);
+        var tempourl = await recipe.upload_file(hold)
+        path.push(tempourl)
+        console.log(tempourl);
+        // tempourl = ''
+
+        // hold = ''
+        //     const { mutate: uploadfile, onDone } = useMutation(file_upload, () => ({
+        //         variables: {
+        //             name: hold.file.name,
+        //             type: hold.file.type,
+        //             base64str: hold.base64str
+        //         }
+        //     }))
+        //    uploadfile();
+        //     onDone((response, error) => {
+        //         if (error) {
+        //             console.log(error);
+        //         }
+        //         // console.log(response["data"]["fileupload"]["file_path"]);
+        //         path.push(response["data"]["fileupload"]["file_path"])
+        //         console.log(path);
+        //     })
+    }
 }
 const changefile = async (e) => {
     file.value = e.target.files[0];
+    const newurl = URL.createObjectURL(file.value);
+    url.push(newurl);
+    console.log("I am not proxy");
     const reader = new FileReader();
     if (e.target.files[0]) {
         reader.readAsBinaryString(e.target.files[0]);
     }
+
     reader.onload = () => {
         base64str.value = btoa(reader.result);
+        // console.log("from trial"+base64str.value);
+        objectfile.push({file:file.value,base64str:base64str.value});
     };
-    // reader.onload()
-    reader.onerror = function () {
-    };
-    // reader.onerror()
+    // reader.onerror = function () {
+    // };
+    // let obj = {file.value,base64str}
+ 
+    //     function setNull(obj) {
+    //     setAll(obj, null);
+    // }
+    // for (key in files){
+    //     if (files.hasOwnProperty()) {
+    //         files[key] = null;
+    //     }
+    // }
+    // files.base64str = null;
+    // files.file = null
+
+    // // console.log(file.value);
+    // files.file = ''
+    // file.base64str = ''
+    // console.log(file.value);
 }
+
 const addNewIngredient = () => {
     ingredientcounter.value++
 }
@@ -155,17 +196,29 @@ const removenewinstructions = () => {
 const removeingridient = () => {
     ingredientcounter.value--
 }
-const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({
-    variables: {
-        title: title.value,
-        instructions: JSON.stringify(instructions.value.join(',,,,')),
-        images: JSON.stringify(path.value.join(',,,,')),
-        descriptions: description.value,
-        categories: categories.value,
-        ingredient: JSON.stringify(ingridient.value.join(',,,,')),
-        durations: duration.value
-    }
-}))
+const createrecipe = async () => {
+    console.log("befor any thing ahppens" + path);
+    await fileUpload();
+    console.log("after something" + path);
+    addnewrecipes();
+
+    console.log("file uploaded" + path)
+}
+const addnewrecipes = () => {
+    console.log("at the inside of recipe " + path);
+    const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({
+        variables: {
+            title: title.value,
+            instructions: JSON.stringify(instructions.value.join(',,,,')),
+            images: JSON.stringify(path.join(',,,,')),
+            descriptions: description.value,
+            categories: categories.value,
+            ingredient: JSON.stringify(ingridient.value.join(',,,,')),
+            durations: duration.value
+        }
+    }))
+    addnewrecipe();
+}
 
 
 </script>

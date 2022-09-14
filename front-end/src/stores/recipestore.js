@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { recipequery } from '@/tools/queries';
+import { recipequery,addrecipe, file_upload } from '@/tools/queries';
 import { provideApolloClient } from '@vue/apollo-composable';
 import apolloClient from './apolloclient'
 
@@ -10,19 +10,34 @@ export const recipeStore = defineStore("recipe",{
         error:[]
     }),
     actions: {
-        fetchrecipe() {
-            const result = apolloClient.query({
-                query: recipequery,
-            }).then((response) => {
-                let i = 0;
-                for (; i < response.data.recipe.length; i++) {
-                    this.recipe[i] = response.data.recipe[i]
-                }
-                console.log(response.data.recipe);
-            })
-            .catch((err)=>{
-                console.log(err)})
+        async addrecipe(){
+            try {
+                const response = apolloClient.mutate({
+                    mutation:addrecipe,
+                    variables:{
+
+                    }
+                })
+            } catch (error) {
+                
             }
+        },
+        async upload_file(object){
+            try {
+                const response =await apolloClient.mutate({
+                    mutation:file_upload,
+                    variables:{
+                        name:object.file.name,
+                        type:object.file.type,
+                        base64str:object.base64str
+                    }
+                })
+                console.log("from store"+response.data.fileupload.file_path);
+                return response.data.fileupload.file_path;
+            } catch (error) {
+            console.log(error);
+            }
+        },
         },
 persist: {
     enabled: true

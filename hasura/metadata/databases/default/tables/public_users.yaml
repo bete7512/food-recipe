@@ -69,10 +69,12 @@ update_permissions:
   - role: user
     permission:
       columns:
-        - fname
-        - lname
         - email
+        - fname
+        - id
+        - lname
         - password
+        - profile_image
         - username
       filter:
         id:
