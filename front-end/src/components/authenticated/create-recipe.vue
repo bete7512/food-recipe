@@ -1,5 +1,6 @@
 <template>
-    <div class="flex justify-center ">
+    <settinglayoutVue>
+        <div class="flex justify-center ">
             <div class="popup-content align-middle">
                 <h2 class="text-center text-lg font-bold pt-2">Add new recipe</h2>
                 <div class="flex flex-wrap space-x-10">
@@ -66,20 +67,21 @@
                             <div class="text-2xl font  border-b-gray-900">images</div>
                             <div>
                                 <div class="grid grid-cols-3 space-x-3" v-for="(imageurl, index) in path">
-                                        <img :src="imageurl" alt="no image" class="w-20 m-2 h-20"/>
+                                    <img :src="imageurl" alt="no image" class="w-20 m-2 h-20" />
                                 </div>
                                 <div class="flex items-center mt-2 bg-grey-lighter">
 
-                                    <div class="block mb-2 w-20 text-xs font-medium text-gray-900 dark:text-gray-300"
-                                        >Upload file</div>
+                                    <div class="block mb-2 w-20 text-xs font-medium text-gray-900 dark:text-gray-300">
+                                        Upload file</div>
                                     <input
                                         class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                         ref="file" type="file" @change="changefile">
-                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" > PNG,JPG </p>
+                                        ref="file" type="file" @change="changefile">
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300"> PNG,JPG </p>
 
                                 </div>
-                                <button  @click="fileUpload"
-                                    class="flex items-center justify-center w-auto p-7 py-4 my-2 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">upload image
+                                <button @click="fileUpload"
+                                    class="flex items-center justify-center w-auto p-7 py-4 my-2 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">upload
+                                    image
                                 </button>
                             </div>
                         </div>
@@ -87,15 +89,16 @@
                 </div>
                 <div></div>
                 <button @click="addnewrecipe"
-                    class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">publish</button>            </div>
-    </div>
+                    class="flex mx-auto align-middle items-center justify-center w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">publish</button>
+            </div>
+        </div>
+    </settinglayoutVue>
 </template>
 <script setup>
-import VueFileAgent from 'vue-file-agent';
+import settinglayoutVue from './layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
 import { ref, computed, onMounted, reactive } from 'vue'
 import { addrecipe, file_upload } from '@/tools/queries';
-import gql from 'graphql-tag';
 const title = ref('')
 const duration = ref('')
 const description = ref('')
@@ -123,7 +126,7 @@ const fileUpload = () => {
         if (error) {
             console.log(error);
         }
-        path.value.push(response["data"]["fileupload"]["file_path"])       
+        path.value.push(response["data"]["fileupload"]["file_path"])
     })
 }
 const changefile = async (e) => {
@@ -135,10 +138,10 @@ const changefile = async (e) => {
     reader.onload = () => {
         base64str.value = btoa(reader.result);
     };
-    reader.onload()
+    // reader.onload()
     reader.onerror = function () {
     };
-    reader.onerror()
+    // reader.onerror()
 }
 const addNewIngredient = () => {
     ingredientcounter.value++
@@ -167,4 +170,5 @@ const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({
 
 </script>
 <style scoped>
+
 </style>

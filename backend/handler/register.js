@@ -4,14 +4,12 @@ const nodemailer = require('nodemailer')
 const handler = async (req, res) => {
   const { fname,lname, username, email, password } = req.body.input.arg1;
   const finduser = require('../checker/findusername')
-  const { data, error } = await finduser({ username })
+  const { data, error } = await finduser({ username,email })
   const user = data["users"][0]
   if (user) {
     return res.status(400).json({
       message: 'you are  registered no registratrion again'
     })
-
-zz
   }
   else {
     const tokenContents = {

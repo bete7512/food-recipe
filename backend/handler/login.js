@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken')
 const handler = async (req, res) => {
   const { username, password } = req.body.input.arg1;
   const finduser = require('../checker/findusername')
-  const { data, error } = await finduser({ username })
+  const email = ''
+  const { data, error } = await finduser({ email,username })
   const user = data["users"][0]
   console.log(data["users"][0])
  

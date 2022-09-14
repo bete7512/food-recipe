@@ -1,12 +1,12 @@
 const FIND_USER = `
-query finduser($username: String!) {
-    users(where: {username: {_eq: $username}}, limit: 1) {
-        id
-        email
-        username
-        password
+query finduser($username: String!,$email:String!){
+    users(limit: 1, where:{_or:[{username: {_eq: $username}},{email: {_eq: $email}}]}) {
+      id
+      email
+      username
+      password
     }
-}
+  }
 `;
 require('dotenv').config()
 const finduser = async (variables) => {

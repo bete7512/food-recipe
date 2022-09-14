@@ -20,8 +20,7 @@
 <script setup lang="ts">
 import { useMutation } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
-import { onMounted } from 'vue';
-import { defineProps, defineEmits } from 'vue';
+import { onMounted,defineProps, defineEmits } from 'vue';
 const props = defineProps({
   id: Number,
 })
