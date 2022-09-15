@@ -1,7 +1,6 @@
 <template>
     <mainVue>
         <div>
-            <div>{{user.user.lname}}</div>
             <div v-if="error" class="flex justify-center items-center">error</div>
             <div v-if="loading" class="flex justify-center items-center">
                 <div role="status">
@@ -78,9 +77,12 @@
                                 </div>
                                 <div class="mb-1 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
                                     {{ rec.descriptions }}</div>
-                                <div class="text-xs bottom-1 mb-3">By <button
-                                        class="font-bold text-xs italic underline hover:underline">{{ rec.user.full_name
-                                        }}</button>
+                                <div class="text-xs bottom-1 mb-3">By <router-link :to="{name:'user',params:{id:rec.user.id}}">
+
+                                    <button class="font-bold text-xs italic underline hover:underline">{{
+                                    rec.user.full_name
+                                    }}</button>
+                                    </router-link>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +100,6 @@
             </div>
         </div>
     </mainVue>
-
 </template>
 <script setup >
 import mainVue from './layouts/main.vue';
@@ -108,16 +109,14 @@ import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
 import { favoriteStore } from '../../stores/favoritestore.js';
 import { likeStore } from '../../stores/likeStore.js'
-import { ref, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { recipequery, search_query, addlikes } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
-
 const pages = ref(0)
 const limit = ref(6)
 const offset = ref(0)
-const recipes = computed(() => result.value?.recipe ?? [])
-console.log(recipes);
+// console.log(recipes);
 const loadmore = () => {
     offset.value = limit.value * pages.value,
         pages.value++;
@@ -138,6 +137,7 @@ const loadmore = () => {
         },
     })
 }
+const recipes = computed(() => result.value?.recipe ?? [])
 const { error, loading, result, fetchMore } = useQuery(recipequery,
     () => ({
         offset: offset.value,
@@ -147,7 +147,7 @@ const { error, loading, result, fetchMore } = useQuery(recipequery,
         pollInterval: 100,
     },
     {
-        fetchPolicy: 'cache-and-network'
+        fetchPolicy: 'network-only'
     },
 );
 const user = useStore()
@@ -169,6 +169,8 @@ const managelikes = (id, isliked) => {
         likes.addtolike(id)
     }
 }
+console.log("from user data" + user.user_data);
+
 </script>
 <style>
 

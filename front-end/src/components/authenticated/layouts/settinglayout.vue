@@ -3,38 +3,51 @@
         <div class="flex justify-end w-10">
             <div class="">
                 <div class="w-44 h-16 flex justify-center space-x-1 items-end rounded p-2 ">
-                    <button class="p-3 h-16 w-16 rounded-full bg-gray-400 flex justify-center items-center"
+                    <button class=" h-16 w-16 rounded-full  flex justify-center items-center"
                         @click="profile = !profile">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                            class="bi bi-person" viewBox="0 0 16 16">
-                            <path
-                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                        </svg>
+                        <div v-if="user.profile_image" class="text-5xl h-16 w-16 rounded-full  text-white flex items-center justify-center">
+                                <div class="">
+                                    <img :src="user.profile_image" class=" h-16 w-16  rounded-full" alt="insert image">
+                                </div>
+                            </div>
+                            <div v-else
+                                class="text-5xl h-16 w-16 rounded-full bg-orange-700 text-white flex items-center justify-center">
+                                <div>
+                                    {{ user.full_name.charAt(0).toUpperCase() }}
+                                </div>
+                            </div>
                     </button>
                 </div>
                 <div v-if="profile"
                     class="absolute  z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                     <div class="py-3 px-4 text-sm text-gray-900 dark:text-white">
                         <div class="font-bold">{{ user.username }}</div>
-                        <div class="font-medium text-xs overflow-hidden truncate">betekbebe@.com</div>
+                        <div class="font-medium text-xs overflow-hidden truncate">{{user.email}}</div>
                     </div>
                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
-                        <li>
-                            <span
-                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit
-                                My
-                                profile</span>
-                        </li>
-                        <li>
-                            <span
-                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                notification</span>
-                        </li>
-                        <li>
-                            <span
-                                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My
-                                recipe</span>
-                        </li>
+                        <router-link :to="{name:'profile',params:{id:parseInt(user.userid)}}">
+                            <li>
+                                <span
+                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit
+                                    My
+                                    profile</span>
+                            </li>
+                        </router-link>
+
+                        <router-link to="">
+                            <li>
+                                <span
+                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    notification</span>
+                            </li>
+                        </router-link>
+                        <router-link to="">
+                            <li>
+                                <span
+                                    class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My
+                                    recipe</span>
+                            </li>
+                        </router-link>
                         <li>
                             <router-link :to="{ name: 'addrecipe', params: { id: 'createnewecipe' } }">
                                 <span
@@ -64,13 +77,14 @@
     <slot></slot>
 </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import router from '@/router/index'
 import { useStore } from '../../../stores/store.js';
-import { ref } from 'vue';
+import { ref,computed,onMounted } from 'vue';
 const title = ref('')
 const duration = ref(3000)
 const categories = ref('lunch')
 const profile = ref(false)
 const user =useStore()
+// onMounted(async () => { await user.user_profile() })
 </script>

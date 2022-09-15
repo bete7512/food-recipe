@@ -190,7 +190,6 @@ const createrecipe = async () => {
     await fileUpload();
     addnewrecipes();
     addingprocess.value = false
-    // router.push('/recipes')
 }
 const addnewrecipes = () => {
     const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({

@@ -78,9 +78,13 @@
                                 </div>
                                 <div class="mb-1 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
                                     {{ rec.descriptions }}</div>
-                                <div class="text-xs bottom-1 mb-3 ">By <button
-                                        class="font-bold text-xs italic underline hover:underline">{{ rec.user.full_name
+                                <div class="text-xs bottom-1 mb-3 ">By
+                                    <router-link :to="{name:'userdetail',params:{id:rec.user.id}}">
+                                        <button class="font-bold text-xs italic underline hover:underline">{{
+                                        rec.user.full_name
                                         }}</button>
+                                    </router-link>
+
                                 </div>
                             </div>
                         </div>
@@ -101,17 +105,26 @@
                 <div>
                     <div class="flex justify-center items-center  space-x-10">
                         <div class="space-y-2 m-2" v-for="user in users">
-                            <div
+                            <div v-if="user.profile_image"
+                                class="text-5xl h-28 w-28 rounded-full bg-orange-700 text-white flex items-center justify-center">
+                                <div class="">
+                                    <img :src="user.profile_image" class=" h-28 w-28  rounded-full" alt="insert image">
+                                </div>
+                            </div>
+                            <div v-else
                                 class="text-5xl h-24 w-24 rounded-full bg-orange-700 text-white flex items-center justify-center">
                                 <div>
                                     {{ user.full_name.charAt(0).toUpperCase() }}
                                 </div>
                             </div>
-                            <div class="font-bold">{{ user.full_name }}</div>
+                           <router-link :to="{name:'userdetail',params:{id:user.id}}">
+                               <div class="font-bold hover:underline">{{ user.full_name }}</div>
+                           </router-link> 
                             <div>posted {{ user.users_counted_recipe }} recipes</div>
                         </div>
                     </div>
                 </div>
+                <div>{{user.username}}</div>
             </div>
         </homeVue>
     </mainVue>
@@ -123,6 +136,8 @@ import StarRating from 'vue-star-rating'
 import { unauthenticatedquery } from '@/tools/queries';
 import { useQuery } from '@vue/apollo-composable';
 import { ref, computed } from 'vue';
+import { useStore } from '@/stores/store';
+const user = useStore()
 const loginmodal = ref(false)
 const pages = ref(0)
 const limit = ref(3)
@@ -132,7 +147,7 @@ const { error, loading, result, fetchMore } = useQuery(
         offset: offset.value,
         limit: limit.value
     }),
-    {fetchPolicy:'network-only'});
+    { fetchPolicy: 'network-only' });
 const users = computed(() => result.value?.users)
 const recipes = computed(() => result.value?.recipe)
 console.log(recipes);

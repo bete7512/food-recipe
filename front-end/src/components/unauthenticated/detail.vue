@@ -138,7 +138,6 @@ import { recipeStore } from '../../stores/recipestore.js';
 import { ref, reactive, computed, onMounted } from 'vue'
 import { recipe_by_id} from '@/tools/queries';
 import { useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
 const route = useRoute()
 const rating = ref(0)
 const imageat = ref(0)

@@ -6,7 +6,11 @@ import detail from '../components/unauthenticated/detail.vue'
 import recipedetailVue from '@/components/authenticated/recipedetail.vue'
 import searchVue from '@/components/authenticated/search.vue'
 import { useStore } from '../stores/store.js'
+import userdetail from '../components/unauthenticated/userdetail.vue'
+import user from '../components/authenticated/usersrecipe.vue'
 import profile from '../components/authenticated/person/editprofile.vue'
+import myrecipe from '../components/authenticated/person/myrecipe.vue'
+
 import createrecipe from '../components/authenticated/create-recipe.vue'
 import searchunauthenticated from '../components/unauthenticated/searchUnauthenticated.vue'
 const router = createRouter({
@@ -23,9 +27,24 @@ const router = createRouter({
       component:profile
     },
     {
+      name:'myrecipe',
+      path:'/my-profile/:id',
+      component:myrecipe
+    },
+    {
       name: 'searchunauthenticated',
       path: '/searchunauth/:id',
       component: searchunauthenticated
+    },
+    {
+      name:'user',
+      path:'/user/:id',
+      component:user
+    },
+    {
+      name:'userdetail',
+      path:'/user-detail/:id',
+      component:userdetail
     },
     {
       name: 'recipedetail',

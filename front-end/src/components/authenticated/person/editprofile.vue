@@ -2,11 +2,12 @@
     <settinglayoutVue>
         <div class="w-1/2 shadow-xl mt-5 p-10">
             <div class="font-extrabold text-4xl flex justify-center items-center"><span class="">Update</span><span
-                    class="px-2 text-3xl font-serif text-orange-400">Profile</span></div>
+                    class="px-2 text-3xl font-serif text-orange-400">Profile</span>
+            </div>
             <div class="justify-center flex   w-full rounded  items-center">
                 <div class="flex justify-center  items-center">
                     <div class="">
-                        <div v-if="profile_image_added" class="" >
+                        <div v-if="profile_image_added || url" class="">
                             <div class="my-3">
                                 <img :src="url" class="bg-black h-32 w-32  rounded-full" alt="insert image">
                             </div>
@@ -42,23 +43,18 @@
                                 <input v-model="lname" class="border  p-3 border-gray-400 rounded h-10 w-full"
                                     name="" />
                             </div>
+                        </div>
+                        <div class="px-2">
                             <div>
                                 <div>email</div>
                                 <input v-model="email" class="border  p-3 border-gray-400 rounded h-10 w-full"
                                     name="" />
                             </div>
                         </div>
-                        <div class="px-2">
-                            <div>
-                                <div>Enter your pulic name</div>
-                                <input v-model="publicname" class="border  p-3 border-gray-400 rounded h-10 w-full"
-                                    name="" />
-                            </div>
-                        </div>
                         <div class=" w-full">
                             <div>Enter your Bios</div>
-                            <textarea v-model="bios" class="border p-3 border-gray-400 rounded h-44 w-full"
-                                name=""></textarea>
+                            <textarea placeholder="write about your self" v-model="bios"
+                                class="border p-3 border-gray-400 rounded h-44 w-full" name=""></textarea>
                         </div>
                     </div>
                 </div>
@@ -69,7 +65,6 @@
                     <div v-if="updating" class="text-2xl">
                         <svg role="status" class="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101"
                             fill="none" xmlns="http://www.w3.org/2000/svg">
-
                             <path
                                 d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
                                 fill="#E5E7EB" />
@@ -90,35 +85,48 @@
 <script setup >
 import { recipeStore } from '../../../stores/recipestore.js';
 import { useStore } from '../../../stores/store.js';
-
-import { file_upload, update_profile } from '@/tools/queries';
+import { update_profile } from '@/tools/queries';
 import settinglayoutVue from '../layouts/settinglayout.vue';
-import { useMutation, useQuery } from '@vue/apollo-composable';
+import { useMutation } from '@vue/apollo-composable';
 import { ref, reactive } from 'vue'
+const user = useStore()
 const recipe = recipeStore()
 const file = ref('')
 const base64str = ref('')
 const objectfile = reactive({})
 const path = ref('')
-const url = ref('')
+const url = ref(user.profile_image)
+const fname = ref(user.fname)
+const lname = ref(user.lname)
+const email = ref(user.email)
+const bios = ref(user.bios)
+
+const publicname = ref(user.public_name)
 const profile_image_added = ref(false)
 const updating = ref(false)
 const updateprofile = async () => {
     console.log(objectfile);
     updating.value = true
-    path.value = await recipe.upload_file(objectfile)
+    await profile_image_upload()
+    console.log("path" + path.value);
     update_profiles()
+}
+const profile_image_upload = async function () {
+    path.value = await recipe.upload_file(objectfile)
 }
 const { mutate: update_profiles, onDone } = useMutation(update_profile, () => ({
     variables: {
-        fname: fname,
-        lnam: lanme,
-        email: email,
-        profile_image: path,
-        id: id,
+        fname: fname.value,
+        lname: lname.value,
+        email: email.value,
+        profile_image: path.value,
+        bios: bios.value,
+        id: parseInt(user.userid),
     }
 }))
-
+onDone((result) => {
+    console.log(result);
+})
 const changefile = async (e) => {
     file.value = e.target.files[0];
     url.value = URL.createObjectURL(file.value);
@@ -129,7 +137,7 @@ const changefile = async (e) => {
     reader.onload = () => {
         base64str.value = btoa(reader.result);
         objectfile.file = file.value,
-        objectfile.base64str = base64str.value;
+            objectfile.base64str = base64str.value;
         profile_image_added.value = true
     };
 }

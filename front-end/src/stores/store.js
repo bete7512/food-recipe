@@ -12,6 +12,14 @@ export const useStore = defineStore("user", {
         userid: '',
         isauthenticated: false,
         returnUrl: '',
+        fname:'',
+        lname:'',
+        email:'',
+        profile_image:'',
+        bios:'',
+        full_name:'',
+        public_name:'',
+
     }),
     actions: {
         async signup(fname, lname, username, email, password,) {
@@ -40,46 +48,61 @@ export const useStore = defineStore("user", {
                         password: password,
                     }
                 })
-                window.localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
+               localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
                 this.username = username
                 // console.log("am from user store" + result["data"]["login"]["id"]);
                 this.userid = result.data.login.id
                 this.isauthenticated = true,
-                    router.push({ name: 'feeds' });
+                 await this.user_profile();
+                router.push({ name: 'feeds' });
                 return
             } catch (error) {
                 return error.message
             }
         },
+        async user_profile() {
+            try {
+                const result = await apolloClient.query({
+                    query: user_profile_query,
+                    variables: {
+                        id: this.userid
+                    }
+                })
+                this.fname = result.data.users_by_pk.fname
+                this.lname = result.data.users_by_pk.lname
+                this.email = result.data.users_by_pk.email
+                this.full_name = result.data.users_by_pk.full_name
+                this.bios = result.data.users_by_pk.bios
+                this.profile_image = result.data.users_by_pk.profile_image
+                this.public_name = result.data.users_by_pk.public_name
+                this.username = result.data.users_by_pk.username
+                // this.user.fname = result.data.users_by_pk.fname
+                // this.user.lname = result.data.users_by_pk.lname
+                // this.user.email = result.data.users_by_pk.email
+                // this.user.full_name = result.data.users_by_pk.full_name
+                // this.user.bios = result.data.users_by_pk.bios
+                // this.user.profile_image = result.data.users_by_pk.profile_image
+                // this.user.publicname = result.data.users_by_pk.public_name
+                // this.user.username = result.data.users_by_pk.username
+                // this.user.id = result.data.users_by_pk.id
+                // await localStorage.setItem("user", JSON.stringify(this.user));
+            } catch (error) {
+
+            }
+        },
         logout() {
-            window.localStorage.removeItem('Apollotoken');
-            // localStorage.removeItem('user');
+            localStorage.removeItem('Apollotoken');
+            localStorage.removeItem('user');
             this.isauthenticated = false,
-            // useStore.$reset()
             router.push('/');
         },
     },
     getters: {
-        // async user_profile() {
-        //     try {
-        //         const result = await apolloClient.query({
-        //             query: user_profile_query,
-        //             variables: {
-        //                 id: this.userid
-        //             }
-        //         })
-        //         console.log(result.data);
-        //         this.user.fname = result.data.users_by_pk.fname
-        //         this.user.lname = result.data.users_by_pk.lname
-        //         this.user.email = result.data.users_by_pk.email
-        //         this.user.full_name = result.data.users_by_pk.full_name
-        //         this.user.bios = result.data.users_by_pk.bios
-        //         this.user.profile_image = result.data.users_by_pk.profile_image
-        //         this.user.publicname = result.data.users_by_pk.public_name
-        //     } catch (error) {
-
-        //     }
-        // },
+        user_data(){
+            const user = window.localStorage.getItem("user")
+            console.log("object object" + JSON.parse(user));
+           return JSON.parse(user)
+        }
     },
     persist: {
         enabled: true,

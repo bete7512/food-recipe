@@ -1,17 +1,14 @@
 <template >
-    <settinglayoutVue>
+    <mainVue>
         <div class="mt-5">
             <div>
                 <div class="text-2xl text-orange-500">Posted Recipe</div>
                 <div>
                     <div>
-
                     </div>
                     <div>
-
                     </div>
                     <div>
-
                     </div>
                 </div>
                 <div>
@@ -104,30 +101,30 @@
                             </div>
                         </div>
                         <div class="w-3/12 flex justify-start">
-
                         </div>
                     </div> -->
-
                 </div>
             </div>
         </div>
-    </settinglayoutVue>
+    </mainVue>
 </template>
 <script setup>
-import settinglayoutVue from '../layouts/settinglayout.vue';
+import mainVue from './layouts/main.vue';
 import StarRating from 'vue-star-rating'
-import router from '../../../router/index'
-import { useStore } from '../../../stores/store.js';
-import { recipeStore } from '../../../stores/recipestore.js';
-import { favoriteStore } from '../../../stores/favoritestore.js';
-import { likeStore } from '../../../stores/likeStore.js'
+import router from '../../router/index'
+import { useStore } from '../../stores/store.js';
+import { recipeStore } from '../../stores/recipestore.js';
+import { favoriteStore } from '../../stores/favoritestore.js';
+import { likeStore } from '../../stores/likeStore.js'
 import { ref, onMounted, computed } from 'vue'
-import { user_query } from '@/tools/queries';
+import { user_detail_public } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import { useRoute } from 'vue-router';
 const route = useRoute()
 const id = route.params.id
-const { error, loading, result } = useQuery(user_query,
+// const user = computed(() => result.value?.users?? [])
+// console.log("gorogot"+user);
+const { error, loading, result } = useQuery(user_detail_public,
     () => ({
         id: id
     }),

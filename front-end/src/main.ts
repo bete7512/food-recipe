@@ -6,9 +6,10 @@ import apolloclient from './apollo'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import './index.css'
 import piniaPersist from 'pinia-plugin-persist'
-
+import  resetStore  from './reset-store.js'
 const pinia = createPinia()
 pinia.use(piniaPersist)
+pinia.use(resetStore)
 const app = createApp({
   setup() {
     provide(DefaultApolloClient, apolloclient)

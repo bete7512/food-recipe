@@ -22,8 +22,7 @@ export const recipeStore = defineStore("recipe",{
                         descriptions: descriptions,
                         categories: categories,
                         ingredient: ingredient,
-                        durations: durations
-                        
+                        durations: durations  
                     }
                 })
             } catch (error){
@@ -40,6 +39,7 @@ export const recipeStore = defineStore("recipe",{
                         base64str:object.base64str
                     }
                 })
+                console.log(response.data.fileupload.file_path);
                 return response.data.fileupload.file_path;
             } catch (error) {
             console.log(error);
