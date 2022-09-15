@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../components/unauthenticated/Home.vue'
+import home from '../components/unauthenticated/home.vue'
 import feeds from '../components/authenticated/feeds.vue'
 import favorite from '../components/authenticated/favorite.vue'
 import detail from '../components/unauthenticated/detail.vue'
@@ -15,7 +15,7 @@ const router = createRouter({
     {
       name: 'home',
       path: '/',
-      component: Home,
+      component: home,
     },
     {
       name:'profile',

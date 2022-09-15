@@ -33,6 +33,7 @@ input SignupInput {
 
 type SignOutput {
   accessToken: String!
+  id: Int!
 }
 
 type SignupOutput {

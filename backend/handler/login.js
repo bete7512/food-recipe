@@ -34,7 +34,8 @@ const handler = async (req, res) => {
     console.log(token)
     return res.json({
       accessToken: token,
-      ...data.users
+      id:user.id,
+        // ...data.users
     })
   }
 };

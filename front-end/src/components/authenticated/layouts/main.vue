@@ -51,7 +51,7 @@
                     class="absolute  z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                     <div class="py-3 px-4 text-sm text-gray-900 dark:text-white">
                         <div class="font-bold">{{ user.username }}</div>
-                        <div class="font-medium text-xs overflow-hidden truncate">betekbebe@.com</div>
+                        <!-- <div class="font-medium text-xs overflow-hidden truncate">{{user.user.full_name}}</div> -->
                     </div>
                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
                         <router-link :to="{name:'profile',params:{id:1233}}">
@@ -71,6 +71,7 @@
                             </li>
                         </router-link>
                         <router-link to="">
+                            <!-- <button @click="user.user_profile()">trial</button> -->
                             <li>
                                 <span
                                     class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My
@@ -93,7 +94,7 @@
                         </li>
                     </ul>
                     <div class="py-1">
-                        <button @click="user.logout"
+                        <button @click="logout"
                             class="block w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
                             out</button>
                     </div>
@@ -109,20 +110,20 @@
 <script setup lang="ts">
 import router from '@/router/index'
 import { useStore } from '../../../stores/store.js';
-import { ref } from 'vue';
+import { ref,onMounted,reactive } from 'vue';
 const title = ref('')
 const duration = ref(3000)
 const categories = ref('lunch')
 const profile = ref(false)
 const user = useStore()
+
+const logout  = ()=>{
+    user.$reset()
+    user.logout()
+}
 const searchrecipe = () => {
     router.push({ name: 'search', params: { id: categories.value, duration: duration.value, title: title.value } })
 }
-
-
 </script>
 <style scoped>
-.manual {
-    margin-bottom: 30px;
-}
 </style>

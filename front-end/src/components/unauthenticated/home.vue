@@ -122,22 +122,8 @@ import mainVue from './layouts/main.vue';
 import StarRating from 'vue-star-rating'
 import { unauthenticatedquery } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
-import { useStore } from '../../stores/store.js';
-import { recipeStore } from '../../stores/recipestore.js';
-import { favoriteStore } from '../../stores/favoritestore.js';
-import { likeStore } from '../../stores/likeStore.js'
-import router from '../../router/index'
 import { ref, computed, onMounted } from 'vue';
-import Login from './login.vue'
-import Signup from './signup.vue'
-const successfullsignupmodal = ref(false)
 const loginmodal = ref(false)
-const signupmodal = ref(false)
-const loginmodallisten = () => {
-    loginmodal.value = !loginmodal.value
-}
-const user = useStore()
 const pages = ref(0)
 const limit = ref(3)
 const offset = ref(0)
@@ -192,9 +178,6 @@ const loadless = () => {
                 }
             },
         })
-}
-const managefavorite = () => {
-    router.push('/login')
 }
 
 </script>

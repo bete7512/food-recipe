@@ -1,15 +1,17 @@
 import { defineStore } from 'pinia'
-import { register, signin } from '@/tools/queries';
+import { register, signin, user_profile_query } from '@/tools/queries';
 import { provideApolloClient } from '@vue/apollo-composable';
 import apolloClient from './apolloclient'
 import router from '../router/index'
 provideApolloClient(apolloClient);
+
 export const useStore = defineStore("user", {
     state: () => ({
+        user:{},
         username: '',
+        userid: '',
         isauthenticated: false,
         returnUrl: null,
-        emailmodal: false
     }),
     actions: {
         async signup(fname, lname, username, email, password,) {
@@ -29,7 +31,7 @@ export const useStore = defineStore("user", {
                 return error.message
             }
         },
-        async login(username, password) {
+        async login(username, password){
             try {
                 const result = await apolloClient.mutate({
                     mutation: signin,
@@ -40,6 +42,8 @@ export const useStore = defineStore("user", {
                 })
                 window.localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
                 this.username = username
+                // console.log("am from user store" + result["data"]["login"]["id"]);
+                this.userid = result.data.login.id
                 this.isauthenticated = true,
                     router.push({ name: 'feeds' });
                 return
@@ -49,16 +53,37 @@ export const useStore = defineStore("user", {
         },
         logout() {
             window.localStorage.removeItem('Apollotoken');
-            localStorage.removeItem('user');
-            this.isauthenticated = false
-        
-             router.push('/');
+            // localStorage.removeItem('user');
+            this.isauthenticated = false,
+            // useStore.$reset()
+            router.push('/');
         },
     },
     getters: {
+        async user_profile() {
+            try {
+                const result = await apolloClient.query({
+                    query: user_profile_query,
+                    variables: {
+                        id: this.userid
+                    }
+                })
+                console.log(result.data);
+                this.user.fname = result.data.users_by_pk.fname
+                this.user.lname = result.data.users_by_pk.lname
+                this.user.email = result.data.users_by_pk.email
+                this.user.full_name = result.data.users_by_pk.full_name
+                this.user.bios = result.data.users_by_pk.bios
+                this.user.profile_image = result.data.users_by_pk.profile_image
+                this.user.publicname = result.data.users_by_pk.public_name
+            } catch (error) {
+
+            }
+        },
     },
     persist: {
-        enabled: true
+        enabled: true,
+        mode: "localSession"
     }
 
 })

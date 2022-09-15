@@ -10,15 +10,23 @@ export const recipeStore = defineStore("recipe",{
         error:[]
     }),
     actions: {
-        async addrecipe(){
+        async addrecipe(title,instructions,images,descriptions,categories,ingredient,durations){
             try {
+                console.log("hello"+variables.descriptions);
                 const response = apolloClient.mutate({
                     mutation:addrecipe,
                     variables:{
-
+                        title: title,
+                        instructions:instructions,
+                        images: images,
+                        descriptions: descriptions,
+                        categories: categories,
+                        ingredient: ingredient,
+                        durations: durations
+                        
                     }
                 })
-            } catch (error) {
+            } catch (error){
                 
             }
         },
@@ -32,7 +40,6 @@ export const recipeStore = defineStore("recipe",{
                         base64str:object.base64str
                     }
                 })
-                console.log("from store"+response.data.fileupload.file_path);
                 return response.data.fileupload.file_path;
             } catch (error) {
             console.log(error);

@@ -10,6 +10,7 @@ const signin = gql`
 mutation login($password: String!, $username: String!) {
   login(arg1: {password: $password, username: $username}) {
     accessToken
+    id
   }
 }
 `
@@ -271,9 +272,32 @@ query MyQuery($id: Int!) {
     }
   }
 }
+`
+const update_profile = gql`
+mutation MyMutation($bios: String!, $fname: String!, $email: String!, $lname: String!, $profile_image: String = "", $id: Int = 3) {
+  update_users_by_pk(pk_columns: {id: $id}, _set: {bios: $bios, fname: $fname, email: $email, lname: $lname, profile_image: $profile_image}) {
+    bios
+  }
+}
+`
+
+const user_profile_query = gql`
+query MyQuery($id: Int!) {
+  users_by_pk(id: $id) {
+    bios
+    email
+    fname
+    full_name
+    id
+    lname
+    profile_image
+    public_name
+  }
+}
 
 `
 export {
   register, signin, addrecipe, recipequery, addtofavorite, removefavorite, addlikes, deletelikes,
-  favoritequery, unauthenticatedquery, file_upload, recipe_by_id, comment_mutation, user_query,search_query,searchunauthenticated
+  favoritequery, unauthenticatedquery, file_upload, recipe_by_id, comment_mutation, user_query,search_query,searchunauthenticated,
+  update_profile,user_profile_query
 };

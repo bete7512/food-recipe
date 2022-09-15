@@ -1,6 +1,7 @@
 <template>
     <mainVue>
         <div>
+            <div>{{user.user.lname}}</div>
             <div v-if="error" class="flex justify-center items-center">error</div>
             <div v-if="loading" class="flex justify-center items-center">
                 <div role="status">
@@ -22,7 +23,7 @@
                 <div class=" w-10/12 flex flex-wrap   justify-center items-center space-x-3 ">
                     <div class=" flex flex-wrap space-x-3">
                         <div class="card hover:border hover:shadow-xl h-96 hover:border-sky-800 duration-100 mt-2 hover:scale-100 max-w-sm  w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                            v-for="(rec, index) in result.recipe" :key="rec.id">
+                            v-for="(rec, index) in recipes" :key="rec.id">
                             <div class="relative">
                                 <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[0]" />
                                 <button @click="managefavorite(rec.id, rec.isfavorite)"
@@ -101,7 +102,6 @@
 </template>
 <script setup >
 import mainVue from './layouts/main.vue';
-// import main from '../layouts/main.vue'
 import StarRating from 'vue-star-rating'
 import router from '../../router/index'
 import { useStore } from '../../stores/store.js';
@@ -117,6 +117,7 @@ const pages = ref(0)
 const limit = ref(6)
 const offset = ref(0)
 const recipes = computed(() => result.value?.recipe ?? [])
+console.log(recipes);
 const loadmore = () => {
     offset.value = limit.value * pages.value,
         pages.value++;
@@ -167,9 +168,6 @@ const managelikes = (id, isliked) => {
     else {
         likes.addtolike(id)
     }
-}
-const singlerecipe = (id) => {
-    router.push('/recipedetail')
 }
 </script>
 <style>

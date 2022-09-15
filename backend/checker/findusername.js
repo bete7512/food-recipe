@@ -4,7 +4,12 @@ query finduser($username: String!,$email:String!){
       id
       email
       username
+      fname
+      lname
       password
+      full_name
+      profile_image
+      public_name
     }
   }
 `;
