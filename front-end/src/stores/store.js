@@ -11,7 +11,7 @@ export const useStore = defineStore("user", {
         username: '',
         userid: '',
         isauthenticated: false,
-        returnUrl: null,
+        returnUrl: '',
     }),
     actions: {
         async signup(fname, lname, username, email, password,) {
@@ -60,26 +60,26 @@ export const useStore = defineStore("user", {
         },
     },
     getters: {
-        async user_profile() {
-            try {
-                const result = await apolloClient.query({
-                    query: user_profile_query,
-                    variables: {
-                        id: this.userid
-                    }
-                })
-                console.log(result.data);
-                this.user.fname = result.data.users_by_pk.fname
-                this.user.lname = result.data.users_by_pk.lname
-                this.user.email = result.data.users_by_pk.email
-                this.user.full_name = result.data.users_by_pk.full_name
-                this.user.bios = result.data.users_by_pk.bios
-                this.user.profile_image = result.data.users_by_pk.profile_image
-                this.user.publicname = result.data.users_by_pk.public_name
-            } catch (error) {
+        // async user_profile() {
+        //     try {
+        //         const result = await apolloClient.query({
+        //             query: user_profile_query,
+        //             variables: {
+        //                 id: this.userid
+        //             }
+        //         })
+        //         console.log(result.data);
+        //         this.user.fname = result.data.users_by_pk.fname
+        //         this.user.lname = result.data.users_by_pk.lname
+        //         this.user.email = result.data.users_by_pk.email
+        //         this.user.full_name = result.data.users_by_pk.full_name
+        //         this.user.bios = result.data.users_by_pk.bios
+        //         this.user.profile_image = result.data.users_by_pk.profile_image
+        //         this.user.publicname = result.data.users_by_pk.public_name
+        //     } catch (error) {
 
-            }
-        },
+        //     }
+        // },
     },
     persist: {
         enabled: true,

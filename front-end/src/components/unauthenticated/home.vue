@@ -37,7 +37,7 @@
                     </button>
                     <div class="flex w-10/12 flex-wrap p-5 justify-center items-center space-x-3 ">
                         <div class="card hover:border hover:shadow-xl hover:border-sky-800 duration-100 mt-4  max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                            v-for="(rec, index) in recipes" :key="rec.id">
+                            v-for="(rec, index) in result.recipe" :key="rec.id">
                             <div class="relative">
                                 <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[2]" />
                                 <button @click="loginmodal = true"
@@ -121,24 +121,21 @@ import homeVue from './layouts/home.vue';
 import mainVue from './layouts/main.vue';
 import StarRating from 'vue-star-rating'
 import { unauthenticatedquery } from '@/tools/queries';
-import { useMutation, useQuery } from '@vue/apollo-composable';
-import { ref, computed, onMounted } from 'vue';
+import { useQuery } from '@vue/apollo-composable';
+import { ref, computed } from 'vue';
 const loginmodal = ref(false)
 const pages = ref(0)
 const limit = ref(3)
 const offset = ref(0)
-
 const { error, loading, result, fetchMore } = useQuery(
     unauthenticatedquery, () => ({
         offset: offset.value,
         limit: limit.value
-    }), {
-    fetchPolicy: 'cache-and-network'
-}, {
-    pollInterval: 100,
-});
+    }),
+    {fetchPolicy:'network-only'});
 const users = computed(() => result.value?.users)
 const recipes = computed(() => result.value?.recipe)
+console.log(recipes);
 const loadmore = () => {
     pages.value++;
     offset.value = limit.value * pages.value,
@@ -179,7 +176,6 @@ const loadless = () => {
             },
         })
 }
-
 </script>
 <style>
 

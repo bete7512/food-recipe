@@ -48,6 +48,7 @@ select_permissions:
         - bios
         - email
         - fname
+        - id
         - lname
         - profile_image
         - username
