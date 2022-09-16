@@ -71,7 +71,7 @@ const schema = Yup.object().shape({
         .min(3, 'Password must be at least 3 characters')
         .required('Password is required'),
 })
-const emit = defineEmits(['loginSuccess'])
+const emit = defineEmits(['loginSuccess','successfulllogin'])
 const emitlogin = (event) => {
     emit('loginSuccess')
 }
@@ -79,24 +79,17 @@ const user = useStore()
 const loginprocess = ref(false)
 let loginreturn = ref('')
 const onSubmit = async () => {
-
-    // if (username.value && password.value) {
-        loginprocess.value = true
-        try {
+    try {
+            loginprocess.value = true
             loginreturn.value = await user.login(username.value, password.value)
-            if (loginreturn.value) {
-                loginprocess = false
-            }
+            emit('loginSuccess')
+            emit('successfulllogin')
+            loginprocess = false
         }
         catch (error) {
             loginreturn = error.message
             loginprocess.value = false
         }
-    // }
-    // else {
-    //     console.log("please enter the correct input");
-    // }
-
 }
 </script>
 <style scoped>

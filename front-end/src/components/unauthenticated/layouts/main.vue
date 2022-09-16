@@ -14,7 +14,7 @@
                 </svg>
                 <button class="">Register</button>
             </button>
-            <button @click="loginmodallisten" class="hover:bg-pink-600 flex items-center p-5 rounded">
+            <button @click="loginmodal = true" class="hover:bg-pink-600 flex items-center p-5 rounded">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6 flex items-center">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -25,36 +25,48 @@
         </div>
     </div>
     <slot></slot>
-    <Login v-if="loginmodal" v-on:loginSuccess="loginmodal = false"></Login>
+    <Login v-if="loginmodal" v-on:loginSuccess="loginmodal = false" v-on:successfulllogin="successloginmodal = true"></Login>
     <Signup v-if="signupmodal" v-on:signupSuccess="signupmodal = false"
-        v-on:successfullsignup="successfullsignupmodal = true"></Signup>
+        v-on:successfullsignup="successsignupmodal = true"></Signup>
+        <!-- <modalVue :notify=notify v-if="makemodal()" v-on:success="disapear()"></modalVue> -->
 </template>
 <script setup >
-import StarRating from 'vue-star-rating'
-import { unauthenticatedquery } from '@/tools/queries';
-import { useMutation, useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
-import { useStore } from '../../../stores/store.js';
-import { recipeStore } from '../../../stores/recipestore.js';
-import { favoriteStore } from '../../../stores/favoritestore.js';
-import { likeStore } from '../../../stores/likeStore.js'
+import modalVue from '../modal.vue';
 import router from '../../../router/index'
 import { ref, computed,onMounted } from 'vue';
 import Login from '../login.vue'
 import Signup from '../signup.vue'
-const successfullsignupmodal = ref(false)
-console.log(successfullsignupmodal.value);
+const notify = ref('')
+const notifysignup = ref('You Signed up Succefully')
+const notifylogin = ref('You Signed up Succefully')
+const successmodal = ref(false)
+const successloginmodal = ref(false)
+const successsignupmodal = ref(false)
+const makemodal = ()=>{
+    if(successloginmodal.value){
+        notify.value = notifylogin.value
+        return true
+    }
+    else if(successsignupmodal.value){
+        notify.value = notifysignup.value
+        return true
+    }
+    else {
+        return false
+    }
+}
+
+const disapear = ()=>{
+    // if(successloginmodal.value){
+    //     notify.value = ''
+        successloginmodal.value = false
+//     }
+//    if(successsignupmodal.value){
+        successsignupmodal.value = false
+    // }
+}
 const loginmodal = ref(false)
 const signupmodal = ref(false)
-console.log(loginmodal.value);
-const search = ref(false)
-const loginmodallisten = () => {
-    loginmodal.value = !loginmodal.value
-}
-const user = useStore()
-const gotohome = ()=>{
-    router.push('/')
-}
 </script>
 <style>
 

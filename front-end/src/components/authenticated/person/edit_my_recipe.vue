@@ -51,7 +51,7 @@
                     </div>
                     <div class="">
                         <div class="text-2xl  font  border-b-gray-900">Instructions</div>
-                        <div class=" space-x-2  py-2" v-for="(key, index) in instructioncounter" :key="key">
+                        <!-- <div class=" space-x-2  py-2" v-for="(key, index) in instructioncounter" :key="key">
                             <div><strong>step {{ key }}</strong></div>
                             <div class="flex space-x-2">
                                 <textarea class="border-2 p-3 bg-slate-300 border-black h-20 w-80 rounded"
@@ -59,7 +59,7 @@
                                 <button @click="removenewinstructions" class="flex items-center justify-center "><span
                                         class="text-base h-8 w-8 font-extrabold text-center text-black border-2 border-slate-900 rounded-full">x</span></button>
                             </div>
-                        </div>
+                        </div> -->
                         <button @click="addnewinstructions"
                             class="flex items-center p-7 justify-center w-auto  py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">add
                             instructions
@@ -121,16 +121,34 @@
 </template>
 <script setup>
 import router from '@/router';
-import settinglayoutVue from './layouts/settinglayout.vue';
+import settinglayoutVue from '../layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
-import { ref, reactive } from 'vue'
-import { recipeStore } from '../../stores/recipestore.js';
+import { ref,defineProps, reactive } from 'vue'
+import { recipeStore } from '../../../stores/recipestore.js';
 import { addrecipe, file_upload } from '@/tools/queries';
-const title = ref('')
+import { useRoute } from 'vue-router';
+import { number } from 'yup';
+// const props = defineProps({
+//     title:String,
+//     duration:Number
+// })
+const route= useRoute()
+const title = route.params.title
+const id = route.params.id
 const recipe = recipeStore()
-const duration = ref('')
-const description = ref('')
-const instructions = ref([])
+console.log(title);
+
+
+// const duration = ref(route.params.duration)
+// const description = route.params.description
+// const id = route.params.id
+
+// console.log("something is here"+route.props.title);
+// const instructions = route.props.instructions
+// console.log(instructions);
+// const instructions = ref(JSON.parse(route.params.instructions).split(',,,,'))
+// const ingridients = route.params.ingridient.split(',,,,')
+// const image_url = route.params.image_url.split(',,,,')
 const ingridient = ref([])
 const ingredientcounter = ref(3)
 const instructioncounter = ref(3)
@@ -150,6 +168,7 @@ const fileUpload = async () => {
         path.push(tempourl)
     }
 }
+
 const changefile = async (e) => {
     file.value = e.target.files[0];
     const newurl = URL.createObjectURL(file.value);

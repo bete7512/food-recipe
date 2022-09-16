@@ -1,14 +1,44 @@
 <template >
     <mainVue>
-        <div class="mt-5">
+        <div class="pt-10">
             <div>
-                <div class="text-2xl text-orange-500">Posted Recipe</div>
-                <div>
-                    <div>
+                <div class="flex justify-center">
+                    <div class="w-2/12 flex justify-center"></div>
+                    <div class="w-10/12 space-y-3 ">
+                        <div class="text-2xl flex items-center space-x-3  text-orange-500 p-5">
+                            <div v-if="user.profile_image"> <img :src="user.profile_image" class=" h-16 w-16  rounded-full" alt="insert image">
+                            
+                            </div>
+                            <div v-else
+                            class="text-5xl h-16 w-16 rounded-full bg-orange-700 text-white flex items-center justify-center">
+                            <div>
+                                {{ user.full_name.charAt(0).toUpperCase() }}
+                            </div>
+                        </div>
+                            <div>
+                                <span class="text-gray-800"><span class="">{{user.full_name}}</span></span> 's Posted
+                                Recipe
+                            </div>
+                        </div>
+                        <div class="border p-10 rounded border-orange-500">
+                            <div>
+                                About <span class="text-orange-500">{{user.fname}}</span>
+                                <div>{{user.bios}}</div>
+                            </div>
+                        </div>
+                        <div class="border p-10 rounded border-orange-500">
+                            <div>
+                                have <span class="text-orange-500">{{user.users_counted_recipe}}</span> total published recipe
+                                <div>{{user.bios}}</div>
+                            </div>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
                     </div>
-                    <div>
-                    </div>
-                    <div>
+                    <div class="w-2/12 flex justify-center">
+                    
                     </div>
                 </div>
                 <div>
@@ -27,12 +57,7 @@
                             <span class="sr-only">Loading...</span>
                         </div>
                     </div>
-                    <div v-else>
-                        <div>
-                            {{result.users_by_pk}}
-                        </div>
-                    </div>
-                    <!-- <div v-else class="flex">
+                    <div v-else class="flex">
                         <div class="flex justify-center w-3/12">
                         </div>
                         <div class=" w-10/12 flex flex-wrap   justify-center items-center space-x-3 ">
@@ -102,7 +127,7 @@
                         </div>
                         <div class="w-3/12 flex justify-start">
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,8 +147,8 @@ import { useMutation, useQuery } from '@vue/apollo-composable';
 import { useRoute } from 'vue-router';
 const route = useRoute()
 const id = route.params.id
-// const user = computed(() => result.value?.users?? [])
-// console.log("gorogot"+user);
+const recipes = computed(() => result.value?.users_by_pk.recipes ?? [])
+const user = computed(() => result.value?.users_by_pk ?? [])
 const { error, loading, result } = useQuery(user_detail_public,
     () => ({
         id: id

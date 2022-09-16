@@ -1,8 +1,8 @@
 <template>
   <div class="overlay top-0 left-0 bottom-0 right-0 flex items-center justify-center">
-    <div class="space-y-80 h-40 w-80 bg-white rounded-md">
+    <div class="space-y-80 h-40 w-auto  bg-white rounded-md">
       <div class="inline-flex w-auto  border-zinc-900 h-auto justify-center">
-        <div class="space-y-2 p-2 h-60">
+        <div class="space-y-2  h-auto p-5">
           <div class="flex justify-end"><button @click="discard"
               class="font-bold text-4xl hover:bg-red-700 h-10 w-10 rounded-md">x</button></div>
           <div>are you sure you want to delete? </div>
@@ -17,7 +17,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { useMutation } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 import { onMounted,defineProps, defineEmits } from 'vue';
@@ -25,17 +25,18 @@ const props = defineProps({
   id: Number,
 })
 const emit = defineEmits(['canceldelete','deletenotify'])
-const deletemust = (event:any) => {
-  deletecontact();
+const deletemust = (event) => {
+  console.log("deleting");
+  deleterecipe();
   emit('deletenotify')
   emit('canceldelete')
 }
-const discard = (event:any) => {
+const discard = (event) => {
   emit('canceldelete')
 }
-const { mutate: deletecontact } = useMutation(gql`
-mutation deletecontact($id:Int!) {
-  delete_contactlist_by_pk(id: $id) {
+const { mutate: deleterecipe } = useMutation(gql`
+mutation MyMutation($id: Int!) {
+  delete_recipe_by_pk(id: $id) {
     id
   }
 }
@@ -43,8 +44,8 @@ mutation deletecontact($id:Int!) {
   variables: {
     id: props.id
   }
-}))
-
+})
+)
 </script>
 <style scoped>
 .overlay {

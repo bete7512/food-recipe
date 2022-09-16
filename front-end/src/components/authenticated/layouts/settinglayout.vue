@@ -41,7 +41,7 @@
                                     notification</span>
                             </li>
                         </router-link>
-                        <router-link to="">
+                        <router-link :to="{name:'myrecipe',params:{id:user.userid}}">
                             <li>
                                 <span
                                     class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-<div class="h-auto flex justify-center">
+<div class="h-auto">
     <slot></slot>
 </div>
 </template>

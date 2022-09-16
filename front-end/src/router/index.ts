@@ -10,7 +10,7 @@ import userdetail from '../components/unauthenticated/userdetail.vue'
 import user from '../components/authenticated/usersrecipe.vue'
 import profile from '../components/authenticated/person/editprofile.vue'
 import myrecipe from '../components/authenticated/person/myrecipe.vue'
-
+import update_recipe from '../components/authenticated/person/edit_my_recipe.vue'
 import createrecipe from '../components/authenticated/create-recipe.vue'
 import searchunauthenticated from '../components/unauthenticated/searchUnauthenticated.vue'
 const router = createRouter({
@@ -21,6 +21,7 @@ const router = createRouter({
       path: '/',
       component: home,
     },
+
     {
       name:'profile',
       path:'/profile/:id',
@@ -75,7 +76,13 @@ const router = createRouter({
       name: 'search',
       path: '/search/:id',
       component: searchVue
-    }
+    },
+    {
+      name:'update_recipe',
+      path:'/update_recipe/:id',
+      component:update_recipe,
+      // props:true
+    },
   ]
 })
 // router.beforeEach(async (to) => {

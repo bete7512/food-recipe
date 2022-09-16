@@ -75,7 +75,7 @@
                         </div>
                         <div class="text-cyan-600">{{ modal }}</div>
                         <div class="pt-2">
-                            <button  type="submit"
+                            <button type="submit"
                                 class="flex items-center justify-center w-full px-10 py-4 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 <div v-if="signupprocess" class="text-2xl">
                                     <svg role="status" class="inline mr-3 w-4 h-4 text-white animate-spin"
@@ -142,17 +142,16 @@ const success = ref(false)
 const signupprocess = ref(false)
 const onSubmit = async () => {
     try {
-            signupprocess.value = true
-            const success = await user.signup(fname.value, lname.value, username.value, email.value, password1.value)
-            modal.value = success
-            if(success){
-                signupprocess.value = false
-                emit('successfullsignup')
-            }
-        } catch (error) {
-            modal.value = error.message
-            signupprocess.value = false
-        }
+        signupprocess.value = true
+        const success = await user.signup(fname.value, lname.value, username.value, email.value, password1.value)
+        signupprocess.value = false
+        emit('signupSuccess')
+        emit('successfullsignup')
+
+    } catch (error) {
+        modal.value = error.message
+        signupprocess.value = false
+    }
 }
 </script>
 <style scoped>

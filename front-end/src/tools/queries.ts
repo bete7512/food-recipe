@@ -195,6 +195,18 @@ const addlikes = gql`
   }
 }
  `
+const update_recipe = gql`
+mutation MyMutation($id: Int = 10, $categories: String!, $title: String!, $instructions: String!, $descriptions: String!, $durations: Int!, $images: String!, $ingredient: String!) {
+  update_recipe_by_pk(pk_columns: {id: $id}, _set: {title: $title, instructions: $instructions, categories: $categories, descriptions: $descriptions, durations: $durations, images: $images, ingredient: $ingredient}) {
+    title
+    descriptions
+    images
+    ingredient
+    instructions
+    categories
+  }
+}
+`
 const deletelikes = gql`
  mutation MyMutation($id:Int) {
   delete_likes(where: {recipe_id: {_eq: $id}}) {
@@ -280,6 +292,21 @@ full_name
   }
 }
  `
+
+
+const query_old_query = gql`
+query MyQuery($id: Int = 220) {
+  recipe_by_pk(id: $id) {
+    title
+    ingredient
+    instructions
+    durations
+    descriptions
+    categories
+    images
+  }
+}
+`
 const user_query = gql`
 query MyQuery($id: Int!) {
   users_by_pk(id: $id) {
@@ -340,5 +367,5 @@ query MyQuery($id: Int!) {
 export {
   register, signin, addrecipe, recipequery, addtofavorite, removefavorite, addlikes, deletelikes,
   favoritequery, unauthenticatedquery, file_upload, recipe_by_id, comment_mutation, user_query, search_query, searchunauthenticated,
-  update_profile, user_profile_query,user_detail_public
+  update_profile, user_profile_query,user_detail_public,query_old_query
 };

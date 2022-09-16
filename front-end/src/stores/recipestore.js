@@ -46,6 +46,15 @@ export const recipeStore = defineStore("recipe",{
             }
         },
         },
+        getters:{
+            query_old_data(){
+                try {
+                    return 
+                } catch (error) {
+                    
+                }
+            }
+        },
 persist: {
     enabled: true
 }
