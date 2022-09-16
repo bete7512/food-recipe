@@ -51,6 +51,7 @@ select_permissions:
         - id
         - lname
         - profile_image
+        - public_name
         - username
       computed_fields:
         - full_name
