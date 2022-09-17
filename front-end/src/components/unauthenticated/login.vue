@@ -84,7 +84,7 @@ const onSubmit = async () => {
             loginreturn.value = await user.login(username.value, password.value)
             emit('loginSuccess')
             emit('successfulllogin')
-            loginprocess = false
+            loginprocess.value = false
         }
         catch (error) {
             loginreturn = error.message
