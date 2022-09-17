@@ -1,8 +1,25 @@
 <template>
     <mainVue>
         <homeVue>
+            <div class="w-auto flex justify-center">
+            <!-- <div class="flex justify-center border p-5 bg-blue"> -->
+            <div class=" rounded h-16  border-none">
+                <select v-model="categories"
+                    class="bg-gray-50 h-16 px-2 pt-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">dinner</option>
+                </select>
+            </div>
+            <div
+                class="w-50 h-16 bg-blue-600 rounded-l-none rounded-r-lg flex justify-center items-center rounded-t-lg rounded-b-lg ">
+                <button @click="filterrecipe"
+                    class="flex justify-center items-center   p-3   w-24 text-base font-medium text-center text-white transition duration-500 transform  ">Filter</button>
+            </div>
+            <!-- </div> -->
+        </div>
         <div v-if="error" class="flex justify-center items-center">error</div>
-        <div v-if="loading" class="flex justify-center items-center">
+        <div v-else-if="loading" class="flex justify-center items-center">
     
             <div role="status">
                 <svg class="flex items-center justify-center  w-32 h-32 my-20 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -17,6 +34,18 @@
                 <span class="sr-only">Loading...</span>
             </div>
     
+        </div>
+        <div v-else-if="recipes.length === 0" class="flex justify-center ">
+            <button class="rounded-full h-16 w-16 bg-blue-700">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                    stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                <div>Go back</div>
+            </button>
+            <img class="w-1/3 h-1/3"
+                src="https://img.freepik.com/premium-vector/illustrations-arms-crossed-angry-woman-oops-404-error-design-concept-landing-page_576269-337.jpg?size=626&ext=jpg&ga=GA1.2.804308726.1663395081"
+                alt="">
         </div>
         <div v-else class="flex">
             <div class="flex justify-center w-3/12">
@@ -46,7 +75,7 @@
                         </button>
                     </div>
                     <div class="p-5">
-                        <router-link :to="'/recipedetail/' + rec.id">
+                        <router-link :to="'/detail/' + rec.id">
                             <div>
                                 <h5
                                     class="mb-2 hover:underline text-lg font-bold tracking-tight text-gray-900 dark:text-white">
@@ -106,30 +135,15 @@ const route = useRoute()
 const title = route.params.title ? `%${route.params.title}%` : ''
 const categories = route.params.id
 const ingridient = route.params.title ? `%${route.params.title}%` : ''
-const duration = route.params.duration
-const pages = ref(0)
-const limit = ref(10)
-const offset = ref(0)
-const loadmore = () => {
-    pages.value++;
-    offset.value = limit.value * pages.value
-
-}
-const variables2 = ref({
-    offset: offset.value,
-    limit: limit.value
-})
-const searchrecipe = () => {
-    refetch()
-}
+const recipes = computed(() => result.value?.recipe ?? [])
 
 const { error, loading, result, refetch } = useQuery(
     searchunauthenticated,
     () => ({
-        title: route.params.title ? `%${route.params.title}%` : '',
+        title: route.params.id ? `%${route.params.id}%` : '',
         categories: route.params.id,
-        ingridient: route.params.title ? `%${route.params.title}%` : '',
-        durations: route.params.duration
+        ingridient: route.params.id ? `%${route.params.id}%` : '',
+        durations: 0
     }),
     {
         pollInterval: 100,

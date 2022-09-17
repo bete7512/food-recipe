@@ -60,7 +60,8 @@ const router = createRouter({
     {
       name: 'feeds',
       path: '/recipes',
-      component: feeds
+      component: feeds,
+      props:true
     },
     {
       name: 'addrecipe',

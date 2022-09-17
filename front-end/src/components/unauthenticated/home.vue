@@ -138,7 +138,6 @@
                         </div>
                     </div>
                 </div>
-                <div>{{user.username}}</div>
             </div>
         </homeVue>
     </mainVue>

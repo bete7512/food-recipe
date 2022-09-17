@@ -57,8 +57,8 @@ query MyQuery($offset: Int!, $limit: Int!) {
 `
 
 const search_query = gql`
-query MyQuery($ingridient: String="", $categories: String="", $title: String="", $durations: Int = 0) {
-  recipe(where:{_or:[{_or:[{categories: {_eq: $categories}},{durations: {_eq: $durations}}]}, {_or:[{ingredient: {_ilike: $ingridient}}, {title: {_ilike: $title}}]}]}) {
+query MyQuery($ingridient: String="", $title: String="", $durations: Int = 0) {
+  recipe(where:{_or:[{_or:[{durations: {_eq: $durations}}]}, {_or:[{ingredient: {_ilike: $ingridient}}, {title: {_ilike: $title}}]}]}) {
     id
     title
     rating

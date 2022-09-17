@@ -2,15 +2,8 @@
     <div class="flex px-5 w-auto justify-center space-x-3 items-center  mt-0 ">
         <div class=" flex mt-7 justify-center items-center my-3">
             <div
-                class="flex  py-5 shadow-lg rounded px-10 space-x-3  border border-amber-500 justify-center items-center  ">
-                <div class=" rounded h-16 border-none">
-                    <select v-model="categories"
-                        class="bg-gray-50 h-16 px-2 pt-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option value="breakfast">Breakfast</option>
-                        <option value="lunch">Lunch</option>
-                        <option value="dinner">dinner</option>
-                    </select>
-                </div>
+                class="flex  py-5 shadow-lg rounded px-10 space-x-3  border  justify-center items-center  ">
+            
                 <div class="flex  h-16 rounded-lg border-black focus:ring-blue-500 focus:border-blue-500">
                     <div class="w-full  rounded-r-lg border-none ">
                         <div class="relative">
@@ -24,11 +17,12 @@
                                 </svg>
                             </div>
                             <div>
-                                <input type="text" v-model="title"
+                                <input type="text" v-model="searchvalue"
                                     class="block p-3 pl-8   w-full outline-none transition duration-700 ease-in-out focus:shadow-outline hover:w-full h-16 z-20 border-gray-900  text-sm text-gray-900 border bg-gray-50 rounded dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                                     placeholder="Search" required>
                             </div>
                         </div>
+                        <span class="text-red-600 text-xs">{{searcherror}}</span>
                     </div>
                 </div>
                 <div
@@ -44,11 +38,16 @@
 <script setup >
 import { ref } from 'vue'
 import router from '@/router';
-const title = ref('')
-const duration = ref(20)
-const categories = ref('lunch')
+const searchvalue = ref('')
+const searcherror = ref('')
 const searchrecipe = () => {
-    router.push({ name: 'searchunauthenticated', params: { id: categories.value, duration: duration.value, title: title.value } });
+    if(!searchvalue.value){
+        searcherror.value = "please insert something to search"
+        return
+    }
+    else{
+        router.push({ name: 'searchunauthenticated', params: { id: searchvalue.value } });
+    }
 }
 </script>
 <style lang="">

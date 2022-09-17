@@ -8,7 +8,6 @@
                         <div class="text-2xl flex items-center space-x-3  text-orange-500 p-5">
                             <div v-if="user.profile_image"> <img :src="user.profile_image"
                                     class=" h-16 w-16  rounded-full" alt="insert image">
-
                             </div>
                             <div v-else
                                 class="text-5xl h-16 w-16 rounded-full bg-orange-700 text-white flex items-center justify-center">
@@ -40,7 +39,6 @@
                         </div>
                     </div>
                     <div class="w-2/12 flex justify-center">
-
                     </div>
                 </div>
                 <div>

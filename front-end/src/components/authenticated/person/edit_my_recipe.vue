@@ -117,9 +117,11 @@
                 </div>
             </div>
         </div>
+        <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
     </settinglayoutVue>
 </template>
 <script setup>
+import modalVue from '@/components/unauthenticated/modal.vue';
 import router from '@/router';
 import settinglayoutVue from '../layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
@@ -127,7 +129,6 @@ import { ref,defineProps, reactive } from 'vue'
 import { recipeStore } from '../../../stores/recipestore.js';
 import { addrecipe, file_upload } from '@/tools/queries';
 import { useRoute } from 'vue-router';
-import { number } from 'yup';
 
 const route= useRoute()
 const title = ref(route.params.title)

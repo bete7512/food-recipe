@@ -6,15 +6,16 @@
                     <div class="w-2/12 flex justify-center"></div>
                     <div class="w-10/12 space-y-3 ">
                         <div class="text-2xl flex items-center space-x-3  text-orange-500 p-5">
-                            <div v-if="user.profile_image"> <img :src="user.profile_image" class=" h-16 w-16  rounded-full" alt="insert image">
-                            
+                            <div v-if="user.profile_image"> <img :src="user.profile_image"
+                                    class=" h-16 w-16  rounded-full" alt="insert image">
+
                             </div>
                             <div v-else
-                            class="text-5xl h-16 w-16 rounded-full bg-orange-700 text-white flex items-center justify-center">
-                            <div>
-                                {{ user.full_name.charAt(0).toUpperCase() }}
+                                class="text-5xl h-16 w-16 rounded-full bg-orange-700 text-white flex items-center justify-center">
+                                <div>
+                                    {{ user.full_name.charAt(0).toUpperCase() }}
+                                </div>
                             </div>
-                        </div>
                             <div>
                                 <span class="text-gray-800"><span class="">{{user.full_name}}</span></span> 's Posted
                                 Recipe
@@ -28,8 +29,8 @@
                         </div>
                         <div class="border p-10 rounded border-orange-500">
                             <div>
-                                have <span class="text-orange-500">{{user.users_counted_recipe}}</span> total published recipe
-                                <div>{{user.bios}}</div>
+                                have <span class="text-orange-500">{{user.users_counted_recipe}}</span> total published
+                                recipe
                             </div>
                         </div>
                         <div>
@@ -38,12 +39,12 @@
                         </div>
                     </div>
                     <div class="w-2/12 flex justify-center">
-                    
+
                     </div>
                 </div>
                 <div>
                     <div v-if="error" class="flex justify-center items-center">error</div>
-                    <div v-if="loading" class="flex justify-center items-center">
+                    <div v-else-if="loading" class="flex justify-center items-center">
                         <div role="status">
                             <svg class="flex items-center justify-center  w-32 h-32 my-20 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                                 viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,6 +57,13 @@
                             </svg>
                             <span class="sr-only">Loading...</span>
                         </div>
+                    </div>
+                    <div v-else-if="recipes.length === 0" class="flex justify-center ">
+                        <div class="text-2xl font-bold text-orange-500">no recipes posed</div>
+                        
+                        <img class="w-1/3 h-1/3"
+                            src="https://img.freepik.com/premium-vector/illustrations-arms-crossed-angry-woman-oops-404-error-design-concept-landing-page_576269-337.jpg?size=626&ext=jpg&ga=GA1.2.804308726.1663395081"
+                            alt="">
                     </div>
                     <div v-else class="flex">
                         <div class="flex justify-center w-3/12">

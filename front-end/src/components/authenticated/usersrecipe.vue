@@ -23,13 +23,13 @@
                         <div class="border p-10 rounded border-orange-500">
                             <div>
                                 About <span class="text-orange-500">{{user.fname}}</span>
-                                <div>{{user.bios}}</div>
+                                <div v-if="user.bios == null" class="text-red-500 text-lg font-bold"></div>
+                                <div v-else>{{user.bios}}</div>
                             </div>
                         </div>
                         <div class="border p-10 rounded border-orange-500">
                             <div>
                                 have <span class="text-orange-500">{{user.users_counted_recipe}}</span> total published recipe
-                                <div>{{user.bios}}</div>
                             </div>
                         </div>
                         <div>
@@ -43,7 +43,7 @@
                 </div>
                 <div>
                     <div v-if="error" class="flex justify-center items-center">error</div>
-                    <div v-if="loading" class="flex justify-center items-center">
+                    <div v-else-if="loading" class="flex justify-center items-center">
                         <div role="status">
                             <svg class="flex items-center justify-center  w-32 h-32 my-20 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                                 viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -56,6 +56,13 @@
                             </svg>
                             <span class="sr-only">Loading...</span>
                         </div>
+                    </div>
+                    <div v-else-if="recipes.length === 0" class="flex justify-center ">
+                        <div class="text-2xl font-bold text-orange-500">no recipes posed</div>
+                        
+                        <img class="w-1/3 h-1/3"
+                            src="https://img.freepik.com/premium-vector/illustrations-arms-crossed-angry-woman-oops-404-error-design-concept-landing-page_576269-337.jpg?size=626&ext=jpg&ga=GA1.2.804308726.1663395081"
+                            alt="">
                     </div>
                     <div v-else class="flex">
                         <div class="flex justify-center w-2/12">

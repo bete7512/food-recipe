@@ -81,15 +81,20 @@
                 </div>
             </div>
         </div>
+        <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
     </settinglayoutVue>
 </template>
+
 <script setup >
+import modalVue from '@/components/unauthenticated/modal.vue';
 import { recipeStore } from '../../../stores/recipestore.js';
 import { useStore } from '../../../stores/store.js';
 import { update_profile } from '@/tools/queries';
 import settinglayoutVue from '../layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
 import { ref, reactive } from 'vue'
+const notify = ref('profile updated succefully')
+const successmodal = ref(false)
 const user = useStore()
 const recipe = recipeStore()
 const file = ref('')
@@ -102,7 +107,6 @@ const lname = ref(user.lname)
 const email = ref(user.email)
 const bios = ref(user.bios)
 
-const publicname = ref(user.public_name)
 const profile_image_added = ref(false)
 const updating = ref(false)
 const updateprofile = async () => {
@@ -111,6 +115,8 @@ const updateprofile = async () => {
     await profile_image_upload()
     console.log("path" + path.value);
     update_profiles()
+    updating.value = false
+    successmodal.value= true
 }
 const profile_image_upload = async function () {
     path.value = await recipe.upload_file(objectfile)

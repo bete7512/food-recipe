@@ -28,11 +28,9 @@
     <Login v-if="loginmodal" v-on:loginSuccess="loginmodal = false" v-on:successfulllogin="successloginmodal = true"></Login>
     <Signup v-if="signupmodal" v-on:signupSuccess="signupmodal = false"
         v-on:successfullsignup="successsignupmodal = true"></Signup>
-        <!-- <modalVue :notify=notify v-if="makemodal()" v-on:success="disapear()"></modalVue> -->
 </template>
 <script setup >
-import modalVue from '../modal.vue';
-import router from '../../../router/index'
+import router from '@/router';
 import { ref, computed,onMounted } from 'vue';
 import Login from '../login.vue'
 import Signup from '../signup.vue'
@@ -64,6 +62,9 @@ const disapear = ()=>{
 //    if(successsignupmodal.value){
         successsignupmodal.value = false
     // }
+}
+const gotohome = function(){
+    router.push('/')
 }
 const loginmodal = ref(false)
 const signupmodal = ref(false)

@@ -67,13 +67,12 @@
                         <div class="flex items-center justify-center">
                             <div class="w-full">
                                 <div class="grid grid-cols-2">
-                                    <div class="" v-for="(key, index) in url.length"
-                                        :key="key">
+                                    <div class="" v-for="(key, index) in url.length" :key="key">
                                         <div class="flex">
-                                            {{index}}
                                             <img :src="url[index]" class="bg-black py-2" width="120" height="120"
                                                 alt="insert image">
-                                            <button @click="remove_image(index)" class="w-8 h-8 rounded-full bg-black text-white flex justify-center items-center">X</button>
+                                            <button @click="remove_image(index)"
+                                                class="w-8 h-8 rounded-full bg-black text-white flex justify-center items-center">X</button>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +119,7 @@
                 </div>
             </div>
         </div>
-     <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
+        <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
     </settinglayoutVue>
 </template>
 <script setup>
@@ -128,7 +127,7 @@ import modalVue from '../unauthenticated/modal.vue';
 import router from '@/router';
 import settinglayoutVue from './layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
-import { ref,defineEmits, reactive } from 'vue'
+import { ref, defineEmits, reactive } from 'vue'
 import { recipeStore } from '../../stores/recipestore.js';
 import { addrecipe, file_upload } from '@/tools/queries';
 const emit = defineEmits(['successcreatedrecipe'])
@@ -143,6 +142,7 @@ const instructioncounter = ref(3)
 const categories = ref('')
 const file = ref('')
 const notify = ref('recipe Successfully created')
+const successmodal = ref(false)
 const titleerror = ref('')
 const durationerror = ref('')
 const base64str = ref('')
@@ -191,22 +191,28 @@ const createrecipe = async () => {
         durationerror.value = "duration is empty please add it"
         return
     }
-  try {
-	  addingprocess.value = true
-	    await fileUpload();
-	    addnewrecipes();
-	    addingprocess.value = false
-	    successmodal.value = true
-        router.push('/recipes')
-} catch (error) {
-	
-}
-    // emit('successcreatedrecipe')
-}
+    try {
+        addingprocess.value = true
+        await fileUpload();
+        addnewrecipes();
+        addingprocess.value = false
+        successmodal.value = true
+        title.value = ''
+        description.value = '';
+        duration.value = '';
+        ingredientcounter.value = 3
+        instructioncounter.value = 3
+        objectfile.length = 0
+        ingridient.value.length = 0
+        instructions.value.length = 0
+        path.length = 0
+        url.length = 0
 
-const remove_image =(i)=>{
-    // let index = url.indexOf(i)
-    url.splice(i,1)
+    } catch (error) {
+    }
+}
+const remove_image = (i) => {
+    url.splice(i, 1)
 }
 const addnewrecipes = () => {
     const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({

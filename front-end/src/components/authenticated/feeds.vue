@@ -111,6 +111,7 @@
                 </button>
             </div>
         </div>
+        <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
     </mainVue>
 </template>
 <script setup >
@@ -121,10 +122,19 @@ import { useStore } from '../../stores/store.js';
 import { recipeStore } from '../../stores/recipestore.js';
 import { favoriteStore } from '../../stores/favoritestore.js';
 import { likeStore } from '../../stores/likeStore.js'
-import { ref, onMounted, computed } from 'vue'
+import { ref,defineProps, onMounted, computed } from 'vue'
 import { recipequery, search_query, addlikes } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
+
+
+
+const props = defineProps({
+    successmodal:Boolean
+})
+const notify = ref('Recipe succefully added')
+const successmodal = ref(props.successmodal)
+console.log(successmodal.value);
 const pages = ref(0)
 const limit = ref(6)
 const offset = ref(0)
@@ -161,7 +171,6 @@ const { error, loading, result, fetchMore } = useQuery(recipequery,
         fetchPolicy: 'network-only'
     },
 );
-
 
 const goback = () => {
     pages.value = 0;
