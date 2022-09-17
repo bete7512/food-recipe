@@ -34,13 +34,8 @@
 
         </div>
         <div v-else-if="recipes.length === 0" class="flex justify-center ">
-            <button class="rounded-full h-16 w-16 bg-blue-700">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                    stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                <div>Go back</div>
-            </button>
+            <div class="text-2xl font-bold text-orange-500">no recipes found</div>
+
             <img class="w-1/3 h-1/3"
                 src="https://img.freepik.com/premium-vector/illustrations-arms-crossed-angry-woman-oops-404-error-design-concept-landing-page_576269-337.jpg?size=626&ext=jpg&ga=GA1.2.804308726.1663395081"
                 alt="">
@@ -125,13 +120,28 @@ import { recipequery, search_query } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import { useRoute } from 'vue-router';
 const route = useRoute()
-// const title = route.params.title ? `%${route.params.title}%` : ''
 const categories = ref('breakfast')
-// const ingridient = route.params.title ? `%${route.params.title}%` : ''
-// const duration = route.params.duration
 const recipes = computed(() => result.value?.recipe ?? [])
-// computed(
-//     filterrecipe = () => {
+
+
+
+
+
+
+
+
+
+
+
+// computed(()=>{
+//    if(!categories.value){
+//        return recipes.value = computed(() => result.value?.recipe ?? [])
+//     } 
+// else{
+// }
+
+
+//     () => {
 //     console.log(recipes);
 //     if (!categories.value) {
 //         return
@@ -139,8 +149,7 @@ const recipes = computed(() => result.value?.recipe ?? [])
 //     else {
 //      return recipes.filter((recipe)=>(recipe.categories == categories.value))
 //     }
-// }
-// )
+// }})
 const { error, loading, result } = useQuery(
     search_query,
     () => ({
@@ -174,17 +183,24 @@ const managelikes = (id, isliked) => {
 const singlerecipe = (id) => {
     router.push('/recipedetail')
 }
+// const arr = [1, 3, 4, 56, 7, 8, 8]
+// const filterrecipe = () => recipes.filter((recipe) => recipe.categories == categories.value)
+// console.log(filterrecipe());
 
 
-// const filterrecipe = () => {
-//     console.log(recipes);
-//     if (!categories.value) {
-//         return
-//     }
-//     else {
-//      return recipes.filter((recipe)=>(recipe.categories == categories.value))
-//     }
+
+// console.log(recipes);
+// if (!categories.value) {
+//     return
 // }
+// else {
+//     result.value.recipe.filter(recipe => filter_by_category(recipe))
+// }
+// }
+
+const filter_by_category = (recipe) => {
+    return recipe.categories == categories.value;
+}
 </script>
 <style>
 

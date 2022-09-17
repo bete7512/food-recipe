@@ -36,13 +36,7 @@
     
         </div>
         <div v-else-if="recipes.length === 0" class="flex justify-center ">
-            <button class="rounded-full h-16 w-16 bg-blue-700">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                    stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                <div>Go back</div>
-            </button>
+            <div class="text-2xl font-bold text-orange-500">no recipes found</div>
             <img class="w-1/3 h-1/3"
                 src="https://img.freepik.com/premium-vector/illustrations-arms-crossed-angry-woman-oops-404-error-design-concept-landing-page_576269-337.jpg?size=626&ext=jpg&ga=GA1.2.804308726.1663395081"
                 alt="">
