@@ -120,7 +120,7 @@
                                                                 name:'update_recipe',
                                                                 params:{
                                                                 id:recipe.id,
-                                                                title:'recipe.title'
+                                                                // title:recipe.title,
                                                                 // descriptions:recipe.descriptions,
                                                                 // instructions:recipe.instructions,
                                                                 // image_url:recipe.images,

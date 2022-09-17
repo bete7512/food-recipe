@@ -3,11 +3,11 @@
         <homeVue>
             <div>
                 <div
-                    class="flex text-teal-800 pt-2 items-center justify-center font-extrabold lg:text-4xl md:text-2xl sm:text-xl lg:pt-16 lg:pb-8 md:pt-14 md:pb-7 sm:pt-8 sm:pb-4">
+                    class="flex text-teal-800 pt-2 items-center justify-center font-extrabold lg:text-4xl md:text-2xl sm:text-xl lg:pt-16 lg:pb-8 md:pt-14 md:pb-4 sm:pt-4 sm:pb-4">
                     Most Featured Food Recipe
                 </div>
                 <div v-if="error" class="flex justify-center items-center">error</div>
-                <div v-if="loading" class=" flex justify-center items-center">
+                <div v-else-if="loading" class=" flex justify-center items-center">
                     <div>
                         <div role="status">
                             <svg class="flex items-center justify-center  w-32 h-32 my-20 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -25,6 +25,20 @@
                             loading...
                         </div>
                     </div>
+                </div>
+                <div v-else-if="recipes.length === 0" class="flex justify-center ">
+                    <button @click="loadless" class="rounded-full h-16 w-16 bg-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                        stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                    </svg>
+                    <div>Go back</div>
+
+                    </button>
+                    <img class="w-1/3 h-1/3"
+                        src="https://img.freepik.com/premium-vector/illustrations-arms-crossed-angry-woman-oops-404-error-design-concept-landing-page_576269-337.jpg?size=626&ext=jpg&ga=GA1.2.804308726.1663395081"
+                        alt="">
                 </div>
                 <div v-else class="flex">
                     <div class="w-2/12">
@@ -117,9 +131,9 @@
                                     {{ user.full_name.charAt(0).toUpperCase() }}
                                 </div>
                             </div>
-                           <router-link :to="{name:'userdetail',params:{id:user.id}}">
-                               <div class="font-bold hover:underline">{{ user.full_name }}</div>
-                           </router-link> 
+                            <router-link :to="{name:'userdetail',params:{id:user.id}}">
+                                <div class="font-bold hover:underline">{{ user.full_name }}</div>
+                            </router-link>
                             <div>posted {{ user.users_counted_recipe }} recipes</div>
                         </div>
                     </div>
@@ -150,7 +164,6 @@ const { error, loading, result, fetchMore } = useQuery(
     { fetchPolicy: 'network-only' });
 const users = computed(() => result.value?.users)
 const recipes = computed(() => result.value?.recipe)
-console.log(recipes);
 const loadmore = () => {
     pages.value++;
     offset.value = limit.value * pages.value,
@@ -172,8 +185,14 @@ const loadmore = () => {
         })
 }
 const loadless = () => {
-    --pages.value;
-    offset.value = limit.value * pages.value,
+    pages.value--;
+    offset.value = limit.value * pages.value;
+    if (offset.value < 0) {
+        ++pages.value
+        offset.value = limit.value * pages.value
+        return
+    }
+    else {
         fetchMore({
             variables: {
                 offset: offset.value,
@@ -190,6 +209,7 @@ const loadless = () => {
                 }
             },
         })
+    }
 }
 </script>
 <style>

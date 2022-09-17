@@ -2,7 +2,7 @@
     <mainVue>
         <div>
             <div v-if="error" class="flex justify-center items-center">error</div>
-            <div v-if="loading" class="flex justify-center items-center">
+            <div v-else-if="loading" class="flex justify-center items-center">
                 <div role="status">
                     <svg class="flex items-center justify-center  w-32 h-32 my-20 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,28 +16,40 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
+            <div v-else-if="recipes.length === 0" class="flex justify-center ">
+                <button @click="goback" class="rounded-full h-16 w-16 bg-blue-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                        stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                    </svg>
+                    <div>Go back</div>
+                </button>
+                <img class="w-1/3 h-1/3"
+                    src="https://img.freepik.com/premium-vector/illustrations-arms-crossed-angry-woman-oops-404-error-design-concept-landing-page_576269-337.jpg?size=626&ext=jpg&ga=GA1.2.804308726.1663395081"
+                    alt="">
+            </div>
             <div v-else class="flex">
                 <div class="flex justify-center w-3/12">
                 </div>
-                <div class=" w-10/12 flex flex-wrap   justify-center items-center space-x-3 ">
-                    <div class=" flex flex-wrap space-x-3">
-                        <div class="card hover:border hover:shadow-xl h-96 hover:border-sky-800 duration-100 mt-2 hover:scale-100 max-w-sm  w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                <div class=" w-10/12 flex flex-wrap   justify-center items-center  ">
+                    <div class=" flex flex-wrap space-x-8 space-y-4 justify-center ">
+                        <div class="card hover:border  hover:shadow-xl h-auto hover:border-sky-800 duration-100 mt-2 hover:scale-100 max-w-sm  w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
                             v-for="(rec, index) in recipes" :key="rec.id">
                             <div class="relative">
-                                <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[0]" />
+                                <img class="rounded-t-lg w-full h-68" :src="JSON.parse(rec.images).split(',,,,')[0]" />
                                 <button @click="managefavorite(rec.id, rec.isfavorite)"
-                                    class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
+                                    class="absolute top-5 right-0 pr-3 w-12 h-12 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
                                     <div class="flex justify-center  pt-1 pl-3">
                                         <svg v-if="rec.isfavorite" style="color: red" xmlns="http://www.w3.org/2000/svg"
-                                            width="32" height="32" fill="currentColor" class="bi bi-heart"
+                                            width="26" height="26" fill="currentColor" class="bi bi-heart"
                                             viewBox="0 0 16 16">
                                             <path fill-rule="evenodd"
                                                 d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
                                                 fill="red">
                                             </path>
                                         </svg>
-                                        <svg v-else style="color: red" xmlns="http://www.w3.org/2000/svg" width="32"
-                                            height="32" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <svg v-else style="color: red" xmlns="http://www.w3.org/2000/svg" width="26"
+                                            height="26" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                             <path
                                                 d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"
                                                 fill="red"></path>
@@ -54,7 +66,7 @@
                                         </h5>
                                     </div>
                                 </router-link>
-                                <div class="flex justify-between">
+                                <div class="flex justify-between py-3">
                                     <StarRating v-model:rating="rec.rating" :read-only="true" :increment="0.01"
                                         :star-size="12">
                                     </StarRating>
@@ -75,13 +87,14 @@
                                         <div class="text-xs">Helpfull({{ rec.Like_number }})</div>
                                     </div>
                                 </div>
-                                <div class="mb-1 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
+                                <div class="mb-1 text-xs font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
                                     {{ rec.descriptions }}</div>
-                                <div class="text-xs bottom-1 mb-3">By <router-link :to="{name:'user',params:{id:rec.user.id}}">
+                                <div class="text-xs bottom-1 mb-3">By <router-link
+                                        :to="{name:'user',params:{id:rec.user.id}}">
 
-                                    <button class="font-bold text-xs italic underline hover:underline">{{
-                                    rec.user.full_name
-                                    }}</button>
+                                        <button class="font-bold text-xs italic underline hover:underline">{{
+                                        rec.user.full_name
+                                        }}</button>
                                     </router-link>
                                 </div>
                             </div>
@@ -89,7 +102,6 @@
                     </div>
                 </div>
                 <div class="w-3/12 flex justify-start">
-
                 </div>
             </div>
             <div class="flex justify-center mt-5">
@@ -116,7 +128,6 @@ import gql from 'graphql-tag';
 const pages = ref(0)
 const limit = ref(6)
 const offset = ref(0)
-// console.log(recipes);
 const loadmore = () => {
     offset.value = limit.value * pages.value,
         pages.value++;
@@ -150,6 +161,13 @@ const { error, loading, result, fetchMore } = useQuery(recipequery,
         fetchPolicy: 'network-only'
     },
 );
+
+
+const goback = () => {
+    pages.value = 0;
+    offset.value = 0;
+    loadmore();
+}
 const user = useStore()
 const favorite = favoriteStore()
 const managefavorite = (id, isfavorite) => {

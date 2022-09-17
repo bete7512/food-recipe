@@ -128,23 +128,18 @@ import { recipeStore } from '../../../stores/recipestore.js';
 import { addrecipe, file_upload } from '@/tools/queries';
 import { useRoute } from 'vue-router';
 import { number } from 'yup';
-// const props = defineProps({
-//     title:String,
-//     duration:Number
-// })
+
 const route= useRoute()
-const title = route.params.title
+const title = ref(route.params.title)
 const id = route.params.id
+
 const recipe = recipeStore()
 console.log(title);
 
 
-// const duration = ref(route.params.duration)
-// const description = route.params.description
-// const id = route.params.id
+const duration = ref(route.params.duration)
+const description = ref(route.params.description)
 
-// console.log("something is here"+route.props.title);
-// const instructions = route.props.instructions
 // console.log(instructions);
 // const instructions = ref(JSON.parse(route.params.instructions).split(',,,,'))
 // const ingridients = route.params.ingridient.split(',,,,')

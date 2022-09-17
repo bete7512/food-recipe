@@ -65,12 +65,16 @@
                             instructions
                         </button>
                         <div class="flex items-center justify-center">
-                            <div class="w-64">
-                                <div class="space-y-3 w-full flex flex-wrap" v-for="(key, index) in url.length"
-                                    :key="key">
-                                    <div class="my-3 flex flex-wrap">
-                                        <img :src="url[index]" class="bg-black py-2" width="150" height="150"
-                                            alt="insert image">
+                            <div class="w-full">
+                                <div class="grid grid-cols-2">
+                                    <div class="" v-for="(key, index) in url.length"
+                                        :key="key">
+                                        <div class="flex">
+                                            {{index}}
+                                            <img :src="url[index]" class="bg-black py-2" width="120" height="120"
+                                                alt="insert image">
+                                            <button @click="remove_image(index)" class="w-8 h-8 rounded-full bg-black text-white flex justify-center items-center">X</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="flex justify-center items-center w-64 mt-5">
@@ -100,7 +104,6 @@
                         <div v-if="addingprocess" class="text-2xl">
                             <svg role="status" class="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101"
                                 fill="none" xmlns="http://www.w3.org/2000/svg">
-
                                 <path
                                     d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
                                     fill="#E5E7EB" />
@@ -117,15 +120,18 @@
                 </div>
             </div>
         </div>
+     <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
     </settinglayoutVue>
 </template>
 <script setup>
+import modalVue from '../unauthenticated/modal.vue';
 import router from '@/router';
 import settinglayoutVue from './layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
-import { ref, reactive } from 'vue'
+import { ref,defineEmits, reactive } from 'vue'
 import { recipeStore } from '../../stores/recipestore.js';
 import { addrecipe, file_upload } from '@/tools/queries';
+const emit = defineEmits(['successcreatedrecipe'])
 const title = ref('')
 const recipe = recipeStore()
 const duration = ref('')
@@ -136,6 +142,7 @@ const ingredientcounter = ref(3)
 const instructioncounter = ref(3)
 const categories = ref('')
 const file = ref('')
+const notify = ref('recipe Successfully created')
 const titleerror = ref('')
 const durationerror = ref('')
 const base64str = ref('')
@@ -184,10 +191,22 @@ const createrecipe = async () => {
         durationerror.value = "duration is empty please add it"
         return
     }
-    addingprocess.value = true
-    await fileUpload();
-    addnewrecipes();
-    addingprocess.value = false
+  try {
+	  addingprocess.value = true
+	    await fileUpload();
+	    addnewrecipes();
+	    addingprocess.value = false
+	    successmodal.value = true
+        router.push('/recipes')
+} catch (error) {
+	
+}
+    // emit('successcreatedrecipe')
+}
+
+const remove_image =(i)=>{
+    // let index = url.indexOf(i)
+    url.splice(i,1)
 }
 const addnewrecipes = () => {
     const { mutate: addnewrecipe, onDone } = useMutation(addrecipe, () => ({

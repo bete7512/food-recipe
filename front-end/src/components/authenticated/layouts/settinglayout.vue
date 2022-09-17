@@ -64,7 +64,7 @@
                         </li>
                     </ul>
                     <div class="py-1">
-                        <button @click="user.logout"
+                        <button @click="logout"
                             class="block w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
                             out</button>
                     </div>
@@ -86,5 +86,9 @@ const duration = ref(3000)
 const categories = ref('lunch')
 const profile = ref(false)
 const user =useStore()
+const logout = () => {
+    user.logout()
+    user.$reset()
+}
 // onMounted(async () => { await user.user_profile() })
 </script>
