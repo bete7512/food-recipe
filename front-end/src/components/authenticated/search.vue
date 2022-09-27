@@ -31,11 +31,9 @@
                 </svg>
                 <span class="sr-only">Loading...</span>
             </div>
-
         </div>
         <div v-else-if="recipes.length === 0" class="flex justify-center ">
             <div class="text-2xl font-bold text-orange-500">no recipes found</div>
-
             <img class="w-1/3 h-1/3"
                 src="https://img.freepik.com/premium-vector/illustrations-arms-crossed-angry-woman-oops-404-error-design-concept-landing-page_576269-337.jpg?size=626&ext=jpg&ga=GA1.2.804308726.1663395081"
                 alt="">
