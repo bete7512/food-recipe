@@ -16,6 +16,8 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                             </div>
+
+    
                             <div>
                                 <input type="text" v-model="searchvalue"
                                     class="block p-3 pl-8   w-full outline-none transition duration-700 ease-in-out focus:shadow-outline hover:w-full h-16 z-20 border-gray-900  text-sm text-gray-900 border bg-gray-50 rounded dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
