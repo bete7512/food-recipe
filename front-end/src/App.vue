@@ -1,11 +1,20 @@
 <template>
-<router-view></router-view>
-<div>
-  <footerVue></footerVue>
-</div>
+  <transition name="fade" mode="out-in">
+    <router-view />
+  </transition>
+  <!-- Scroll to top -->
+  <back-to-top visibleoffset="500" right="30px" bottom="20px" class="shadow-lg">
+    <i data-feather="chevron-up"></i>
+  </back-to-top>
+  <div>
+    <footerVue>
+    </footerVue>
+  </div>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue'
 import footerVue from './components/unauthenticated/footer.vue';
+const theme = localStorage.getItem('theme')
 </script>
 <style scoped>
 #app {

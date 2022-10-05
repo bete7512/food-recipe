@@ -46,7 +46,8 @@
             </div>
             <div class="flex  w-10/12 flex-wrap  justify-center items-center space-x-3 ">
                 <div class="card hover:border hover:border-sky-800 duration-100 mt-2 hover:scale-100 max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                    v-for="(rec, index) in result.recipe" :key="rec.id">
+                    v-for="(rec, index) in result.recipe.filter((element)=>category ? element.categories== category : element )
+                          " :key="rec.id">
                     <div class="relative">
                         <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[0]" />
                         <button @click="managefavorite(rec.id, rec.isfavorite)"
@@ -127,10 +128,10 @@ import gql from 'graphql-tag';
 import { useRoute } from 'vue-router';
 const route = useRoute()
 const title = route.params.title ? `%${route.params.title}%` : ''
-const categories = route.params.id
+const categories = ref('')
 const ingridient = route.params.title ? `%${route.params.title}%` : ''
 const recipes = computed(() => result.value?.recipe ?? [])
-
+const category = ref('')
 const { error, loading, result, refetch } = useQuery(
     searchunauthenticated,
     () => ({
@@ -163,8 +164,9 @@ const managelikes = (id, isliked) => {
         likes.addtolike(id)
     }
 }
-const singlerecipe = (id) => {
-    router.push('/recipedetail')
+
+const filterrecipe = ()=>{
+    category.value = categories.value
 }
 </script>
 <style>
