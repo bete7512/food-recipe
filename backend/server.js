@@ -6,6 +6,11 @@ const app = express();
 app.use(express.json({ limit: '200mb' }));
 app.use(express.urlencoded({ limit: '200mb' }));
 app.get('/confirm/:route', confirm)
+app.get('/' ,(req,res)=>{
+  return res.json({
+    success:"well done "
+  })
+})
 app.post('/:route', (req, res) => {
   try {
     const handler = require(`./handler/${req.params.route}`);
