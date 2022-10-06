@@ -16,11 +16,11 @@ query finduser($username: String!,$email:String!){
 require('dotenv').config()
 const finduser = async (variables) => {
     const fetchResponse = await fetch(
-        "http://localhost:8080/v1/graphql",
+        "https://sunny-glowworm-92.hasura.app/v1/graphql",
         {
             method: 'POST',
             headers:{
-                'x-hasura-admin-secret': 'myadminsecretkey'
+                'x-hasura-admin-secret': 'KwDGpDWBN8ZVHTUH7ovT2y7UOHBK4J62R9F6a4ETnGnK7Pn7LJSaqQcATyDYtYgE'
               },
             body: JSON.stringify({
                 query: FIND_USER,

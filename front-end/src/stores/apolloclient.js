@@ -8,7 +8,7 @@ const getHeaders = () => {
     return headers;
   };
 const httpLink = createHttpLink({
-    uri:'http://localhost:8080/v1/graphql',
+    uri:'https://sunny-glowworm-92.hasura.app/v1/graphql',
     fetch,
     headers:getHeaders()
 })
