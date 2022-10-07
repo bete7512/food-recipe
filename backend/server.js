@@ -2,6 +2,7 @@ const express = require('express')
 require('dotenv').config()
 const app = express();
 app.use(express.json({ limit: '200mb' }));
+app.use(express.urlencoded({extended:true}));
 app.get('/' ,(req,res)=>{
   return res.json({
     success:"well done "
@@ -9,8 +10,11 @@ app.get('/' ,(req,res)=>{
 })
 app.post('/:route', (req, res) => {
   try {
-    const handler = require(`./handler/${req.params.route}`);
-    if (!handler) {
+  console.log(req.body);
+  console.log(req.params.route);
+  const handler = require(`./handler/${req.params.route}`);
+  console.log("here");
+  if (!handler) {
       return res.status(400).json({
         message: 'not found'
       })
@@ -18,6 +22,7 @@ app.post('/:route', (req, res) => {
     handler(req, res);
   }
   catch (e) {
+    console.log(e);
     return res.status(400).json({
       message: 'unexpected error occured'
     })

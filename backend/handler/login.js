@@ -5,8 +5,8 @@ const handler = async (req, res) => {
   const { username, password } = req.body.input.arg1;
   const finduser = require('../checker/findusername')
   const email = ''
-  
-  const { data, error } = await finduser({ email,username })
+
+  const { data, error } = await finduser({ email, username })
   const user = data["users"][0]
   console.log(data["users"][0])
 
@@ -30,12 +30,12 @@ const handler = async (req, res) => {
         "x-hasura-user-id": `${user.id}`
       }
     }
-    ,process.env.SECRET_KEY)
+      , process.env.SECRET_KEY)
     console.log(token)
     return res.json({
       accessToken: token,
-      id:user.id,
-        ...data.users
+      id: user.id,
+      ...data.users
     })
   }
 };

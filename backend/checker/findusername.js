@@ -1,4 +1,4 @@
-const fetch =require('node-fetch')
+// const fetch =require('node-fetch')
 const FIND_USER = `
 query finduser($username: String!,$email:String!){
     users(limit: 1, where:{_or:[{username: {_eq: $username}},{email: {_eq: $email}}]}) {
@@ -32,4 +32,5 @@ const finduser = async (variables) => {
     const data = await fetchResponse.json();
     return data;
 };
+
 module.exports = finduser;
