@@ -17,7 +17,7 @@ const handler = async (req, res) => {
     catch (e) {
       console.log(e);
       return res.status(400).json({
-        message: 'unexpected error occured'
+        message: 'from cloudinary error'
       })
     }
   }
