@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken')
     id
   }
 }
-
  `;
  const execute = async (variables) => {
   const fetchResponse = await fetch(
