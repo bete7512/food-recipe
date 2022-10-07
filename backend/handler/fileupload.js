@@ -1,8 +1,12 @@
+const cloudinary = require('../cloudinary/cloudinary')
+
 const handler = async (req, res) => {
     try {
       const { name, type, base64str } = req.body.input;
       let filebuffer = Buffer.from(base64str, 'base64')
-  
+      console.log(filebuffer);
+      const result = await cloudinary.uploader.upload(req.file.path);
+      console.log(result);
       return res.json({
         file_path: `http://localhost:4000/${name}`
       })
