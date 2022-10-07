@@ -1,3 +1,4 @@
+const fs = require('fs')
 const handler = async (req, res) => {
     try {
       const { name, type, base64str } = req.body.input;
@@ -17,6 +18,6 @@ const handler = async (req, res) => {
   }
   
 
-  
+
 
   module.exports =  handler

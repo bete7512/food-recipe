@@ -13,6 +13,7 @@ query finduser($username: String!,$email:String!){
     }
   }
 `;
+const fetch =require('node-fetch')
 require('dotenv').config()
 const finduser = async (variables) => {
     const fetchResponse = await fetch(

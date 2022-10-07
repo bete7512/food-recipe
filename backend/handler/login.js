@@ -8,7 +8,7 @@ const handler = async (req, res) => {
   const { data, error } = await finduser({ email,username })
   const user = data["users"][0]
   console.log(data["users"][0])
- 
+
   if (!user) {
     return res.status(400).json({
       message: 'incorrect username or password please enter again'
@@ -21,7 +21,6 @@ const handler = async (req, res) => {
         message: "incorrect password"
       })
     }
-
     const token = jwt.sign({
       "https://hasura.io/jwt/claims":
       {
@@ -35,7 +34,7 @@ const handler = async (req, res) => {
     return res.json({
       accessToken: token,
       id:user.id,
-        // ...data.users
+        ...data.users
     })
   }
 };
