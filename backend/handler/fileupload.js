@@ -1,6 +1,6 @@
 const cloudinary = require('../cloudinary/cloudinary')
-const upload = require('../cloudinary/multer')
-console.log(upload);
+// const upload = require('../cloudinary/multer')
+// console.log(upload);
 const handler = async (req, res) => {
     try {
 
