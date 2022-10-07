@@ -27,40 +27,44 @@ const execute = async (variables) => {
   console.log('DEBUG: ', data);
   return data;
 };
-const handler = async (req, res) => {
-  const { fname, lname, username, email, password } = req.body.input.arg1;
-  const finduser = require('../checker/findusername')
-  const { data, error } = await finduser({ username, email })
-  const user = data["users"][0]
-  if (user) {
-    return res.status(400).json({
-      message: 'you are  registered no registratrion again'
-    })
-  }
-  else {
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hashed = bcrypt.hashSync(password, salt);
-    const variables = {
-      fname: fname,
-      lname: lname,
-      username: username,
-      email: email,
-      password: hashed
-    }
-    const { data, errors } = await execute(variables);
-    if(data){
-      console.log(errors);
-      console.log(data)
-      res.send({
-        Success: "You are succefully registered"
-      })
-    }
-    else{
-      res.send({
-        message: "something went wrong please try again"
-      })
-    }
-  }
-};
+try {
+	const handler = async (req, res) => {
+	  const { fname, lname, username, email, password } = req.body.input.arg1;
+	  const finduser = require('../checker/findusername')
+	  const { data, error } = await finduser({ username, email })
+	  const user = data["users"][0]
+	  if (user) {
+	    return res.status(400).json({
+	      message: 'you are  registered no registratrion again'
+	    })
+	  }
+	  else {
+	    const saltRounds = 10;
+	    const salt = bcrypt.genSaltSync(saltRounds);
+	    const hashed = bcrypt.hashSync(password, salt);
+	    const variables = {
+	      fname: fname,
+	      lname: lname,
+	      username: username,
+	      email: email,
+	      password: hashed
+	    }
+	    const { data, errors } = await execute(variables);
+	    if(data){
+	      console.log(errors);
+	      console.log(data)
+	      res.send({
+	        Success: "You are succefully registered"
+	      })
+	    }
+	    else{
+	      res.send({
+	        message: "something went wrong please try again"
+	      })
+	    }
+	  }
+	};
+} catch (error) {
+	console.log(error);
+}
 module.exports = handler;
