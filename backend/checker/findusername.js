@@ -1,3 +1,4 @@
+const fetch =require('node-fetch')
 const FIND_USER = `
 query finduser($username: String!,$email:String!){
     users(limit: 1, where:{_or:[{username: {_eq: $username}},{email: {_eq: $email}}]}) {
@@ -13,7 +14,6 @@ query finduser($username: String!,$email:String!){
     }
   }
 `;
-const fetch =require('node-fetch')
 require('dotenv').config()
 const finduser = async (variables) => {
     const fetchResponse = await fetch(
