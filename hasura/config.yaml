@@ -1,6 +1,6 @@
 version: 3
-endpoint: http://localhost:8080
+endpoint: https://sunny-glowworm-92.hasura.app
 metadata_directory: metadata
 actions:
   kind: synchronous
-  handler_webhook_baseurl: http://localhost:3000
+  handler_webhook_baseurl: https://food-recipe-9bn1t06z5-bete7512.vercel.app/
