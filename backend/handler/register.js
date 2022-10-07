@@ -1,6 +1,6 @@
 require('dotenv').config()
 const bcrypt = require('bcrypt')
-// const fetch = require('node-fetch')
+const fetch = require('node-fetch')
 const HASURA_SIGNUP_OPERATION = `
 mutation MyMutation($username: String!, $password: String!, $email: String!, $lname: String!, $fname: String!) {
  insert_users_one(object: {fname: $fname, lname: $lname, email: $email, username: $username, password: $password}) {
