@@ -2,8 +2,7 @@ const bcrypt = require('bcrypt')
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const handler = async (req, res) => {
-  const { username, password } = req.body
-//   .input.arg1;
+  const { username, password } = req.body.input.arg1;
   const finduser = require('../checker/findusername')
   const email = ''
 
