@@ -28,7 +28,7 @@ const execute = async (variables) => {
 };
 const handler = async (req, res) => {
 	console.log("what happened here");
-	const { fname, lname, username, email, password } = req.body.input;
+	const { fname, lname, username, email, password } = req.body.input.arg1;
 	const finduser = require('../checker/findusername')
 	const { data, error } = await finduser({ username, email })
 	const user = data["users"][0]
