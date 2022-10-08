@@ -126,9 +126,6 @@ import { ref,defineProps, onMounted, computed } from 'vue'
 import { recipequery, search_query, addlikes } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
-
-
-
 const props = defineProps({
     successmodal:Boolean
 })

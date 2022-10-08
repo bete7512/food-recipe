@@ -53,7 +53,7 @@
                         <div class="card hover:border hover:shadow-xl hover:border-sky-800 duration-100 mt-4  max-w-sm h-96 w-80 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
                             v-for="(rec, index) in result.recipe" :key="rec.id">
                             <div class="relative">
-                                <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[2]" />
+                                <img class="rounded-t-lg w-full h-44" :src="JSON.parse(rec.images).split(',,,,')[1]" />
                                 <button @click="loginmodal = true"
                                     class="absolute top-5 right-0 pr-3 w-16 h-16 rounded-full hover:shadow-transparent hover:bg-slate-800 bg-white ">
                                     <div class="flex justify-center  pt-1 pl-3">

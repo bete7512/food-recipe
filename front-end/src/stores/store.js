@@ -48,6 +48,7 @@ export const useStore = defineStore("user", {
                         password: password,
                     }
                 })
+                console.log(result);
                localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
                 this.username = username
                 // console.log("am from user store" + result["data"]["login"]["id"]);
@@ -57,6 +58,7 @@ export const useStore = defineStore("user", {
                 router.push({ name: 'feeds' });
                 return
             } catch (error) {
+                console.log(error);
                 return error.message
             }
         },
@@ -76,16 +78,7 @@ export const useStore = defineStore("user", {
                 this.profile_image = result.data.users_by_pk.profile_image
                 this.public_name = result.data.users_by_pk.public_name
                 this.username = result.data.users_by_pk.username
-                // this.user.fname = result.data.users_by_pk.fname
-                // this.user.lname = result.data.users_by_pk.lname
-                // this.user.email = result.data.users_by_pk.email
-                // this.user.full_name = result.data.users_by_pk.full_name
-                // this.user.bios = result.data.users_by_pk.bios
-                // this.user.profile_image = result.data.users_by_pk.profile_image
-                // this.user.publicname = result.data.users_by_pk.public_name
-                // this.user.username = result.data.users_by_pk.username
-                // this.user.id = result.data.users_by_pk.id
-                // await localStorage.setItem("user", JSON.stringify(this.user));
+               
             } catch (error) {
 
             }
