@@ -1,13 +1,13 @@
 <template>
-    <settinglayoutVue>
-        <div class="flex justify-center ">
+    <div class="sm:pt-20 pb-5">
+        <div class="flex justify-center items-center ">
             <div class="popup-content align-middle">
                 <h2 class="text-center text-lg font-bold pt-2">Add new recipe</h2>
                 <div class="flex flex-wrap space-x-10">
                     <div class="mx-10">
                         <div class="">
                             <div class="text-2xl font  border-b-gray-900 bg">Title</div>
-                            <input type="text" class="border-2 px-3 bg-slate-300 border-black h-10 w-80 rounded "
+                            <input type="text" class="border-2 cursor-pointer px-3 bg-slate-300 border-black h-10 w-80 rounded "
                                 placeholder="recipe title" v-model="title" />
                             <div class="text-red-600">{{titleerror}}</div>
                         </div>
@@ -119,18 +119,14 @@
                 </div>
             </div>
         </div>
-        <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
-    </settinglayoutVue>
+    </div>
 </template>
 <script setup>
-import modalVue from '../unauthenticated/modal.vue';
 import router from '@/router';
-import settinglayoutVue from './layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
 import { ref, defineEmits, reactive } from 'vue'
-import { recipeStore } from '../../stores/recipestore.js';
+import { recipeStore } from '../stores/recipestore.js';
 import { addrecipe, file_upload } from '@/tools/queries';
-const emit = defineEmits(['successcreatedrecipe'])
 const title = ref('')
 const recipe = recipeStore()
 const duration = ref('')

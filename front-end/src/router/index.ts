@@ -1,18 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import home from '../components/unauthenticated/home.vue'
-import feeds from '../components/authenticated/feeds.vue'
-import favorite from '../components/authenticated/favorite.vue'
-import detail from '../components/unauthenticated/detail.vue'
-import recipedetailVue from '@/components/authenticated/recipedetail.vue'
-import searchVue from '@/components/authenticated/search.vue'
-import { useStore } from '../stores/store.js'
-import userdetail from '../components/unauthenticated/userdetail.vue'
-import user from '../components/authenticated/usersrecipe.vue'
-import profile from '../components/authenticated/person/editprofile.vue'
-import myrecipe from '../components/authenticated/person/myrecipe.vue'
-import update_recipe from '../components/authenticated/person/edit_my_recipe.vue'
-import createrecipe from '../components/authenticated/create-recipe.vue'
-import searchunauthenticated from '../components/unauthenticated/searchUnauthenticated.vue'
+import home from '../pages/Home.vue'
+import login from '../pages/logIn.vue'
+import signup from '../pages/signUp.vue'
+import createRecipe from '../pages/addNewRecipe.vue'
+import editRecipe from '../pages/edit_self_recipe.vue'
+import editProfile from '../pages/editProfile.vue'
+import recipeDetail from '../pages/recipeDetail.vue'
+import savedRecipe from '../pages/savedRecipe.vue'
+import searchRecipe from '../pages/searchedRecipe.vue'
+import selfRecipe from '../pages/selfRecipe.vue'
+import usersrecipe from '../pages/usersRecipe.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -20,81 +17,71 @@ const router = createRouter({
       name: 'home',
       path: '/',
       component: home,
-    },
-
-    {
-      name:'profile',
-      path:'/profile/:id',
-      component:profile
+      meta: { layout: 'main' }
     },
     {
-      name:'myrecipe',
-      path:'/my-profile/:id',
-      component:myrecipe
+      name: 'login',
+      path: '/signin',
+      component: login,
+      meta: { layout: 'empty' }
     },
     {
-      name: 'searchunauthenticated',
-      path: '/searchunauth/:id',
-      component: searchunauthenticated
+      name: 'signup',
+      path: '/signup',
+      component: signup,
+      meta: { layout: 'empty' }
     },
     {
-      name:'user',
-      path:'/user/:id',
-      component:user
+      name: 'createRecipe',
+      path: '/createrecipe',
+      component: createRecipe,
+      meta: { layout: 'main' },
     },
     {
-      name:'userdetail',
-      path:'/user-detail/:id',
-      component:userdetail
+      name: 'editRecipe',
+      path: '/editrecipe/:id',
+      component: editRecipe,
+      meta: { layout: 'main' },
     },
     {
-      name: 'recipedetail',
+      name: 'editProfile',
+      path: '/editprofile',
+      component: editProfile,
+      meta: { layout: 'main' },
+    },
+    {
+      name: 'recipeDetail',
       path: '/recipedetail/:id',
-      component: recipedetailVue
+      component: recipeDetail,
+      meta: { layout: 'main' },
     },
     {
-      name:'detail',
-      path:'/detail/:id',
-      component:detail
+      name: 'savedRecipe',
+      path: '/savedrecipe',
+      component: savedRecipe,
+      meta: { layout: 'main' },
     },
     {
-      name: 'feeds',
-      path: '/recipes',
-      component: feeds,
-      props:true
+      name: 'searchRecipe',
+      path: '/searchrecipe/:data',
+      component: searchRecipe,
+      meta: { layout: 'main' },
     },
     {
-      name: 'addrecipe',
-      path: '/create-new-recipe',
-      component: createrecipe
+      name: 'myRecipe',
+      path: '/myrecipe',
+      component: selfRecipe,
+      meta: { layout: 'main' },
     },
     {
-      name: 'favorite',
-      path: '/saved-recipe',
-      component: favorite
-    },
-    {
-      name: 'search',
-      path: '/search/:id',
-      component: searchVue
-    },
-    {
-      name:'update_recipe',
-      path:'/update_recipe/:id',
-      component:update_recipe,
-      // props:true
+      name: 'userRecipe',
+      path: '/userrecipe/:id',
+      component: usersrecipe,
+      meta: { layout: 'main' },
     },
   ]
 })
-// router.beforeEach(async (to) => {
-//   const publicPages = ['/','/main/:id','/searchunauth/:id','/recipedetail/:id','/search/:id'];
-//   const authRequired = !publicPages.includes(to.path);
-//   const user = useStore();
-//   if (authRequired && !user.isauthenticated) {
-//     user.returnUrl = to.fullPath;
-//     return '/';
-//   }
-// });
+
 export default router
 
 

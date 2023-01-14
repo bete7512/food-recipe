@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia'
 import { register, signin, user_profile_query } from '@/tools/queries';
 import { provideApolloClient } from '@vue/apollo-composable';
-import apolloClient from './apolloclient'
+import apolloclient from '../apollo'
 import router from '../router/index'
-provideApolloClient(apolloClient);
-
+provideApolloClient(apolloclient);
 export const useStore = defineStore("user", {
     state: () => ({
         user:{},
         username: '',
-        userid: '',
+        user_id: '',
+        userLoggedin: localStorage.getItem('Apollotoken') ? true : false,
         isauthenticated: false,
         returnUrl: '',
         fname:'',
@@ -19,12 +19,11 @@ export const useStore = defineStore("user", {
         bios:'',
         full_name:'',
         public_name:'',
-
     }),
     actions: {
         async signup(fname, lname, username, email, password,) {
             try {
-                const response = await apolloClient.mutate({
+                const response = await apolloclient.mutate({
                     mutation: register,
                     variables: {
                         fname: fname,
@@ -35,13 +34,14 @@ export const useStore = defineStore("user", {
                     }
                 })
                 return response.data.register.Success
-            } catch (error) {
+            } 
+            catch (error){
                 return error.message
-            }
+    }
         },
         async login(username, password){
             try {
-                const result = await apolloClient.mutate({
+                const result = await apolloclient.mutate({
                     mutation: signin,
                     variables: {
                         username: username,
@@ -50,24 +50,25 @@ export const useStore = defineStore("user", {
                 })
                 console.log(result);
                localStorage.setItem("Apollotoken", result["data"]["login"]["accessToken"]);
+               localStorage.setItem("id", result["data"]["login"]["id"]);
                 this.username = username
-                // console.log("am from user store" + result["data"]["login"]["id"]);
-                this.userid = result.data.login.id
+                this.userLoggedin = true
+                this.user_id = result.data.login.id
                 this.isauthenticated = true,
                  await this.user_profile();
-                router.push({ name: 'feeds' });
-                return
+                 router.push('/')
             } catch (error) {
                 console.log(error);
                 return error.message
             }
+            
         },
         async user_profile() {
             try {
-                const result = await apolloClient.query({
+                const result = await apolloclient.query({
                     query: user_profile_query,
                     variables: {
-                        id: this.userid
+                        id: localStorage.getItem('id')
                     }
                 })
                 this.fname = result.data.users_by_pk.fname
@@ -78,6 +79,7 @@ export const useStore = defineStore("user", {
                 this.profile_image = result.data.users_by_pk.profile_image
                 this.public_name = result.data.users_by_pk.public_name
                 this.username = result.data.users_by_pk.username
+                localStorage.setItem("user", JSON.stringify(result.data.users_by_pk))
                
             } catch (error) {
 
@@ -85,7 +87,6 @@ export const useStore = defineStore("user", {
         },
         logout() {
             localStorage.removeItem('Apollotoken');
-            localStorage.removeItem('user');
             this.isauthenticated = false,
             router.push('/');
         },

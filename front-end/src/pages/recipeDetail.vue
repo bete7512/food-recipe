@@ -1,7 +1,8 @@
 <template>
-    <settinglayoutVue>
-        <div>
-            <div class="flex flex-wrap justify-center mt-5 ">
+        <div class="sm:pt-20">
+            <div v-if="error" class=""></div>
+            <div v-else-if="loading" class=""></div>
+            <div v-else class="flex flex-wrap container justify-center mt-5 ">
                 <div class=" p-5 lg:w-auto md:w-full sm:w-full ">
                     <div class="flex justify-center font-extrabold text-3xl font-serif">Some images about the food</div>
                     <a :href="JSON.parse(result.recipe_by_pk.images).split(',,,,')[imageat]">
@@ -114,36 +115,30 @@
                                     <div class="">{{ comment.comment }}</div>
                                 </div>
                             </div>
-        
                         </div>
-        
                     </div>
                 </div>
             </div>
             <div class="flex justify-center  mt-2">
-                <div class="lg:w-1/2 md:w-full  sm:w-full p-8 border border-slate-800 h-auto space-y-3">
+                <div class="lg:w-1/2 md:w-full  sm:w-full w-full p-8 border border-slate-800 h-auto space-y-3">
                     <div>Write your comment</div>
                     <textarea class="rounded border border-black px-2 h-20 py-1 w-full" v-model="comment" type="text"
                         placeholder="write your comment"></textarea>
-        
-        
-                    <StarRating class="justify-end" v-model:rating="rating" :increment="0.5" active-color="#d6612d"
+                    <StarRating  class="justify-end" v-model:rating="rating" :increment="0.5" active-color="#000000"
                         :star-size="20"></StarRating>
                     <button @click="addcomment"
                         class="flex  w-auto p-10 py-4 my-3 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">submit</button>
                 </div>
             </div>
         </div>
-    </settinglayoutVue>
 </template>
 <script setup >
-import settinglayoutVue from './layouts/settinglayout.vue';
 import StarRating from 'vue-star-rating'
 import { useRoute } from 'vue-router'
-import { useStore } from '../../stores/store.js';
-import { recipeStore } from '../../stores/recipestore.js';
-import { favoriteStore } from '../../stores/favoritestore.js';
-import { likeStore } from '../../stores/likeStore.js'
+import { useStore } from '../stores/store.js';
+import { recipeStore } from '../stores/recipestore.js';
+import { favoriteStore } from '../stores/favoritestore.js';
+import { likeStore } from '../stores/likeStore.js'
 import { ref, reactive, computed, onMounted } from 'vue'
 import { recipe_by_id, comment_mutation } from '@/tools/queries';
 import { useMutation, useQuery } from '@vue/apollo-composable';
@@ -156,9 +151,7 @@ const id = route.params.id
 const { error, loading, result } = useQuery(recipe_by_id,
     () => ({
         id: id
-    }), {
-    pollInterval: 100,
-});
+    }),);
 const { mutate: addcomment } = useMutation(
     comment_mutation,
     () => ({
