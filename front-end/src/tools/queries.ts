@@ -23,8 +23,8 @@ mutation MyMutation($descriptions: String!, $durations: Int!, $title: String!, $
 `
 
 const recipequery = gql`
-query MyQuery($offset: Int!, $limit: Int!) {
-  recipe(offset: $offset, limit: $limit) {
+query MyQuery{
+  recipe{
    __typename
     id
     title
@@ -55,7 +55,6 @@ query MyQuery($offset: Int!, $limit: Int!) {
   }
 }
 `
-
 const search_query = gql`
 query MyQuery($ingridient: String="", $title: String="", $durations: Int = 0) {
   recipe(where:{_or:[{_or:[{durations: {_eq: $durations}}]}, {_or:[{ingredient: {_ilike: $ingridient}}, {title: {_ilike: $title}}]}]}) {
@@ -87,39 +86,9 @@ query MyQuery($ingridient: String="", $title: String="", $durations: Int = 0) {
 }
 }
 `
-
-const searchunauthenticated = gql`
-query MyQuery($ingridient: String="", $categories: String="", $title: String="", $durations: Int = 0) {
-  recipe(where:{_or:[{_or:[{categories: {_eq: $categories}},{durations: {_eq: $durations}}]}, {_or:[{ingredient: {_ilike: $ingridient}}, {title: {_ilike: $title}}]}]}) {
-    id
-    title
-    rating
-    owner
-    instructions
-    Like_number
-    ingredient
-    images
-    durations
-    descriptions
-    categories
-    user {
-      email
-      full_name
-    }
-    comments {
-      comment
-      commented_at
-      star
-      user {
-        full_name
-      }
-    }
-}
-}
-`
 const favoritequery = gql`
-query MyQuery($offset: Int!, $limit: Int!) {
-  favorite(offset: $offset, limit: $limit) {
+query MyQuery{
+  favorite {
     recipe {
       Like_number
       categories
@@ -137,6 +106,7 @@ query MyQuery($offset: Int!, $limit: Int!) {
       user{
       email
       full_name
+      id
     }
     }
   }
@@ -158,36 +128,6 @@ mutation MyMutation($id: Int!) {
   }
 }
  `
-const unauthenticatedquery = gql`
-query MyQuery($offset: Int!, $limit: Int!) {
-  recipe(offset: $offset, limit: $limit) {
-    title
-    owner
-    instructions
-    ingredient
-    images
-    rating
-    id
-    durations
-    descriptions
-    categories
-    Like_number
-    user {
-      email
-      id
-      full_name
-    }
-  }
-  users(order_by: {users_counted_recipe: desc}, limit: 5, offset: 0) {
-    users_counted_recipe
-    full_name
-    email
-    profile_image
-    username
-    id
-  }
-}
-`
 const addlikes = gql`
  mutation MyMutation($id:Int) {
   insert_likes_one(object: {recipe_id: $id}) {
@@ -223,9 +163,6 @@ const file_upload = gql`
   }
 }
  `
-
-// isliked
-// isfavorite
 const recipe_by_id = gql`
  query MyQuery($id: Int!) {
   recipe_by_pk(id: $id) {
@@ -263,50 +200,50 @@ mutation MyMutation($recipe_id: Int!, $comment: String!,$star: Float!) {
   }
 }
  `
-const user_detail_public = gql`
- query MyQuery($id: Int = 10) {
-  users_by_pk(id: $id) {
-full_name
-    id
-    email
-    username
-    bios
-    fname
-    lname
-    profile_image
-    public_name
-    users_counted_recipe
-    recipes{
-      title
-      rating
-      images
-      descriptions
-      durations
-      id
-      Like_number
-      categories 
-      owner
-      instructions
-      ingredient
-    }
-  }
-}
- `
+// const user_detail_public = gql`
+//  query MyQuery($id: Int!) {
+//   users_by_pk(id: $id) {
+// full_name
+//     id
+//     email
+//     username
+//     bios
+//     fname
+//     lname
+//     profile_image
+//     public_name
+//     users_counted_recipe
+//     recipes{
+//       title
+//       rating
+//       images
+//       descriptions
+//       durations
+//       id
+//       Like_number
+//       categories 
+//       owner
+//       instructions
+//       ingredient
+//     }
+//   }
+// }
+//  `
 
 
-const query_old_query = gql`
-query MyQuery($id: Int = 220) {
-  recipe_by_pk(id: $id) {
-    title
-    ingredient
-    instructions
-    durations
-    descriptions
-    categories
-    images
-  }
-}
-`
+// const query_old_query = gql`
+// query MyQuery($id: Int = 220) {
+//   recipe_by_pk(id: $id) {
+//     title
+//     ingredient
+//     instructions
+//     durations
+//     descriptions
+//     categories
+//     images
+//   }
+// }
+// `
 const user_query = gql`
 query MyQuery($id: Int!) {
   users_by_pk(id: $id) {
@@ -366,6 +303,6 @@ query MyQuery($id: Int!) {
 `
 export {
   register, signin, addrecipe, recipequery, addtofavorite, removefavorite, addlikes, deletelikes,
-  favoritequery, unauthenticatedquery, file_upload, recipe_by_id, comment_mutation, user_query, search_query, searchunauthenticated,
-  update_profile, user_profile_query,user_detail_public,query_old_query
+  favoritequery, file_upload, recipe_by_id, comment_mutation, user_query, search_query,
+  update_profile, user_profile_query
 };

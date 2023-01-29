@@ -1,5 +1,4 @@
 <template>
-    <settinglayoutVue>
         <div class="flex justify-center ">
             <div class="popup-content align-middle">
                 <h2 class="text-center text-lg font-bold pt-2">Add new recipe</h2>
@@ -117,16 +116,12 @@
                 </div>
             </div>
         </div>
-        <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
-    </settinglayoutVue>
 </template>
 <script setup>
-import modalVue from '@/components/unauthenticated/modal.vue';
 import router from '@/router';
-import settinglayoutVue from '../layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
 import { ref,defineProps, reactive } from 'vue'
-import { recipeStore } from '../../../stores/recipestore.js';
+import { recipeStore } from '../stores/recipestore.js';
 import { addrecipe, file_upload } from '@/tools/queries';
 import { useRoute } from 'vue-router';
 
@@ -141,10 +136,6 @@ console.log(title);
 const duration = ref(route.params.duration)
 const description = ref(route.params.description)
 
-// console.log(instructions);
-// const instructions = ref(JSON.parse(route.params.instructions).split(',,,,'))
-// const ingridients = route.params.ingridient.split(',,,,')
-// const image_url = route.params.image_url.split(',,,,')
 const ingridient = ref([])
 const ingredientcounter = ref(3)
 const instructioncounter = ref(3)

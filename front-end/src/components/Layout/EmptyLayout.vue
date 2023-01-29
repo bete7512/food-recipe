@@ -1,12 +1,11 @@
 <template>
     <div>
-        
+        <slot></slot>
     </div>
 </template>
-<script>
+<script setup> 
 
-    
 </script>
-<style lang="">
+<style>
     
 </style>

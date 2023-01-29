@@ -1,5 +1,4 @@
 <template>
-    <settinglayoutVue>
         <div class="flex justify-center">
             <div class="w-1/2 shadow-xl mt-5 p-10">
                 <div class="font-extrabold text-4xl flex justify-center items-center"><span class="">Update</span><span
@@ -81,16 +80,12 @@
                 </div>
             </div>
         </div>
-        <modalVue :notify=notify v-if="successmodal" v-on:success="successmodal = false"></modalVue>
-    </settinglayoutVue>
 </template>
 
 <script setup >
-import modalVue from '@/components/unauthenticated/modal.vue';
-import { recipeStore } from '../../../stores/recipestore.js';
-import { useStore } from '../../../stores/store.js';
+import { recipeStore } from '../stores/recipestore.js';
+import { useStore } from '../stores/store.js';
 import { update_profile } from '@/tools/queries';
-import settinglayoutVue from '../layouts/settinglayout.vue';
 import { useMutation } from '@vue/apollo-composable';
 import { ref, reactive } from 'vue'
 const notify = ref('profile updated succefully')

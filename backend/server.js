@@ -3,12 +3,10 @@ require('dotenv').config()
 const app = express();
 app.use(express.json({ limit: '200mb' }));
 app.use(express.urlencoded({extended:true}));
-app.get('/' ,(req,res)=>{
-  return res.json({
-    success:"well done "
-  })
-})
+const cors = require('cors');
+app.use(cors());
 app.post('/:route', (req, res) => {
+  console.log("from here");
   try {
   console.log(req.body);
   console.log(req.params.route);
@@ -24,7 +22,7 @@ app.post('/:route', (req, res) => {
   catch (e) {
     console.log(e);
     return res.status(400).json({
-      message: 'unexpected error occured'
+      message: 'unexpected error occured from webhooks of it'
     })
   }
 })

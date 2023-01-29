@@ -1,11 +1,10 @@
 <template>
-    <div class="overlay bg-fixed top-0 left-0 bg-slate-400 bottom-0 right-0 flex items-center justify-center">
-        <div class="bg-white p-5 rounded shadow-xl">
-            <div class="items-center  flex justify-end px-5 pt-1 ">
-                <button @click="emitsignup" class="  text-4xl text-black rounded  ">X</button>
+    <div class="flex items-center justify-center h-screen px-6 bg-gray-200">
+        <div class="w-full max-w-sm p-6 bg-white rounded-md shadow-md">
+            <div class="flex items-center justify-center">
+                <span class="text-2xl font-semibold text-gray-700">Login</span>
             </div>
-            <div class="flex ">
-                <Form class="flex justify-center bg-white rounded  items-center space-y-5 p-b-10 px-10"
+                <Form class=" justify-center space-y-6 bg-white   items-center  p-b-10 px-10"
                     @submit.preventDefault="onSubmit" :validation-schema="schema" v-slot="{ errors }">
                     <div>
                         <div class="form-row">
@@ -99,11 +98,10 @@
                 </Form>
             </div>
         </div>
-    </div>
 </template>
 <script setup>
 import { ref } from 'vue';
-import { useStore } from '../../stores/store.js';
+import { useStore } from '../stores/store.js';
 import { Form, Field } from 'vee-validate';
 import * as Yup from 'yup';
 import { defineEmits } from 'vue';

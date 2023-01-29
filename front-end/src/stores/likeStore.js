@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia'
 import { addlikes,deletelikes } from '@/tools/queries';
 import { provideApolloClient } from '@vue/apollo-composable';
-import apolloClient from './apolloclient'
-provideApolloClient(apolloClient);
+import apolloclient from '../apollo'
+provideApolloClient(apolloclient);
 export const likeStore = defineStore("like", {
     state: ()=>({
         isliked:false
     }),
     actions: {
         async addtolike(id) {
-            const result = await apolloClient.mutate({
+            const result = await apolloclient.mutate({
                 mutation: addlikes,
                 variables: {
                     id: id
@@ -18,7 +18,7 @@ export const likeStore = defineStore("like", {
             })
         },
         async deletelikes(id) {
-            const result = await apolloClient.mutate({
+            const result = await apolloclient.mutate({
                 mutation: deletelikes,
                 variables: {
                     id: id
