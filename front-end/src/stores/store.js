@@ -86,6 +86,7 @@ export const useStore = defineStore("user", {
             }
         },
         logout() {
+        
             localStorage.removeItem('Apollotoken');
             this.isauthenticated = false,
             router.push('/');

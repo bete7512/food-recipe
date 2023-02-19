@@ -10,7 +10,8 @@ const getHeaders = () => {
 const httpLink = createHttpLink({
     uri:'https://sunny-glowworm-92.hasura.app/v1/graphql',
     fetch,
-    headers:getHeaders()
+    headers:{ Authorization:`Bearer ${window.localStorage.getItem("Apollotoken")}`}
+    //getHeaders()
 })
 const apolloclient = new ApolloClient({
     link:httpLink,
